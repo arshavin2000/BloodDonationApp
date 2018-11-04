@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal|bottom"
+    android:background="@drawable/bg"
+    tools:context=".SplashScreenActivity"
+    android:id="@+id/parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/app_name"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:text="@string/name"
+        android:textSize="30sp"
+        android:fontFamily="sans-serif-condensed"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/subname"
+        android:text="@string/subname"
+        android:layout_marginBottom="100dp"
+        android:textStyle="bold"
+        android:fontFamily="serif-monospace"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/block1"
+            android:contentDescription="@string/block_splash_screen"
+            />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+             />
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</LinearLayout>
