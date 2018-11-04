@@ -8,4 +8,17 @@
     <string name="google">Google</string>
     <string name="phone_number">Phone Number</string>
     <string name="login">LOGIN</string>
+    <string name="verify">VERIFY NUMBER</string>
+    <string name="country_number">+216</string>
+    <string name="phone">Type your phone number</string>
+    <string name="validate">Validate</string>
+    <string name="sms">Send my sms code</string>
+    <string name="validate_sms">- - - - - -</string>
+    <string name="become_donor">BECOME DONOR</string>
+    <string name="save_button">Save</string>
+    <string name="email">Email</string>
+    <string name="pseudo">Name</string>
+    <string name="gender">Gender</string>
+    <string name="blood_group">Select blood group</string>
+    <string name="terms">Do you want to make your contact number visible for other</string>
 </resources>
