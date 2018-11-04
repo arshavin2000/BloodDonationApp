@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">BloodDonationApp</string>
     <string name="block_splash_screen">SplashScreen</string>
+    <string name="block_login">Login</string>
     <string name="name">BLOOD DONATION</string>
     <string name="subname">Made In Tunisia</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="login">LOGIN</string>
 </resources>
