@@ -20,8 +20,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".PhoneVerificationActivity" />
         <activity android:name=".BecomeDonorActivity" />
-        <activity android:name=".WelcomeActivity"></activity>
-        <activity android:name=".UserActivitiesActivity"></activity>
+        <activity android:name=".WelcomeActivity"/>
+        <activity android:name=".UserActivitiesActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/photo"/>
+     <LinearLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="20dp"
+             android:textColor="@android:color/black"
+             android:text="Achref Meghirbi"/>
+
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal">
+             <ImageView
+                 android:layout_width="20dp"
+                 android:layout_height="20dp"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginTop="10dp"
+                 android:background="@drawable/clock"/>
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/clock"
+                 android:layout_marginTop="10dp"
+                 android:layout_marginLeft="10dp"
+                 android:textColor="@android:color/black"
+                 android:layout_marginRight="20dp"
+                 android:text="@string/clock"/>
+
+             <ImageView
+                 android:layout_width="20dp"
+                 android:layout_height="20dp"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginTop="10dp"
+                 android:background="@drawable/place"/>
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/place"
+                 android:layout_marginTop="10dp"
+                 android:layout_marginLeft="10dp"
+                 android:textColor="@android:color/black"
+                 android:layout_marginRight="20dp"
+                 android:text="@string/place"/>
+         </LinearLayout>
+
+     </LinearLayout>
+
+    </LinearLayout>
+
+<ImageView
+    android:id="@+id/image"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/img4"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/like"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/like"/>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/com"
+            android:background="@drawable/feed_chat"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test test test test test ."
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="10dp"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:id="@+id/comment"/>
+
+
+
+
+</LinearLayout>

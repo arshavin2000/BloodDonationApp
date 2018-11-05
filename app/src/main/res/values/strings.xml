@@ -28,4 +28,6 @@
     <string name="see_request">See request</string>
     <string name="contact">Contact</string>
     <string name="heroDonor">HERO DONOR</string>
+    <string name="clock">6 hours ago</string>
+    <string name="place">Tunis</string>
 </resources>
