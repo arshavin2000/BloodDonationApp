@@ -20,8 +20,11 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".PhoneVerificationActivity" />
         <activity android:name=".BecomeDonorActivity" />
-        <activity android:name=".WelcomeActivity"/>
-        <activity android:name=".UserActivitiesActivity"/>
+        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".UserPostsActivity" />
+        <activity android:name=".RequestList" />
+        <activity android:name=".DonorsList" />
+        <activity android:name=".RequestBlood"></activity>
     </application>
 
 </manifest>

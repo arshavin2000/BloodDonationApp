@@ -30,4 +30,11 @@
     <string name="heroDonor">HERO DONOR</string>
     <string name="clock">6 hours ago</string>
     <string name="place">Tunis</string>
+    <string name="newRequest">New Request</string>
+    <string name="btn_add_request">ADD REQUEST</string>
+    <string name="askForHelp">Ask For Help</string>
+    <string name="requestBlood">Request For Blood</string>
+    <string name="bloodFor">Blood For</string>
+    <string name="cityPreference">City Preference</string>
+    <string name="submit">Submit</string>
 </resources>
