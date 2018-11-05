@@ -21,4 +21,9 @@
     <string name="gender">Gender</string>
     <string name="blood_group">Select blood group</string>
     <string name="terms">Do you want to make your contact number visible for other</string>
+    <string name="donors_number">1234</string>
+    <string name="donors_text">Donors</string>
+    <string name="find_donors">Find donor</string>
+    <string name="request_text">Requests</string>
+    <string name="see_request">See request</string>
 </resources>

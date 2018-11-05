@@ -19,7 +19,8 @@
         <activity android:name=".SplashScreenActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".PhoneVerificationActivity" />
-        <activity android:name=".BecomeDonorActivity"></activity>
+        <activity android:name=".BecomeDonorActivity" />
+        <activity android:name=".WelcomeActivity"></activity>
     </application>
 
 </manifest>
