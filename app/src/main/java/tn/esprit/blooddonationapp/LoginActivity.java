@@ -48,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         LoginManager.getInstance().logInWithReadPermissions(
                 this,
-                Arrays.asList("public_profile"));
+                Arrays.asList("user_photos", "email",
+                        "user_birthday", "public_profile", "AccessToken"));
 
 
         // Callback registration
@@ -106,13 +107,13 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(LOG_TAG, "fb json object: " + object);
                             Log.d(LOG_TAG, "fb graph response: " + response);
 
-                            String id = object.getString("id");
-                            String first_name = object.getString("first_name");
-                            String last_name = object.getString("last_name");
-                            String gender = object.getString("gender");
+                           // String id = object.getString("id");
+                           // String first_name = object.getString("first_name");
+                            //String last_name = object.getString("last_name");
+                            //String gender = object.getString("gender");
                             String birthday = object.getString("birthday");
-                            String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
-                            Toast.makeText(getApplicationContext(),"Hello" + first_name + " + "+ last_name,Toast.LENGTH_LONG).show();
+                            //String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
+                            Toast.makeText(getApplicationContext(),"Hello" + birthday ,Toast.LENGTH_LONG).show();
 
 
                             String email;
