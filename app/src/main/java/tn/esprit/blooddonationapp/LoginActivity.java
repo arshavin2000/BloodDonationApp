@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -13,23 +14,21 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import tn.esprit.blooddonationapp.model.Donor;
+
 public class LoginActivity extends AppCompatActivity {
 
-    private  Button mGoogle , mPhoneNumber;
-    private LoginButton mFacebook;
+    private  Button mGoogle , mPhoneNumber , mFacebook;
     private CallbackManager callbackManager;
     private String LOG_TAG ="FB";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,55 +37,58 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         mFacebook = findViewById(R.id.facebook);
-        mGoogle =findViewById(R.id.google);
+        mGoogle = findViewById(R.id.google);
         mPhoneNumber = findViewById(R.id.phone);
 
-        mFacebook.setReadPermissions("pro");
 
+        //final AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        //final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
-        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        LoginManager.getInstance().logInWithReadPermissions(
-                this,
-                Arrays.asList("user_photos", "email",
-                        "user_birthday", "public_profile", "AccessToken"));
-
-
-        // Callback registration
-        mFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        mFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                // App code
+            public void onClick(View view) {
+                LoginManager.getInstance().logInWithReadPermissions(
+                        LoginActivity.this,
+                        Arrays.asList("user_photos", "email",
+                                "user_birthday", "public_profile", "user_gender"));
 
-                if(isLoggedIn)
-                {
 
-                    getFbInfo();
+
+            // Callback registration
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess (LoginResult loginResult){
+                    // App code
+
+                   // final Donor donor=new Donor();
+                 getFbInfo();
+
+                }
+
+                @Override
+                public void onCancel () {
+                    // App code
+
+                    Toast.makeText(getApplicationContext(), "Facebook Cancel", Toast.LENGTH_LONG).show();
+
+                }
+
+                @Override
+                public void onError (FacebookException exception){
+                    // App code
+                    Toast.makeText(getApplicationContext(), "Facebook" + exception.toString(), Toast.LENGTH_LONG).show();
 
 
                 }
-            }
+            });
 
-            @Override
-            public void onCancel() {
-                // App code
+        }
 
-                Toast.makeText(getApplicationContext(),"Facebook Cancel",Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-                Toast.makeText(getApplicationContext(),"Facebook" + exception.toString(),Toast.LENGTH_LONG).show();
+    });
 
 
-            }
-        });
+}
 
-
-
-    }
 
 
     @Override
@@ -96,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getFbInfo() {
+
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -103,23 +106,49 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(
                             JSONObject object,
                             GraphResponse response) {
+
                         try {
                             Log.d(LOG_TAG, "fb json object: " + object);
                             Log.d(LOG_TAG, "fb graph response: " + response);
 
-                           // String id = object.getString("id");
-                           // String first_name = object.getString("first_name");
-                            //String last_name = object.getString("last_name");
-                            //String gender = object.getString("gender");
-                            String birthday = object.getString("birthday");
-                            //String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
-                            Toast.makeText(getApplicationContext(),"Hello" + birthday ,Toast.LENGTH_LONG).show();
+                            String id = object.getString("id");
+                            String first_name = object.getString("first_name");
+                            String last_name = object.getString("last_name");
+                            String gender = object.getString("gender");
+                           // String birthday = object.getString("birthday");
+                            String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
 
 
-                            String email;
+                            String email=null;
                             if (object.has("email")) {
                                 email = object.getString("email");
                             }
+
+
+                            Donor d = new Donor();
+                            d.setId(Long.parseLong(id));
+                            d.setFirstName(first_name);
+                            d.setLastName(last_name);
+                            d.setGender(gender);
+                            d.setUrlImage(image_url);
+                            if(email!=null)
+                                d.setEmail(email);
+                            else
+                                d.setEmail("");
+
+
+                            Intent intent = new Intent(LoginActivity.this, BecomeDonorActivity.class);
+                            intent.putExtra("donor",d);
+                            startActivity(intent);
+                            finish();
+
+
+
+
+
+
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
