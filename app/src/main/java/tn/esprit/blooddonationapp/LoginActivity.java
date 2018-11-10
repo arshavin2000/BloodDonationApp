@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     private  Button mGoogle , mPhoneNumber , mFacebook;
     private CallbackManager callbackManager;
     private String LOG_TAG ="FB";
+    private Animation animation;
+
 
 
     @Override
@@ -35,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();
+
+        animation = AnimationUtils.loadAnimation(this,R.anim.anim_alpha);
 
         mFacebook = findViewById(R.id.facebook);
         mGoogle = findViewById(R.id.google);
@@ -44,9 +50,26 @@ public class LoginActivity extends AppCompatActivity {
         //final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         //final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
+        mGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.startAnimation(animation);
+
+            }
+        });
+
+        mPhoneNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.startAnimation(animation);
+
+            }
+        });
+
         mFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(animation);
                 LoginManager.getInstance().logInWithReadPermissions(
                         LoginActivity.this,
                         Arrays.asList("user_photos", "email",
