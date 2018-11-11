@@ -8,19 +8,20 @@ import java.util.Objects;
 @SuppressWarnings("serial")
 public class Donor implements Serializable {
 
-    private  long id;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
     private String gender;
     private String bloodGroup;
     private String urlImage;
+    private String number;
 
     public Donor() {
     }
 
 
-    public Donor(long id, String firstName, String lastName, String email, String gender, String bloodGroup, String urlImage) {
+    public Donor(String id, String firstName, String lastName, String email, String gender, String bloodGroup, String urlImage) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,11 +42,11 @@ public class Donor implements Serializable {
         this.urlImage = urlImage;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -97,6 +98,14 @@ public class Donor implements Serializable {
         this.urlImage = urlImage;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,14 +114,7 @@ public class Donor implements Serializable {
         return id == donor.id;
     }
 
-    @Override
-    public int hashCode() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return Objects.hash(id);
-        }
-        return (int) id;
-    }
 
     @Override
     public String toString() {

@@ -37,11 +37,13 @@ public class BecomeDonorActivity extends AppCompatActivity {
 
 
 
-        if(donor.getGender().equals("male"))
-            mMale.setChecked(true);
+        if(donor.getGender() != null) {
+            if (donor.getGender().equals("male"))
+                mMale.setChecked(true);
 
-        else if(donor.getGender().equals("female"))
-            mFemale.setChecked(true);
+            else if (donor.getGender().equals("female"))
+                mFemale.setChecked(true);
+        }
 
 
     }

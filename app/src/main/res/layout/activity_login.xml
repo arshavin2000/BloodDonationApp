@@ -28,10 +28,11 @@
 
 
 
+
     <Button
+        android:id="@+id/google"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/google"
         android:text="@string/google"
         android:background="@drawable/google"
         android:textColor="@android:color/black"
