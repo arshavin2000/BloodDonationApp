@@ -8,8 +8,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
+<<<<<<< HEAD
 
+=======
+>>>>>>> fc1ead4d00cd16248fe0ccd5c41571491f11bc35
     }
+
 }
 
 allprojects {

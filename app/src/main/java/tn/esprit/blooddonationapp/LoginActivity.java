@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
-                Intent intent = new Intent(LoginActivity.this,PhoneVerificationActivity.class);
+                Intent intent  = new Intent(LoginActivity.this,PhoneVerificationActivity.class);
                 startActivity(intent);
                 finish();
 

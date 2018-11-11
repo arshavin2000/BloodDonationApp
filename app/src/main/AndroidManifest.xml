@@ -54,6 +54,7 @@
         </activity>
 
         <receiver android:name="tn.esprit.blooddonationapp.verificationMobilePhone.CognalysVerification" >
+        <receiver android:name="tn.esprit.blooddonationapp.phoneverification.CognalysVerification" >
         <intent-filter>
             <action android:name="com.matesnetwork.cognalys" />
         </intent-filter>
