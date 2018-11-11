@@ -10,9 +10,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
 
 
 
@@ -54,7 +54,6 @@
         </activity>
 
         <receiver android:name="tn.esprit.blooddonationapp.verificationMobilePhone.CognalysVerification" >
-        <receiver android:name="tn.esprit.blooddonationapp.phoneverification.CognalysVerification" >
         <intent-filter>
             <action android:name="com.matesnetwork.cognalys" />
         </intent-filter>

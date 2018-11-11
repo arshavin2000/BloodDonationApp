@@ -60,7 +60,6 @@
            android:layout_height="wrap_content"
            android:id="@+id/phone_number"
            android:inputType="number"
-           android:textColor="@android:color/black"
            android:background="@drawable/phone_number"
            android:textAlignment="center"
            android:textColor="@android:color/black"
