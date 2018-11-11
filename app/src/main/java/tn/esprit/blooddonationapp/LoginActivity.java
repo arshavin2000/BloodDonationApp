@@ -18,7 +18,6 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private String LOG_TAG ="FB";
     private Animation animation;
-x
+
 
 
     @Override
@@ -64,6 +63,9 @@ x
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
+                Intent intent  = new Intent(LoginActivity.this,PhoneVerificationActivity.class);
+                startActivity(intent);
+                finish();
 
             }
         });

@@ -6,37 +6,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
-
-import java.util.concurrent.TimeUnit;
 
 public class PhoneVerificationActivity extends AppCompatActivity {
 
 
-    private FirebaseAuth firebaseAuth;
     private EditText mCountry, mNumber , mSMS;
     private Button mSave , mVerify;
     private String codeSent;
     private static final String TAG = "MOBILE-PHONE";
+    private Animation animation;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_verification);
+        animation = AnimationUtils.loadAnimation(this,R.anim.anim_alpha);
+
 
         mCountry = findViewById(R.id.country_number);
+        mCountry.setFocusable(false);
         mNumber = findViewById(R.id.phone_number);
         mSave  = findViewById(R.id.save);
         mVerify = findViewById(R.id.validate);
@@ -46,8 +41,13 @@ public class PhoneVerificationActivity extends AppCompatActivity {
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                sendVerificationNumber();
+                view.startAnimation(animation);
+                Intent in = new Intent(PhoneVerificationActivity.this, PhoneVerificationActivity.class);
+                in.putExtra("app_id", "9da88a8819e143959dfe316");
+                in.putExtra("access_token","5773dc4e7f11f8f258107c9dfcda2592b0c37972");
+                in.putExtra("mobile", "00216"+mNumber.getText().toString());
+             //   startActivityForResult(in,PhoneVerificationActivity.REQUEST_CODE);
+                finish();
 
             }
         });
@@ -56,9 +56,7 @@ public class PhoneVerificationActivity extends AppCompatActivity {
         mVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String code = mSMS.getText().toString();
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent,code);
-                signInWithPhoneAuthCredential(credential);
+
             }
         });
 
@@ -70,75 +68,18 @@ public class PhoneVerificationActivity extends AppCompatActivity {
 
     }
 
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+    @Override
+    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+// TODO Auto-generated method stub
+        super.onActivityResult(arg0, arg1, arg2);
+        if (arg0 == VerifyMobile.REQUEST_CODE) {
+            String message = arg2.getStringExtra("message");
+            int result=arg2.getIntExtra("result", 0);
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+        }
 
-                            Intent intent = new Intent(PhoneVerificationActivity.this,BecomeDonorActivity.class);
-                            startActivity(intent);
-                            finish();
-                            // ...
-                        } else {
-                            // Sign in failed, display a message and update the UI
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                            }
-                        }
-                    }
-                });
     }
 
 
-    private void sendVerificationNumber()
-    {
-
-        if(mNumber.getText().toString().equals(""))
-        {
-            mNumber.setError("Phone number is required");
-            mNumber.requestFocus();
-            return;
-        }
-
-        if(mNumber.getText().toString().length()< 8)
-        {
-            mNumber.setError("Please enter a valid phone number");
-            mNumber.requestFocus();
-            return;
-
-        }
-
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+216"+mNumber.getText().toString(),        // Phone number to verify
-                60,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                this,               // Activity (for callback binding)
-                mCallbacks);        // OnVerificationStateChangedCallbacks
-
-
-    }
-
-    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        @Override
-        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-
-        }
-
-        @Override
-        public void onVerificationFailed(FirebaseException e) {
-
-        }
-
-
-        @Override
-        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            super.onCodeSent(s, forceResendingToken);
-            codeSent =s;
-        }
-    };
 }
