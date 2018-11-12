@@ -2,6 +2,7 @@ package tn.esprit.blooddonationapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -13,6 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.facebook.accountkit.AccountKit;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class WelcomeActitvity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -99,10 +108,55 @@ public class WelcomeActitvity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
 
+            signUp();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    private void signUp()
+    {
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
+        if(isLoggedIn())
+        {
+            LoginManager.getInstance().logOut();
+            Intent intent = new Intent(WelcomeActitvity.this,LoginActivity.class);
+            startActivity(intent);
+        }
+        if(acct != null)
+        {
+            LoginActivity.mGoogleSignInClient.signOut()
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // ...
+                            Intent intent = new Intent(WelcomeActitvity.this,LoginActivity.class);
+                            startActivity(intent);
+
+                        }
+                    });
+        }
+
+
+        else
+        {
+            AccountKit.logOut();
+        }
+
+
+
+    }
+
+
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
+
 }

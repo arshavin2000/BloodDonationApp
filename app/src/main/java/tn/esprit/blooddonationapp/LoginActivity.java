@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private String LOG_TAG = "FB";
     private Animation animation;
-    private GoogleSignInClient mGoogleSignInClient;
+    public static GoogleSignInClient mGoogleSignInClient;
     private static final int RC_FACEBOOK = 1;
     private static final int RC_GOOGLE = 2;
     public static int RC_PHONE = 3;
@@ -346,20 +346,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                    }
-                });
-    }
 
-    private void signUpPhone()
-    {
-        AccountKit.logOut();
-    }
+
 
 
     public void phoneLogin(View view) {
