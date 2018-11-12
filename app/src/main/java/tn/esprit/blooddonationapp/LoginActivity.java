@@ -17,6 +17,15 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.accountkit.Account;
+import com.facebook.accountkit.AccountKit;
+import com.facebook.accountkit.AccountKitCallback;
+import com.facebook.accountkit.AccountKitError;
+import com.facebook.accountkit.AccountKitLoginResult;
+import com.facebook.accountkit.PhoneNumber;
+import com.facebook.accountkit.ui.AccountKitActivity;
+import com.facebook.accountkit.ui.AccountKitConfiguration;
+import com.facebook.accountkit.ui.LoginType;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -45,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_FACEBOOK = 1;
     private static final int RC_GOOGLE = 2;
+    public static int RC_PHONE = 3;
+    private static final String TAG = "MOBILE-PHONE";
     private static final String TAG_GOOGLE = "GOOGLE_LOG";
 
 
@@ -88,9 +99,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
-                Intent intent = new Intent(LoginActivity.this, PhoneVerificationActivity.class);
-                startActivity(intent);
-                finish();
+                com.facebook.accountkit.AccessToken accessToken = AccountKit.getCurrentAccessToken();
+
+                if (accessToken != null) {
+                    //Handle Returning User
+                } else {
+                    //Handle new or logged out user
+                }
+                phoneLogin(view);
 
             }
         });
@@ -226,15 +242,81 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if(requestCode == RC_FACEBOOK){
+
             callbackManager.onActivityResult(requestCode, resultCode, data);
 
-        }
-        else if (requestCode == RC_GOOGLE) {
+
+        if (requestCode == RC_GOOGLE) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+        }
+        else if (requestCode == RC_PHONE) { // confirm that this response matches your request
+            AccountKitLoginResult loginResult = data.getParcelableExtra(AccountKitLoginResult.RESULT_KEY);
+            String toastMessage;
+            if (loginResult.getError() != null) {
+                toastMessage = loginResult.getError().getErrorType().getMessage();
+                Log.d(TAG, "onActivityResult: "+loginResult.getError());
+            } else if (loginResult.wasCancelled()) {
+                toastMessage = "Login Cancelled";
+            } else {
+                if (loginResult.getAccessToken() != null) {
+                    toastMessage = "Success1:" + loginResult.getAccessToken().getAccountId();
+                    // Success! Start your next activity...
+
+                } else {
+                    toastMessage = String.format(
+                            "Success3:%s...",
+                            loginResult.getAuthorizationCode().substring(0,10));
+                    AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
+                        @Override
+                        public void onSuccess(final Account account) {
+                            // Get Account Kit ID
+                            String accountKitId = account.getId();
+
+                            // Get phone number
+                            PhoneNumber phoneNumber = account.getPhoneNumber();
+                            String phoneNumberString="";
+                            if (phoneNumber != null) {
+                                phoneNumberString = phoneNumber.toString();
+                                Log.d(TAG, "onSuccess2: " + phoneNumberString);
+                            }
+
+                            // Get email
+                            String email = account.getEmail();
+
+                            Donor donor = new Donor();
+                            donor.setEmail(email);
+                            donor.setId(accountKitId);
+                            donor.setNumber(phoneNumberString);
+                            Intent intent = new Intent(LoginActivity.this, BecomeDonorActivity.class);
+                            intent.putExtra("donor", donor);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onError(final AccountKitError error) {
+                            // Handle Error
+                            Log.d(TAG, "onError: ");
+                        }
+                    });
+                }
+
+                // If you have an authorization code, retrieve it from
+                // loginResult.getAuthorizationCode()
+                // and pass it to your server and exchange it for an access token.
+
+
+            }
+
+            // Surface the result to your user in an appropriate way.
+            Toast.makeText(
+                    this,
+                    toastMessage,
+                    Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -273,4 +355,24 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void signUpPhone()
+    {
+        AccountKit.logOut();
+    }
+
+
+    public void phoneLogin(View view) {
+        final Intent intent = new Intent(getApplicationContext(), AccountKitActivity.class);
+        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
+                new AccountKitConfiguration.AccountKitConfigurationBuilder(
+                        LoginType.PHONE,
+                        AccountKitActivity.ResponseType.CODE); // or .ResponseType.TOKEN
+        // ... perform additional configuration ...
+        intent.putExtra(
+                AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
+                configurationBuilder.build());
+        startActivityForResult(intent, RC_PHONE);
+    }
+
 }

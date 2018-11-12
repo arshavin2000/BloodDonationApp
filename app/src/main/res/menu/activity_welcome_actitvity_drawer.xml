@@ -5,7 +5,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_profile"
             android:title="Profile" />
         <item
@@ -13,9 +13,9 @@
             android:icon="@drawable/ic_menu_blood"
             android:title="Find a donor" />
         <item
-            android:id="@+id/nav_publish"
+            android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_publish"
-            android:title="Publish post" />
+            android:title="Home" />
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_menu_manage"
@@ -29,7 +29,7 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="Settings" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Logout" />
         </menu>

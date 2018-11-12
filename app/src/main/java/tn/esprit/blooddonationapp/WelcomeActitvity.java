@@ -1,5 +1,6 @@
 package tn.esprit.blooddonationapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -80,17 +81,23 @@ public class WelcomeActitvity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_profile) {
+            Intent intent = new Intent(WelcomeActitvity.this,BecomeDonorActivity.class);
+            startActivity(intent);
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_blood) {
+            Intent intent = new Intent(WelcomeActitvity.this,RequestBlood.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_home) {
+            Intent intent = new Intent(WelcomeActitvity.this,UserPostsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
 
         }
 

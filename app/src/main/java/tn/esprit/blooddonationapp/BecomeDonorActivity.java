@@ -1,9 +1,12 @@
 package tn.esprit.blooddonationapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -16,6 +19,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
     private EditText mEmail , mName;
     private RadioButton mMale, mFemale;
     private Donor donor;
+    private Button mSave;
 
 
     @SuppressLint("SetTextI18n")
@@ -28,6 +32,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
         mName = findViewById(R.id.name);
         mMale = findViewById(R.id.male);
         mFemale = findViewById(R.id.female);
+        mSave = findViewById(R.id.save);
 
 
 
@@ -44,6 +49,19 @@ public class BecomeDonorActivity extends AppCompatActivity {
             else if (donor.getGender().equals("female"))
                 mFemale.setChecked(true);
         }
+
+
+        mSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BecomeDonorActivity.this,WelcomeActitvity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
 
 
     }
