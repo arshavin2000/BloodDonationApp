@@ -39,6 +39,7 @@
     <string name="submit">Submit</string>
     <string name="facebook_app_id">217447735815875</string>
     <string name="fb_login_protocol_scheme">fb217447735815875</string>
+<<<<<<< HEAD
     <string name="title_activity_welcome_actitvity">WelcomeActitvity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -46,6 +47,9 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+=======
+
+>>>>>>> 8c12daddbc88c37baf9118078fb7206926445258
 
 
 </resources>
