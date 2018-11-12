@@ -1,10 +1,12 @@
 package tn.esprit.blooddonationapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -97,10 +99,12 @@ public class WelcomeActitvity extends AppCompatActivity
         } else if (id == R.id.nav_blood) {
             Intent intent = new Intent(WelcomeActitvity.this,RequestBlood.class);
             startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_home) {
             Intent intent = new Intent(WelcomeActitvity.this,UserPostsActivity.class);
             startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_manage) {
 
@@ -108,7 +112,10 @@ public class WelcomeActitvity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
 
-            signUp();
+            logOut();
+            SharedPreferences.Editor editor = getSharedPreferences("LOGIN", MODE_PRIVATE).edit();
+            editor.putBoolean("login", false);
+            editor.apply();
 
         }
 
@@ -118,7 +125,7 @@ public class WelcomeActitvity extends AppCompatActivity
     }
 
 
-    private void signUp()
+    private void logOut()
     {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
@@ -138,6 +145,8 @@ public class WelcomeActitvity extends AppCompatActivity
                             // ...
                             Intent intent = new Intent(WelcomeActitvity.this,LoginActivity.class);
                             startActivity(intent);
+                            finish();
+                            Log.e("GOOGLE_LOGOUT","Logout..");
 
                         }
                     });
@@ -147,7 +156,13 @@ public class WelcomeActitvity extends AppCompatActivity
         else
         {
             AccountKit.logOut();
-        }
+            com.facebook.accountkit.AccessToken accessToken = AccountKit.getCurrentAccessToken();
+            if(accessToken!=null)
+                Log.e("PHONE_LOGOUT","Still Logged in...");
+            Intent intent = new Intent(WelcomeActitvity.this,LoginActivity.class);
+            startActivity(intent);
+            finish();}
+
 
 
 

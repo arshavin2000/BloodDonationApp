@@ -37,18 +37,21 @@ public class BecomeDonorActivity extends AppCompatActivity {
 
 
         donor = (Donor) getIntent().getSerializableExtra("donor");
-        mName.setText(donor.getFirstName() + " " +donor.getLastName() );
-        mEmail.setText(donor.getEmail());
+        if(donor != null) {
+            if (donor.getFirstName() != null && donor.getLastName() != null)
+                mName.setText(donor.getFirstName() + " " + donor.getLastName());
+            mEmail.setText(donor.getEmail());
 
 
+            if (donor.getGender() != null) {
+                if (donor.getGender().equals("male"))
+                    mMale.setChecked(true);
 
-        if(donor.getGender() != null) {
-            if (donor.getGender().equals("male"))
-                mMale.setChecked(true);
-
-            else if (donor.getGender().equals("female"))
-                mFemale.setChecked(true);
+                else if (donor.getGender().equals("female"))
+                    mFemale.setChecked(true);
+            }
         }
+
 
 
         mSave.setOnClickListener(new View.OnClickListener() {

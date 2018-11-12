@@ -1,7 +1,9 @@
 package tn.esprit.blooddonationapp;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,20 +23,19 @@ import com.facebook.accountkit.Account;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.accountkit.AccountKitCallback;
 import com.facebook.accountkit.AccountKitError;
-import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.PhoneNumber;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
 import com.facebook.accountkit.ui.LoginType;
+import com.facebook.accountkit.ui.SkinManager;
+import com.facebook.accountkit.ui.UIManager;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONException;
@@ -46,8 +47,7 @@ import tn.esprit.blooddonationapp.model.Donor;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button mPhoneNumber, mFacebook;
-    private Button mGoogle;
+    private Button mPhoneNumber, mFacebook , mGoogle;
     private CallbackManager callbackManager;
     private String LOG_TAG = "FB";
     private Animation animation;
@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     public static int RC_PHONE = 3;
     private static final String TAG = "MOBILE-PHONE";
     private static final String TAG_GOOGLE = "GOOGLE_LOG";
+    private  static final String MY_PREFS_NAME ="LOGIN";
 
 
     @Override
@@ -90,6 +91,9 @@ public class LoginActivity extends AppCompatActivity {
                 // Build a GoogleSignInClient with the options specified by gso.
                 mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
                 signIn();
+                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putBoolean("login", true);
+                editor.apply();
 
 
             }
@@ -99,14 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
-                com.facebook.accountkit.AccessToken accessToken = AccountKit.getCurrentAccessToken();
-
-                if (accessToken != null) {
-                    //Handle Returning User
-                } else {
-                    //Handle new or logged out user
-                }
-                phoneLogin(view);
+phoneLogin(view);
 
             }
         });
@@ -129,6 +126,9 @@ public class LoginActivity extends AppCompatActivity {
 
                         // final Donor donor=new Donor();
                         getFbInfo();
+                        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                        editor.putBoolean("login", true);
+                        editor.apply();
 
                     }
 
@@ -252,71 +252,9 @@ public class LoginActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
-        else if (requestCode == RC_PHONE) { // confirm that this response matches your request
-            AccountKitLoginResult loginResult = data.getParcelableExtra(AccountKitLoginResult.RESULT_KEY);
-            String toastMessage;
-            if (loginResult.getError() != null) {
-                toastMessage = loginResult.getError().getErrorType().getMessage();
-                Log.d(TAG, "onActivityResult: "+loginResult.getError());
-            } else if (loginResult.wasCancelled()) {
-                toastMessage = "Login Cancelled";
-            } else {
-                if (loginResult.getAccessToken() != null) {
-                    toastMessage = "Success1:" + loginResult.getAccessToken().getAccountId();
-                    // Success! Start your next activity...
+        else if (requestCode == RC_PHONE) {
+            getCurrentAccount();
 
-                } else {
-                    toastMessage = String.format(
-                            "Success3:%s...",
-                            loginResult.getAuthorizationCode().substring(0,10));
-                    AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
-                        @Override
-                        public void onSuccess(final Account account) {
-                            // Get Account Kit ID
-                            String accountKitId = account.getId();
-
-                            // Get phone number
-                            PhoneNumber phoneNumber = account.getPhoneNumber();
-                            String phoneNumberString="";
-                            if (phoneNumber != null) {
-                                phoneNumberString = phoneNumber.toString();
-                                Log.d(TAG, "onSuccess2: " + phoneNumberString);
-                            }
-
-                            // Get email
-                            String email = account.getEmail();
-
-                            Donor donor = new Donor();
-                            donor.setEmail(email);
-                            donor.setId(accountKitId);
-                            donor.setNumber(phoneNumberString);
-                            Intent intent = new Intent(LoginActivity.this, BecomeDonorActivity.class);
-                            intent.putExtra("donor", donor);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                        @Override
-                        public void onError(final AccountKitError error) {
-                            // Handle Error
-                            Log.d(TAG, "onError: ");
-                        }
-                    });
-                }
-
-                // If you have an authorization code, retrieve it from
-                // loginResult.getAuthorizationCode()
-                // and pass it to your server and exchange it for an access token.
-
-
-            }
-
-            // Surface the result to your user in an appropriate way.
-            Toast.makeText(
-                    this,
-                    toastMessage,
-                    Toast.LENGTH_LONG)
-                    .show();
         }
     }
 
@@ -331,8 +269,8 @@ public class LoginActivity extends AppCompatActivity {
             donor.setId(account.getId());
             donor.setFirstName(account.getGivenName());
             donor.setLastName(account.getFamilyName());
+            if(account.getPhotoUrl() != null)
             donor.setUrlImage(account.getPhotoUrl().toString());
-            Log.d("aasba", donor.toString());
             Intent intent = new Intent(LoginActivity.this, BecomeDonorActivity.class);
             intent.putExtra("donor", donor);
             startActivity(intent);
@@ -347,19 +285,76 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    private void getCurrentAccount(){
+        com.facebook.accountkit.AccessToken accessToken = AccountKit.getCurrentAccessToken();
+        if (accessToken != null) {
+            //Handle Returning User
+            AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
+
+                @Override
+                public void onSuccess(final Account account) {
+
+                    // Get Account Kit ID
+                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                    editor.putBoolean("login", true);
+                    editor.apply();
+                    String accountKitId = account.getId();
+                    Log.e("Account Kit Id", accountKitId);
+
+                    if(account.getPhoneNumber()!=null) {
+                        Log.e("CountryCode", "" + account.getPhoneNumber().getCountryCode());
+                        Log.e("PhoneNumber", "" + account.getPhoneNumber().getPhoneNumber());
+
+                        // Get phone number
+                        PhoneNumber phoneNumber = account.getPhoneNumber();
+                        String phoneNumberString = phoneNumber.toString();
+                        Log.e("NumberString", phoneNumberString);
+                        Donor donor = new Donor();
+                        donor.setId(accountKitId);
+                        donor.setNumber(phoneNumberString);
+                        Intent intent = new Intent(LoginActivity.this, BecomeDonorActivity.class);
+                        intent.putExtra("donor", donor);
+                        startActivity(intent);
+                       // finish();
 
 
+                    }
 
-    public void phoneLogin(View view) {
-        final Intent intent = new Intent(getApplicationContext(), AccountKitActivity.class);
-        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
-                new AccountKitConfiguration.AccountKitConfigurationBuilder(
-                        LoginType.PHONE,
-                        AccountKitActivity.ResponseType.CODE); // or .ResponseType.TOKEN
-        // ... perform additional configuration ...
-        intent.putExtra(
-                AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
-                configurationBuilder.build());
+                    if(account.getEmail()!=null)
+                        Log.e("Email",account.getEmail());
+                }
+
+                @Override
+                public void onError(final AccountKitError error) {
+                    // Handle Error
+                    Log.e(TAG,error.toString());
+                }
+            });
+
+        } else {
+            //Handle new or logged out user
+            Log.e(TAG,"Logged Out");
+            Toast.makeText(this,"Logged Out User",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    public void phoneLogin(@Nullable View view) {
+        final Intent intent = new Intent(this, AccountKitActivity.class);
+        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder = new AccountKitConfiguration.AccountKitConfigurationBuilder(
+                LoginType.PHONE,AccountKitActivity.ResponseType.TOKEN); // or .ResponseType.CODE
+       UIManager uiManager = new SkinManager(
+
+                SkinManager.Skin.TRANSLUCENT,
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? getResources().getColor(R.color.colorPrimary,null):getResources().getColor(R.color.colorPrimary)),
+                R.drawable.bg,
+                SkinManager.Tint.WHITE,
+                0.55
+        );
+        /*If you want default country code*/
+        configurationBuilder.setDefaultCountryCode("TN");
+        configurationBuilder.setUIManager(uiManager);
+        intent.putExtra(AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,configurationBuilder.build());
         startActivityForResult(intent, RC_PHONE);
     }
 
