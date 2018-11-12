@@ -37,7 +37,11 @@
     <string name="bloodFor">Blood For</string>
     <string name="cityPreference">City Preference</string>
     <string name="submit">Submit</string>
-    <string name="facebook_app_id">217447735815875</string> <string name="fb_login_protocol_scheme">fb217447735815875</string>
+    <string name="facebook_app_id">217447735815875</string>
+    <string name="fb_login_protocol_scheme">fb217447735815875</string>
+    <string name="FACEBOOK_APP_ID">217447735815875</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">2136d060e07271c464d50e6c3ec9e443</string>
+
 
 
 </resources>
