@@ -32,6 +32,6 @@ var donorSchema = mongoose.Schema({
 });
 // Export post model
 var Donor = module.exports = mongoose.model('donor', donorSchema);
-//module.exports.get = function (callback, limit) {
-  //  Donor.find(callback).limit(limit);
-//}
+module.exports.get = function (callback, limit) {
+   Donor.find(callback).limit(limit);
+}

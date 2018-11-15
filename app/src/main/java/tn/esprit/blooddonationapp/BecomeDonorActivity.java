@@ -31,6 +31,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
         mMale = findViewById(R.id.male);
         mFemale = findViewById(R.id.female);
         mSave = findViewById(R.id.save);
+        mNumber = findViewById(R.id.number);
 
 
 

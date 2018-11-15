@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private String LOG_TAG = "FB";
     private Animation animation;
-    public static GoogleSignInClient mGoogleSignInClient;
+    public  GoogleSignInClient mGoogleSignInClient;
     //private static final int RC_FACEBOOK = 1;
     private static final int RC_GOOGLE = 2;
     public static int RC_PHONE = 3;
