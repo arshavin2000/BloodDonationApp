@@ -16,12 +16,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.facebook.accountkit.AccountKit;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -30,7 +37,7 @@ import tn.esprit.blooddonationapp.login.LoginActivity;
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public  GoogleSignInClient mGoogleSignInClient;
+    public  GoogleApiClient mGoogleApiClient;
 
 
     @Override
@@ -144,18 +151,17 @@ public class WelcomeActivity extends AppCompatActivity
         if(acct != null)
         {
 
-            mGoogleSignInClient.signOut()
-                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        public void onResult(Status status) {
                             // ...
-                            Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                            Log.e("GOOGLE_LOGOUT","Logout..");
-
+                            Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(getApplicationContext(),LoginActivity.class);
+                            startActivity(i);
                         }
                     });
+
         }
 
 
@@ -178,6 +184,18 @@ public class WelcomeActivity extends AppCompatActivity
     public boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;
+    }
+
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
     }
 
 }
