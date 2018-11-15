@@ -28,6 +28,7 @@ app.use('/api', donor);
 
 
 
+//mongoose.connect('mongodb://localhost/blooddonation')
 
 mongoose.connect('mongodb://root:root1234@ds063140.mlab.com:63140/blooddonation')
 .then(()=> console.log('Connected to mongoDB'))

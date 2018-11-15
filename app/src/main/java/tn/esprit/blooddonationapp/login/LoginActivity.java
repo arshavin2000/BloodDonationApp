@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     private  static final String MY_PREFS_NAME ="LOGIN";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,18 +78,13 @@ public class LoginActivity extends AppCompatActivity {
         mPhoneNumber = findViewById(R.id.phone);
 
 
-        //final AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        //final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
-        // Set the dimensions of the sign-in button.
-
-       // mGoogle.setSize(SignInButton.SIZE_STANDARD);
         mGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
                 // Configure sign-in to request the user's ID, email address, and basic
-// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+               // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
                 GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()
                         .build();
@@ -128,7 +124,7 @@ phoneLogin(view);
                     public void onSuccess(LoginResult loginResult) {
                         // App code
 
-                        // final Donor donor=new Donor();
+                        // final DonorService donorService=new DonorService();
                         getFbInfo();
                         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                         editor.putBoolean("login", true);

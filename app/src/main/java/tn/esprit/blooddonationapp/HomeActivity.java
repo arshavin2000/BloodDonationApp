@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity  {
 
             new JsonTask(listView).execute("http://192.168.1.17:3000/api/posts");
 
-        //Add Post
+        //Add PostService
 
 
     }
@@ -93,7 +93,7 @@ public class HomeActivity extends AppCompatActivity  {
                 // handle the response
                 int status = conn.getResponseCode();
                 if (status != 200) {
-                    throw new IOException("Post failed with error code " + status);
+                    throw new IOException("PostService failed with error code " + status);
                 } else {
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String inputLine;

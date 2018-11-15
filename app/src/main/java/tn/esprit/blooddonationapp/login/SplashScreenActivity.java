@@ -1,4 +1,4 @@
-package tn.esprit.blooddonationapp;
+package tn.esprit.blooddonationapp.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import tn.esprit.blooddonationapp.login.LoginActivity;
+import tn.esprit.blooddonationapp.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

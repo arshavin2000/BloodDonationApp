@@ -118,7 +118,7 @@ public class Donor implements Serializable {
 
     @Override
     public String toString() {
-        return "Donor{" +
+        return "DonorService{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
