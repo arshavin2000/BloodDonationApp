@@ -1,28 +1,30 @@
-Post = require('../models/post');
+Comment = require('../models/comment');
 // Handle index actions
-exports.index = function (req, res) {
-    Post.get(function (err, posts) {
-        if (err) {
-            res.json({
-                status: "error",
-                message: err,
-            });
-        }
-        res.json({
-            status: "success",
-            message: "posts retrieved successfully",
-            data: posts
-        });
-    });
+exports.findByCompanyId = (req, res) => {
+	Comment.find({ company : req.params.postID })
+	.exec(function (err, comments) {
+		if (err){
+			if(err.kind === 'ObjectId') {
+				return res.status(404).send({
+					message: "No comments with given Company Id " + req.params.postID
+				});
+			}
+			return res.status(500).send({
+				message: "Error retrieving Comments with given Post Id " + req.params.postID
+			});
+		}
+		res.send(comments);
+	});
 };
 // Handle create post actions
 exports.new = function (req, res) {
-    var post = new Post();
-    post.postImage = req.body.postImage;
-    post.postText = req.body.postText;
-    post.username = req.body.postText;
+    var comment = new Comment();
+    comment.comment = req.body.comment;
+    comment.username = req.body.username;
+    comment.timeComment = req.body.timeComment;
+    comment.timeComment = req.body.timeComment;
 // save the post and check for errors
-    post.save(function (err) {
+    post.save(req.params.post_id,function (err) {
         // if (err)
         //     res.json(err);
         res.json({
@@ -47,7 +49,9 @@ exports.update = function (req, res) {
     Post.findById(req.params.post_id, function (err, post) {
             if (err)
                 res.send(err);
-            post.comments.push(req.body.comments);
+   
+            post.Comments.push( req.body.numberComments);
+            post.co
             // save the post and check for errors
                 post.save(function (err) {
                     //if (err)

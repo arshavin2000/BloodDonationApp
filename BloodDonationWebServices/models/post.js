@@ -5,6 +5,9 @@ var postSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    userName: {
+        type: String,
+    },
     postText: {
         type: String,
         required: true
@@ -20,7 +23,8 @@ var postSchema = mongoose.Schema({
     NumberComments: {
         type: Number,
         default: 0
-    }
+    },
+    comments : []
 });
 // Export post model
 var Post = module.exports = mongoose.model('post', postSchema);
