@@ -7,9 +7,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 //routes
-const donors = require('./routes/donors');
 const home = require('./routes/home');
 const post = require('./routes/post');
+const donor = require('./routes/donor');
+
 
 if(app.get('env') === 'development')
 {
@@ -22,12 +23,13 @@ app.use(express.static('public'));
 app.use(helmet());
 
 app.use('/',home);
-app.use('/api/donors',donors);
-app.use('/api', post)
+app.use('/api', post);
+app.use('/api', donor);
 
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/dba')
+
+mongoose.connect('mongodb://root:root1234@ds063140.mlab.com:63140/blooddonation')
 .then(()=> console.log('Connected to mongoDB'))
 .catch(err=> console.error("Could not connect to mongoDB",err));
 

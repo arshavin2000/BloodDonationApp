@@ -21,11 +21,12 @@ import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class WelcomeActitvity extends AppCompatActivity
+import tn.esprit.blooddonationapp.login.LoginActivity;
+
+public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -93,16 +94,16 @@ public class WelcomeActitvity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent intent = new Intent(WelcomeActitvity.this,BecomeDonorActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this,BecomeDonorActivity.class);
             startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.nav_blood) {
-            Intent intent = new Intent(WelcomeActitvity.this,RequestBlood.class);
+            Intent intent = new Intent(WelcomeActivity.this,RequestBlood.class);
             startActivity(intent);
             finish();
 
         } else if (id == R.id.nav_home) {
-            Intent intent = new Intent(WelcomeActitvity.this,UserPostsActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this,UserPostsActivity.class);
             startActivity(intent);
             finish();
 
@@ -133,7 +134,7 @@ public class WelcomeActitvity extends AppCompatActivity
         if(isLoggedIn())
         {
             LoginManager.getInstance().logOut();
-            Intent intent = new Intent(WelcomeActitvity.this,LoginActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
             startActivity(intent);
         }
         if(acct != null)
@@ -143,7 +144,7 @@ public class WelcomeActitvity extends AppCompatActivity
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             // ...
-                            Intent intent = new Intent(WelcomeActitvity.this,LoginActivity.class);
+                            Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
                             startActivity(intent);
                             finish();
                             Log.e("GOOGLE_LOGOUT","Logout..");
@@ -159,7 +160,7 @@ public class WelcomeActitvity extends AppCompatActivity
             com.facebook.accountkit.AccessToken accessToken = AccountKit.getCurrentAccessToken();
             if(accessToken!=null)
                 Log.e("PHONE_LOGOUT","Still Logged in...");
-            Intent intent = new Intent(WelcomeActitvity.this,LoginActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
             startActivity(intent);
             finish();}
 

@@ -3,16 +3,12 @@ package tn.esprit.blooddonationapp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.facebook.AccessToken;
-import com.facebook.accountkit.AccountKit;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import tn.esprit.blooddonationapp.login.LoginActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -55,9 +51,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();}
-            else if(aBoolean)
+            else
             {
-                Intent i = new Intent(SplashScreenActivity.this, WelcomeActitvity.class);
+                Intent i = new Intent(SplashScreenActivity.this, WelcomeActivity.class);
                 startActivity(i);
                 finish();
             }

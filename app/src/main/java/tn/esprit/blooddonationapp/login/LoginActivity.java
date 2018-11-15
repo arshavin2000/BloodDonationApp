@@ -1,4 +1,4 @@
-package tn.esprit.blooddonationapp;
+package tn.esprit.blooddonationapp.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,16 +43,17 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import tn.esprit.blooddonationapp.BecomeDonorActivity;
+import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Donor;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button mPhoneNumber, mFacebook , mGoogle;
     private CallbackManager callbackManager;
     private String LOG_TAG = "FB";
     private Animation animation;
     public static GoogleSignInClient mGoogleSignInClient;
-    private static final int RC_FACEBOOK = 1;
+    //private static final int RC_FACEBOOK = 1;
     private static final int RC_GOOGLE = 2;
     public static int RC_PHONE = 3;
     private static final String TAG = "MOBILE-PHONE";
@@ -62,6 +63,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+         Button mPhoneNumber, mFacebook , mGoogle;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();

@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".login.LoginActivity" />
         <activity android:name=".BecomeDonorActivity" />
         <activity android:name=".UserPostsActivity" />
         <activity android:name=".RequestList" />
@@ -64,7 +64,7 @@
 
 
         <activity
-            android:name=".WelcomeActitvity"
+            android:name=".WelcomeActivity"
             android:label="@string/title_activity_welcome_actitvity"
             android:theme="@style/AppTheme"></activity>
     </application>
