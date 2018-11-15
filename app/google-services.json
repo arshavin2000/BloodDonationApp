@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "558418489375",
+    "firebase_url": "https://blooddonationapp-648ea.firebaseio.com",
+    "project_id": "blooddonationapp-648ea",
+    "storage_bucket": "blooddonationapp-648ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558418489375:android:b22f54287700dd55",
+        "android_client_info": {
+          "package_name": "tn.esprit.blooddonationapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558418489375-61oklmvpkmvn7iidnkdkhjtq663ifkpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tn.esprit.blooddonationapp",
+            "certificate_hash": "295240322b5497d251ae8b75ba39121e95835a65"
+          }
+        },
+        {
+          "client_id": "558418489375-04clbiuvkqpvs4d6p03ll3h0qbdig7k0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjcuoE8EduNy9K85G72a0ZuS6o26K-Ma4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558418489375-04clbiuvkqpvs4d6p03ll3h0qbdig7k0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
