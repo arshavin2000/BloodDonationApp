@@ -1,7 +1,6 @@
 package tn.esprit.blooddonationapp.Service;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +12,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import tn.esprit.blooddonationapp.BecomeDonorActivity;
 import tn.esprit.blooddonationapp.login.WelcomeActivity;
 import tn.esprit.blooddonationapp.model.Donor;
 
@@ -48,7 +44,6 @@ public class DonorService {
                         progressBar.setVisibility(View.GONE);
                         Intent intent = new Intent(activity,WelcomeActivity.class);
                         activity.startActivity(intent);
-                        activity.finish();
                         // Showing response message coming from server.
                         Log.d("VOLLEY", "onResponse: "+ServerResponse);
                     }
@@ -71,8 +66,13 @@ public class DonorService {
                 Map<String, String> params = new HashMap<>();
                 // Adding All values to Params.
                 params.put("id", donor.getId());
-                params.put("firstname", "Achref");
-                params.put("lastname", "Meghirbi");
+                params.put("firstname", donor.getFirstName());
+                params.put("lastname", donor.getLastName());
+                params.put("email", donor.getEmail());
+                params.put("number", donor.getNumber());
+               // params.put("bloodgroup", donor.getBloodGroup());
+                params.put("gender", donor.getGender());
+
 
 
 

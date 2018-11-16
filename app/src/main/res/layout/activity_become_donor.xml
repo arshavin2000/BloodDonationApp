@@ -113,7 +113,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/male_checkbox"
-                    android:layout_marginRight="20dp"/>
+                    android:layout_marginRight="20dp"
+                    android:checked="true"/>
                 <RadioButton
                     android:id="@+id/female"
                     android:layout_width="wrap_content"
@@ -146,6 +147,7 @@
         android:layout_marginBottom="15dp">
 
         <RadioButton
+            android:checked="true"
             android:id="@+id/a_moins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
