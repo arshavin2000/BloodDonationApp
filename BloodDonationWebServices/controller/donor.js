@@ -68,3 +68,53 @@ exports.view = function (req, res) {
 
     });
 };
+
+
+// Handle view post info
+exports.email = function (req, res) {
+  var query = { email: req.params.email };
+
+    Donor.findOne(query, function (err, donor) {
+        if (err)
+            res.send(err);
+            if(donor === null)
+            {
+        res.json({
+            message: 'Donor details loading..',
+            data: false
+        });
+      }
+      else {
+        res.json({
+            message: 'Donor details loading..',
+            data: true
+        });
+      }
+
+
+    });
+};
+
+exports.number = function (req, res) {
+  var query = { number: req.params.number };
+
+    Donor.findOne(query, function (err, donor) {
+        if (err)
+            res.send(err);
+            if(donor === null)
+            {
+        res.json({
+            message: 'Donor details loading..',
+            data: false
+        });
+      }
+      else {
+        res.json({
+            message: 'Donor details loading..',
+            data: true
+        });
+      }
+
+
+    });
+};

@@ -7,6 +7,11 @@ router.route('/donors')
     .post(donorController.new);
 router.route('/donors/:id')
     .get(donorController.view)
+router.route('/donors/email/:email')
+    .get(donorController.email)
+router.route('/donors/number/:number')
+    .get(donorController.number)
+
 
 
 // Export API routes
