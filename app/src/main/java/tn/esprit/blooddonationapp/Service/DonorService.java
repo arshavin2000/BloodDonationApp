@@ -241,25 +241,44 @@ public class DonorService {
 
 
                 // Log.d("RESPONSE", "onResponse: "+ response.getJSONObject("data").getString("id"));
+                isEmailExist(donor.getEmail().trim());
 
 
                 try {
-                    if (response.getString("data").equals("false")) {
+                    if (response.getString("data").equals("false") && !DataHolder.getInstance().isVerifyEmail()) {
+
                         addUser(donor,progressBar);
                     }
                     else
                     {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                        builder.setMessage("Phone Number is already exist !")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.dismiss();
-                                        // FIRE ZE MISSILES!
-                                    }
-                                });
-                        // Create the AlertDialog object and return it
-                        builder.create().show();
+                        if(DataHolder.getInstance().isVerifyEmail())
+                        {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                            builder.setMessage("Email is already exist ! Please use another mail.")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.dismiss();
+                                            // FIRE ZE MISSILES!
+                                        }
+                                    });
+                            // Create the AlertDialog object and return it
+                            builder.create().show();
+
+                        }
+                        else {
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                            builder.setMessage("Phone Number is already exist ! Please use another number.")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.dismiss();
+                                            // FIRE ZE MISSILES!
+                                        }
+                                    });
+                            // Create the AlertDialog object and return it
+                            builder.create().show();
+                        }
 
                     }
                 } catch (JSONException e) {
@@ -281,6 +300,52 @@ public class DonorService {
 
 
     }
+
+    public void isEmailExist(String email)
+    {
+
+
+        String HttpVerifyEmaiUrl =HttpUrl+"/email/"+email;
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,HttpVerifyEmaiUrl,null,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+
+                // Log.d("RESPONSE", "onResponse: "+ response.getJSONObject("data").getString("id"));
+
+
+                try {
+                    if (response.getString("data").equals("false")) {
+
+                        DataHolder.getInstance().setVerifyEmail(false);
+                    }
+                    else
+                    {
+                        DataHolder.getInstance().setVerifyEmail(true);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("LOG", error.toString());
+                DataHolder.getInstance().setExist(false);
+
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
+
 
 
 
