@@ -287,11 +287,12 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
                 <ImageView
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/img_post"
-                    />
+                    android:background="@drawable/img_post" />
                 <LinearLayout
                     android:id="@+id/actions_post"
                     android:layout_width="match_parent"

@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.AccessToken;
@@ -37,14 +39,17 @@ import tn.esprit.blooddonationapp.BecomeDonorActivity;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.RequestBlood;
 import tn.esprit.blooddonationapp.UserPostsActivity;
+import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.util.DataHolder;
 import tn.esprit.blooddonationapp.util.ProfileImage;
+import tn.esprit.blooddonationapp.util.UserUtils;
 
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public GoogleApiClient mGoogleApiClient;
+    private Donor donor;
     private TextView email, username;
     private ImageView image;
 
@@ -56,6 +61,8 @@ public class WelcomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
@@ -65,22 +72,26 @@ public class WelcomeActivity extends AppCompatActivity
         username = header.findViewById(R.id.username);
         image = header.findViewById(R.id.image);
 
-        if (DataHolder.getInstance().getDonor() != null) {
-            final Donor donor = DataHolder.getInstance().getDonor();
+         donor = UserUtils.getUser(getApplicationContext());
+
+        Log.e("GETUSER", "onCreate: " + donor.toString() );
+
+        if (donor != null) {
             email.setText(donor.getEmail());
             username.setText(donor.getFirstName() + " " + donor.getLastName());
-
-            Thread  thread = new Thread() {
+            runOnUiThread(new Runnable() {
+                @Override
                 public void run() {
-                    try {
-                        image.setImageBitmap(ProfileImage.getFacebookProfilePicture(donor.getUrlImage()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            thread.start();
+                    //Your code to run in GUI thread here
+                    ProfileImage.getFacebookProfilePicture(donor.getUrlImage(), getApplicationContext(), image);
+
+
+                }//public void run() {
+            });
+
         }
+
+
 
 
 

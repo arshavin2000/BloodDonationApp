@@ -1,16 +1,29 @@
 package tn.esprit.blooddonationapp.util;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Context;
+import android.widget.ImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.request.RequestOptions;
 
-import java.io.IOException;
-import java.net.URL;
 
-public class ProfileImage {
 
-    public static Bitmap getFacebookProfilePicture(String url) throws IOException {
-        URL imageURL = new URL(url);
-        return BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+public class ProfileImage    {
 
+    private BitmapPool mBitmapPool;
+
+
+
+
+    public static void getFacebookProfilePicture(String url, Context context , ImageView imageView)  {
+
+        Glide.with(context)
+                .load(url)
+                .apply(RequestOptions.circleCropTransform())
+                .into(imageView);
     }
+
+
+
+
 }

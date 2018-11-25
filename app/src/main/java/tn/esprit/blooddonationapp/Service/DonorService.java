@@ -20,9 +20,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import tn.esprit.blooddonationapp.BecomeDonorActivity;
+import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.login.WelcomeActivity;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.util.DataHolder;
+import tn.esprit.blooddonationapp.util.UserUtils;
 
 public class DonorService {
 
@@ -47,7 +49,6 @@ public class DonorService {
     {
 
 
-
         progressBar.setVisibility(View.VISIBLE);
         // Creating string request with post method.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpUrl,
@@ -56,7 +57,10 @@ public class DonorService {
                     public void onResponse(String ServerResponse) {
 
                         // Hiding the progress dialog after all task complete.
+                        DBHandler dbHandler = new DBHandler(context);
+                        dbHandler.addDonor(donor);
                         progressBar.setVisibility(View.GONE);
+                        UserUtils.saveUser(context,donor.getId());
                         Intent intent = new Intent(activity,WelcomeActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
@@ -128,7 +132,7 @@ public class DonorService {
                 try {
                     if (response.getString("data").equals("false")) {
                         Intent intent = new Intent(context, BecomeDonorActivity.class);
-                        DataHolder.getInstance().setDonor(d);
+                        intent.putExtra("donor",d);
                         context.startActivity(intent);
                         activity.finish();
 
@@ -136,7 +140,7 @@ public class DonorService {
                     else
                     {
                         Intent intent = new Intent(context, WelcomeActivity.class);
-                        DataHolder.getInstance().setDonor(d);
+                        UserUtils.saveUser(context,d.getId());
                         context.startActivity(intent);
                         activity.finish();
                     }
