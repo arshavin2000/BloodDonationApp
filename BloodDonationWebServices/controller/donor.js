@@ -39,7 +39,32 @@ console.log(donor.firstname);
         //     res.json(err);
         res.json({
             message: 'New donor created!',
-            data: donor
         });
+    });
+};
+
+
+// Handle view post info
+exports.view = function (req, res) {
+  var query = { id: req.params.id };
+
+    Donor.findOne(query, function (err, donor) {
+        if (err)
+            res.send(err);
+            if(donor === null)
+            {
+        res.json({
+            message: 'Donor details loading..',
+            data: false
+        });
+      }
+      else {
+        res.json({
+            message: 'Donor details loading..',
+            data: true
+        });
+      }
+
+
     });
 };

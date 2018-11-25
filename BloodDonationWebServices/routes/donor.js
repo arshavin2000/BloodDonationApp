@@ -5,6 +5,8 @@ var donorController = require('../controller/donor');
 router.route('/donors')
     .get(donorController.index)
     .post(donorController.new);
+router.route('/donors/:id')
+    .get(donorController.view)
 
 
 // Export API routes

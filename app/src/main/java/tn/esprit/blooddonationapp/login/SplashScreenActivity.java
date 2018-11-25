@@ -50,7 +50,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             if(!aBoolean){
                 Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(i);
-                finish();}
+                finish();
+                }
             else
             {
                 Intent i = new Intent(SplashScreenActivity.this, WelcomeActivity.class);

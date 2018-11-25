@@ -2,6 +2,7 @@ package tn.esprit.blooddonationapp.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,8 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
@@ -28,15 +31,22 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.io.IOException;
+
 import tn.esprit.blooddonationapp.BecomeDonorActivity;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.RequestBlood;
 import tn.esprit.blooddonationapp.UserPostsActivity;
+import tn.esprit.blooddonationapp.model.Donor;
+import tn.esprit.blooddonationapp.util.DataHolder;
+import tn.esprit.blooddonationapp.util.ProfileImage;
 
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public  GoogleApiClient mGoogleApiClient;
+    public GoogleApiClient mGoogleApiClient;
+    private TextView email, username;
+    private ImageView image;
 
 
     @Override
@@ -45,6 +55,35 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome_actitvity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+
+
+        email = header.findViewById(R.id.email);
+        username = header.findViewById(R.id.username);
+        image = header.findViewById(R.id.image);
+
+        if (DataHolder.getInstance().getDonor() != null) {
+            final Donor donor = DataHolder.getInstance().getDonor();
+            email.setText(donor.getEmail());
+            username.setText(donor.getFirstName() + " " + donor.getLastName());
+
+            Thread  thread = new Thread() {
+                public void run() {
+                    try {
+                        image.setImageBitmap(ProfileImage.getFacebookProfilePicture(donor.getUrlImage()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
+        }
+
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -55,19 +94,19 @@ public class WelcomeActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView =  findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -104,16 +143,16 @@ public class WelcomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent intent = new Intent(WelcomeActivity.this,BecomeDonorActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, BecomeDonorActivity.class);
             startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.nav_blood) {
-            Intent intent = new Intent(WelcomeActivity.this,RequestBlood.class);
+            Intent intent = new Intent(WelcomeActivity.this, RequestBlood.class);
             startActivity(intent);
             finish();
 
         } else if (id == R.id.nav_home) {
-            Intent intent = new Intent(WelcomeActivity.this,UserPostsActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, UserPostsActivity.class);
             startActivity(intent);
             finish();
 
@@ -136,45 +175,37 @@ public class WelcomeActivity extends AppCompatActivity
     }
 
 
-    private void logOut()
-    {
+    private void logOut() {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
-        if(isLoggedIn())
-        {
+        if (isLoggedIn()) {
             LoginManager.getInstance().logOut();
-            Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
-            startActivity(intent);
+            Intent i = new Intent(getApplicationContext(), SplashScreenActivity.class);
+            startActivity(i);
         }
-        if(acct != null)
-        {
+        if (acct != null) {
 
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     new ResultCallback<Status>() {
                         @Override
                         public void onResult(Status status) {
                             // ...
-                            Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
-                            Intent i=new Intent(getApplicationContext(),LoginActivity.class);
+                            Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getApplicationContext(), SplashScreenActivity.class);
                             startActivity(i);
                         }
                     });
 
-        }
-
-
-        else
-        {
+        } else {
             AccountKit.logOut();
             com.facebook.accountkit.AccessToken accessToken = AccountKit.getCurrentAccessToken();
-            if(accessToken!=null)
-                Log.e("PHONE_LOGOUT","Still Logged in...");
-            Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
+            if (accessToken == null)
+                Log.e("PHONE_LOGOUT", "Still Logged in...");
+            Intent intent = new Intent(WelcomeActivity.this, SplashScreenActivity.class);
             startActivity(intent);
-            finish();}
-
-
+        }
+        finish();
 
 
     }
@@ -196,5 +227,6 @@ public class WelcomeActivity extends AppCompatActivity
         mGoogleApiClient.connect();
         super.onStart();
     }
+
 
 }

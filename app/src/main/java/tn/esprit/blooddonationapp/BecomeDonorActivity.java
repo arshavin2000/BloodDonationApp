@@ -1,6 +1,7 @@
 package tn.esprit.blooddonationapp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,13 +13,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import tn.esprit.blooddonationapp.Service.DonorService;
 import tn.esprit.blooddonationapp.model.Donor;
+import tn.esprit.blooddonationapp.util.Validator;
 
 public class BecomeDonorActivity extends AppCompatActivity {
 
@@ -29,6 +26,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
     private RadioGroup mBloodGroup , mGenderGroup;
     private RadioButton mBlood , mGender;
     private ProgressBar progressBar;
+    private Activity activity;
 
 
 
@@ -37,6 +35,10 @@ public class BecomeDonorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_become_donor);
+
+        Log.e("BECOME_DONÒR", "onCreate: " );
+
+        activity=this;
 
         mEmail = findViewById(R.id.email);
         mName = findViewById(R.id.name);
@@ -54,6 +56,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
 
         donor = (Donor) getIntent().getSerializableExtra("donor");
 
+
         if(donor != null  ) {
             if (donor.getFirstName() != null && donor.getLastName() != null)
                 mName.setText(donor.getFirstName() + " " + donor.getLastName());
@@ -68,6 +71,12 @@ public class BecomeDonorActivity extends AppCompatActivity {
                 else if (donor.getGender().equals("female"))
                     mFemale.setChecked(true);
             }
+            if(donor.getGender() == null){
+                donor.setGender("male");
+
+            }
+            donor.setBloodGroup("A+");
+
         }
 
 
@@ -85,7 +94,12 @@ public class BecomeDonorActivity extends AppCompatActivity {
                         mSave.setEnabled(false);
                         mNumber.setError("The phone number field is required");
 
-                    } else {
+                    } else if(!Validator.isValidPhoneNumber(s.toString()))
+                    {
+                        mSave.setEnabled(false);
+                        mNumber.setError("A valid phone number is required");
+                    }
+                    else {
                         mSave.setEnabled(true);
                     }
                 }
@@ -134,7 +148,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
                         mSave.setEnabled(false);
                         mEmail.setError("The email field is required");
 
-                    }else if(!isValidEmail(s))
+                    }else if(!Validator.isValidEmail(s))
                     {
                         mSave.setEnabled(false);
                         mEmail.setError("A valid email is required");
@@ -176,7 +190,6 @@ public class BecomeDonorActivity extends AppCompatActivity {
 
                 }
             });
-
 
 
 
@@ -255,7 +268,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
                     }
                     break;
                     default:{
-                        donor.setBloodGroup("");
+                        donor.setBloodGroup("A+");
                     }
                 }
             }
@@ -291,9 +304,8 @@ public class BecomeDonorActivity extends AppCompatActivity {
                 donor.setLastName(lastname);
                 donor.setNumber(mNumber.getText().toString().trim());
 
-                DonorService donorService = new DonorService(BecomeDonorActivity.this);
+                DonorService donorService = new DonorService(getApplicationContext(),activity);
                 donorService.addUser(donor,progressBar);
-                finish();
 
 
 
@@ -305,12 +317,8 @@ public class BecomeDonorActivity extends AppCompatActivity {
 
     }
 
-    public final static boolean isValidEmail(CharSequence target) {
-        if (target == null)
-            return false;
 
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-    }
+
 
 
 }
