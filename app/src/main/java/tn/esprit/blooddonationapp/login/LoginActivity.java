@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.Arrays;
 
 import tn.esprit.blooddonationapp.R;
+import tn.esprit.blooddonationapp.util.UserUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -73,17 +74,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
-                // Configure sign-in to request the user's ID, email address, and basic
-               // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .build();
-                // Build a GoogleSignInClient with the options specified by gso.
-                mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
-                signIn();
-                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                editor.putBoolean("login", true);
-                editor.apply();
+                if(!UserUtils.isNetworkAvailable(getApplicationContext()))
+                {
+                    UserUtils.alertDialog(activity,"Please check  your connection !");
+                }
+                else {
+                    // Configure sign-in to request the user's ID, email address, and basic
+                    // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestEmail()
+                            .build();
+                    // Build a GoogleSignInClient with the options specified by gso.
+                    mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
+                    signIn();
+                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                    editor.putBoolean("login", true);
+                    editor.apply();
+                }
 
 
             }
@@ -93,8 +100,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
-                phoneNumberActivity = new PhoneNumberActivity(getApplicationContext(),activity);
-                phoneLogin(view);
+
+                if(!UserUtils.isNetworkAvailable(getApplicationContext()))
+                {
+                    UserUtils.alertDialog(activity,"Please check  your connection !");
+                }
+                else {
+                    phoneNumberActivity = new PhoneNumberActivity(getApplicationContext(), activity);
+                    phoneLogin(view);
+                }
 
             }
         });
@@ -103,47 +117,55 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
-                LoginManager.getInstance().logInWithReadPermissions(
-                        LoginActivity.this,
-                        Arrays.asList("user_photos", "email",
-                                "user_birthday", "public_profile", "user_gender"));
 
 
-                // Callback registration
-                LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        // App code
+                if (!UserUtils.isNetworkAvailable(getApplicationContext())) {
+                    UserUtils.alertDialog(activity, "Please check your connection !");
+                } else {
 
-                        // final DonorService donorService=new DonorService();
-                        FacebookActivity facebookActivity = new FacebookActivity(getApplicationContext(),activity);
-                        facebookActivity.getFbInfo();
-                        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                        editor.putBoolean("login", true);
-                        editor.apply();
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // App code
-
-                        Toast.makeText(getApplicationContext(), "Facebook Cancel", Toast.LENGTH_LONG).show();
-
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                        Toast.makeText(getApplicationContext(), "Facebook" + exception.toString(), Toast.LENGTH_LONG).show();
+                    LoginManager.getInstance().logInWithReadPermissions(
+                            LoginActivity.this,
+                            Arrays.asList("user_photos", "email",
+                                    "user_birthday", "public_profile", "user_gender"));
 
 
-                    }
-                });
+                    // Callback registration
+                    LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            // App code
 
+                            // final DonorService donorService=new DonorService();
+                            FacebookActivity facebookActivity = new FacebookActivity(getApplicationContext(), activity);
+                            facebookActivity.getFbInfo();
+                            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                            editor.putBoolean("login", true);
+                            editor.apply();
+
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            // App code
+
+                            Toast.makeText(getApplicationContext(), "Facebook Cancel", Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception) {
+                            // App code
+                            Toast.makeText(getApplicationContext(), "Facebook" + exception.toString(), Toast.LENGTH_LONG).show();
+
+
+                        }
+                    });
+
+                }
             }
 
         });
+
 
 
 

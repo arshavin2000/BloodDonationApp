@@ -3,7 +3,6 @@ package tn.esprit.blooddonationapp.util;
 import android.content.Context;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.request.RequestOptions;
 
 

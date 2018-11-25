@@ -155,7 +155,6 @@ public class DonorService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("LOG", error.toString());
-                DataHolder.getInstance().setExist(false);
 
             }
         });
@@ -213,7 +212,6 @@ public class DonorService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("LOG", error.toString());
-                DataHolder.getInstance().setExist(false);
 
             }
         });
@@ -224,15 +222,11 @@ public class DonorService {
     }
 
 
-    public void isPhoneNumberExist(String number,final Donor donor ,final ProgressBar progressBar)
+    public void isPhoneNumberExist(String number, final String email, final Donor donor , final ProgressBar progressBar)
     {
 
 
         String HttpVerifyNumberUrl =HttpUrl+"/number/"+number;
-
-        System.out.println(HttpVerifyNumberUrl);
-
-
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,HttpVerifyNumberUrl,null,new Response.Listener<JSONObject>() {
@@ -241,33 +235,16 @@ public class DonorService {
 
 
                 // Log.d("RESPONSE", "onResponse: "+ response.getJSONObject("data").getString("id"));
-                isEmailExist(donor.getEmail().trim());
 
 
                 try {
-                    if (response.getString("data").equals("false") && !DataHolder.getInstance().isVerifyEmail()) {
+                    if (response.getString("data").equals("false")) {
 
-                        addUser(donor,progressBar);
+                        isEmailExist(email,donor,progressBar);
+
                     }
                     else
                     {
-
-                        if(DataHolder.getInstance().isVerifyEmail())
-                        {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                            builder.setMessage("Email is already exist ! Please use another mail.")
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.dismiss();
-                                            // FIRE ZE MISSILES!
-                                        }
-                                    });
-                            // Create the AlertDialog object and return it
-                            builder.create().show();
-
-                        }
-                        else {
-
                             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                             builder.setMessage("Phone Number is already exist ! Please use another number.")
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -280,7 +257,6 @@ public class DonorService {
                             builder.create().show();
                         }
 
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -291,7 +267,6 @@ public class DonorService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("LOG", error.toString());
-                DataHolder.getInstance().setExist(false);
 
             }
         });
@@ -301,7 +276,7 @@ public class DonorService {
 
     }
 
-    public void isEmailExist(String email)
+    private void isEmailExist(String email, final Donor donor , final ProgressBar progressBar)
     {
 
 
@@ -317,15 +292,25 @@ public class DonorService {
 
 
                 try {
-                    if (response.getString("data").equals("false")) {
+                    if (response.getString("data").equals("true")) {
 
-                        DataHolder.getInstance().setVerifyEmail(false);
-                    }
-                    else
-                    {
-                        DataHolder.getInstance().setVerifyEmail(true);
 
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                        builder.setMessage("Email is already exist ! Please use another email.")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                        // FIRE ZE MISSILES!
+                                    }
+                                });
+                        // Create the AlertDialog object and return it
+                        builder.create().show();
                     }
+                        else {
+                            addUser(donor,progressBar);
+
+                        }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -336,7 +321,6 @@ public class DonorService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("LOG", error.toString());
-                DataHolder.getInstance().setExist(false);
 
             }
         });

@@ -305,10 +305,8 @@ public class BecomeDonorActivity extends AppCompatActivity {
                 donor.setNumber("+216"+mNumber.getText().toString().trim());
 
 
-                System.out.println("+216"+mNumber.getText().toString().trim());
-
                 DonorService donorService = new DonorService(getApplicationContext(),activity);
-                donorService.isPhoneNumberExist("+216"+mNumber.getText().toString().trim(),donor,progressBar);
+                donorService.isPhoneNumberExist("+216"+mNumber.getText().toString().trim(),mEmail.getText().toString().trim(),donor,progressBar);
 
 
 

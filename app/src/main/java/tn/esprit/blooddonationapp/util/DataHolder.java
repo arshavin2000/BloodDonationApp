@@ -17,17 +17,9 @@ public class DataHolder {
         return dataHolder;
     }
 
-    private boolean exist ;
+
     private Donor donor;
-    private boolean verifyEmail;
 
-    public boolean isExist() {
-        return exist;
-    }
-
-    public void setExist(boolean exist) {
-        this.exist = exist;
-    }
 
     public Donor getDonor() {
         return donor;
@@ -37,11 +29,5 @@ public class DataHolder {
         this.donor = donor;
     }
 
-    public boolean isVerifyEmail() {
-        return verifyEmail;
-    }
 
-    public void setVerifyEmail(boolean verifyEmail) {
-        this.verifyEmail = verifyEmail;
-    }
 }
