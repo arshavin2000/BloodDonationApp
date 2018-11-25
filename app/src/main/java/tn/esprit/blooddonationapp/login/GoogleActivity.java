@@ -32,7 +32,7 @@ class GoogleActivity {
      void updateUI(GoogleSignInAccount account ){
         if (account != null) {
             DonorService donorService = new DonorService(context,activity);
-            donorService.isGoogleUserExist(account.getId());        }
+            donorService.isGoogleUserExist(account.getId(),account);        }
     }
 
 
@@ -52,7 +52,6 @@ class GoogleActivity {
             if(account.getPhotoUrl() != null)
                 donor.setUrlImage(account.getPhotoUrl().toString());
 
-            DataHolder.getInstance().setDonor(donor);
 
 
 

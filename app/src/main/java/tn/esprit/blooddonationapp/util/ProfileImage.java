@@ -10,18 +10,16 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class ProfileImage    {
 
-    private BitmapPool mBitmapPool;
 
-
-
-
-    public static void getFacebookProfilePicture(String url, Context context , ImageView imageView)  {
+    public static void getFacebookOrGoogleProfilePicture(String url, Context context , ImageView imageView)  {
 
         Glide.with(context)
                 .load(url)
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
     }
+
+
 
 
 

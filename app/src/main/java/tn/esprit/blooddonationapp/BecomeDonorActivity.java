@@ -302,10 +302,13 @@ public class BecomeDonorActivity extends AppCompatActivity {
 
                 donor.setFirstName(firstname);
                 donor.setLastName(lastname);
-                donor.setNumber(mNumber.getText().toString().trim());
+                donor.setNumber("+216"+mNumber.getText().toString().trim());
+
+
+                System.out.println("+216"+mNumber.getText().toString().trim());
 
                 DonorService donorService = new DonorService(getApplicationContext(),activity);
-                donorService.addUser(donor,progressBar);
+                donorService.isPhoneNumberExist("+216"+mNumber.getText().toString().trim(),donor,progressBar);
 
 
 

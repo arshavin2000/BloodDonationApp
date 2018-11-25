@@ -83,9 +83,7 @@ public class WelcomeActivity extends AppCompatActivity
                 @Override
                 public void run() {
                     //Your code to run in GUI thread here
-                    ProfileImage.getFacebookProfilePicture(donor.getUrlImage(), getApplicationContext(), image);
-
-
+                    ProfileImage.getFacebookOrGoogleProfilePicture(donor.getUrlImage(), getApplicationContext(), image);
                 }//public void run() {
             });
 

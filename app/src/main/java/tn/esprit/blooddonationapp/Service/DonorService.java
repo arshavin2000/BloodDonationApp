@@ -1,12 +1,13 @@
 package tn.esprit.blooddonationapp.Service;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,7 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -164,7 +165,7 @@ public class DonorService {
 
     }
 
-    public void isGoogleUserExist(final String id)
+    public void isGoogleUserExist(final String id , final GoogleSignInAccount account)
     {
 
 
@@ -184,6 +185,14 @@ public class DonorService {
                 try {
                     if (response.getString("data").equals("false")) {
                         Intent intent = new Intent(context, BecomeDonorActivity.class);
+                        Donor donor = new Donor();
+                        donor.setEmail(account.getEmail());
+                        donor.setId(account.getId());
+                        donor.setFirstName(account.getGivenName());
+                        donor.setLastName(account.getFamilyName());
+                        if(account.getPhotoUrl() != null)
+                            donor.setUrlImage(account.getPhotoUrl().toString());
+                        intent.putExtra("donor",donor);
                         context.startActivity(intent);
                         activity.finish();
 
@@ -193,6 +202,65 @@ public class DonorService {
                         Intent intent = new Intent(context, WelcomeActivity.class);
                         context.startActivity(intent);
                         activity.finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("LOG", error.toString());
+                DataHolder.getInstance().setExist(false);
+
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
+
+
+    public void isPhoneNumberExist(String number,final Donor donor ,final ProgressBar progressBar)
+    {
+
+
+        String HttpVerifyNumberUrl =HttpUrl+"/number/"+number;
+
+        System.out.println(HttpVerifyNumberUrl);
+
+
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,HttpVerifyNumberUrl,null,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+
+                // Log.d("RESPONSE", "onResponse: "+ response.getJSONObject("data").getString("id"));
+
+
+                try {
+                    if (response.getString("data").equals("false")) {
+                        addUser(donor,progressBar);
+                    }
+                    else
+                    {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                        builder.setMessage("Phone Number is already exist !")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                        // FIRE ZE MISSILES!
+                                    }
+                                });
+                        // Create the AlertDialog object and return it
+                        builder.create().show();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
