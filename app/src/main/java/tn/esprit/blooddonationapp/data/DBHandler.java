@@ -94,11 +94,9 @@ public class DBHandler extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Util.FIRST_NAME_DONOR,donor.getFirstName());
-        contentValues.put(Util.LAST_NAME_DONOR,donor.getLastName());
-        contentValues.put(Util.EMAIL_DONOR,donor.getLastName());
-        contentValues.put(Util.NUMBER_DONOR,donor.getLastName());
-        contentValues.put(Util.URL_IMAGE_DONOR,donor.getLastName());
+
+        contentValues.put(Util.EMAIL_DONOR,donor.getEmail());
+        contentValues.put(Util.NUMBER_DONOR,donor.getNumber());
 
         db.update(Util.DONOR_TABLE,contentValues,Util.ID_DONOR +"=?"
                 , new String[]{String.valueOf(donor.getId())});

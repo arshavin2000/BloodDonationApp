@@ -118,3 +118,26 @@ exports.number = function (req, res) {
 
     });
 };
+
+
+// Handle update post info
+exports.update = function (req, res) {
+
+  var query = { id: req.params.id };
+
+    Donor.findOne(query, function (err, donor) {
+            if (err)
+                res.send(err);
+            donor.email = req.body.email;
+            donor.number = req.body.number;
+            // save the post and check for errors
+                donor.save(function (err) {
+                    //if (err)
+                      //  res.json(err);
+                    res.json({
+                        message: 'donor Info updated',
+                        data: donor
+                    });
+                });
+            });
+};

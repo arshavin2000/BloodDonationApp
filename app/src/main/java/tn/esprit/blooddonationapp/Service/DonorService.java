@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -93,7 +95,7 @@ public class DonorService {
                 params.put("email", donor.getEmail());
                 params.put("number", donor.getNumber());
                 params.put("bloodgroup", donor.getBloodGroup());
-               // params.put("gender", donor.getGender());
+                params.put("gender", donor.getGender());
 
 
 
@@ -326,6 +328,63 @@ public class DonorService {
         });
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(jsonObjectRequest);
+
+    }
+
+
+    public void updateUser(final Donor donor)
+    {
+
+        String HttpUpdateDonor =HttpUrl+"/"+donor.getId();
+
+
+        // Creating string request with post method.
+        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, HttpUpdateDonor,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String ServerResponse) {
+
+                        // Hiding the progress dialog after all task complete.
+                        DBHandler dbHandler = new DBHandler(context);
+                        dbHandler.updateDonor(donor);
+                        activity.finish();
+                        context.startActivity(activity.getIntent());
+                        // Showing response message coming from server.
+                        Toast.makeText(context,"Informations updated successfully ! ",Toast.LENGTH_LONG).show();
+                        Log.d("VOLLEY", "onResponse: "+ServerResponse);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                        // Hiding the progress dialog after all task complete.
+
+                        // Showing error message if something goes wrong.
+                        Log.d("VOLLEY", "onErrorResponse: "+ volleyError.toString());
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                // Creating Map String Params.
+                Map<String, String> params = new HashMap<>();
+                // Adding All values to Params.
+
+                params.put("email", donor.getEmail());
+                params.put("number", donor.getNumber());
+
+
+                return params;
+            }
+
+        };
+
+        // Creating RequestQueue.
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+
+        // Adding the StringRequest object into requestQueue.
+        requestQueue.add(stringRequest);
 
 
     }

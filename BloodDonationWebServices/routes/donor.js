@@ -7,6 +7,7 @@ router.route('/donors')
     .post(donorController.new);
 router.route('/donors/:id')
     .get(donorController.view)
+    .patch(donorController.update);
 router.route('/donors/email/:email')
     .get(donorController.email)
 router.route('/donors/number/:number')
