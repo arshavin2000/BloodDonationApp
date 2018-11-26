@@ -36,6 +36,7 @@ import com.google.android.gms.common.api.Status;
 import java.io.IOException;
 
 import tn.esprit.blooddonationapp.BecomeDonorActivity;
+import tn.esprit.blooddonationapp.MapActivity;
 import tn.esprit.blooddonationapp.ProfileActivity;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.RequestBlood;
@@ -158,7 +159,8 @@ public class WelcomeActivity extends AppCompatActivity
             startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.nav_blood) {
-            Intent intent = new Intent(WelcomeActivity.this, RequestBlood.class);
+            Intent intent = new Intent(WelcomeActivity.this, MapActivity.class);
+            DataHolder.getInstance().setDonor(donor);
             startActivity(intent);
             finish();
 

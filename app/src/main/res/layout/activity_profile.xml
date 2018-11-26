@@ -139,6 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+
             android:paddingLeft="15dp">
 
             <ImageView
@@ -148,7 +149,7 @@
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
@@ -172,7 +173,7 @@
 
             <EditText
                 android:id="@+id/number"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
 
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -199,7 +200,7 @@
             <EditText
                 android:textColor="@color/colorBlack"
                 android:id="@+id/blood"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
@@ -223,7 +224,7 @@
 
                 android:textColor="@color/colorBlack"
                 android:id="@+id/location"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
