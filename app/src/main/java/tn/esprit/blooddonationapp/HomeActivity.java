@@ -136,8 +136,6 @@ public class HomeActivity extends AppCompatActivity  {
                     String timePost = jsonObject.get("timePost").toString();
                     String postImage = jsonObject.get("postImage").toString();
                     String postText = jsonObject.get("postText").toString();
-                    postList.add(new Post(postImage, postText, "Haffez Med", "2 Hour",
-                            Integer.parseInt(numberLikes), Integer.parseInt(numberComments)));
 
                 }
                 adapter = new PostAdapter(postList, getApplicationContext());

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -43,6 +44,7 @@ import tn.esprit.blooddonationapp.RequestBlood;
 import tn.esprit.blooddonationapp.UserPostsActivity;
 import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.model.Donor;
+import tn.esprit.blooddonationapp.post.ListPostFragment;
 import tn.esprit.blooddonationapp.util.DataHolder;
 import tn.esprit.blooddonationapp.util.ProfileImage;
 import tn.esprit.blooddonationapp.util.UserUtils;
@@ -165,9 +167,9 @@ public class WelcomeActivity extends AppCompatActivity
             finish();
 
         } else if (id == R.id.nav_home) {
-            Intent intent = new Intent(WelcomeActivity.this, UserPostsActivity.class);
-            startActivity(intent);
-            finish();
+
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().add(R.id.container,new ListPostFragment() ).commit();
 
         } else if (id == R.id.nav_manage) {
 

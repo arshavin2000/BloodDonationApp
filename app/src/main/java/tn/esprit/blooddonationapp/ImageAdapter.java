@@ -1,25 +1,18 @@
 package tn.esprit.blooddonationapp;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresPermission;
-import android.support.v4.app.ActivityCompat;
-import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
+
 import java.util.ArrayList;
 
 public class ImageAdapter extends ArrayAdapter {
