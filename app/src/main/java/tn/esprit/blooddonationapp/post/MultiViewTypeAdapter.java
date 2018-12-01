@@ -118,7 +118,6 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int listPosition) {
 
-       // Model object = dataSet.get(listPosition);
         Post object = dataSet.get(listPosition);
         if (object != null) {
             switch (object.type) {

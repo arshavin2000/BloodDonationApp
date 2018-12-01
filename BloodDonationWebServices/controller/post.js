@@ -8,11 +8,9 @@ exports.index = function (req, res) {
                 message: err,
             });
         }
-        res.json({
-            status: "success",
-            message: "posts retrieved successfully",
-            data: posts
-        });
+        res.json(
+           posts
+        );
     });
 };
 // Handle create post actions
@@ -21,10 +19,13 @@ exports.new = function (req, res) {
     post.postImage = req.body.postImage;
     post.postText = req.body.postText;
     post.username = req.body.postText;
+    post.user=req.body.user;
+    post.comments=req.body.comments;
 // save the post and check for errors
     post.save(function (err) {
-        // if (err)
-        //     res.json(err);
+
+         if (err)
+             res.json(err);
         res.json({
             message: 'New post created!',
             data: post
