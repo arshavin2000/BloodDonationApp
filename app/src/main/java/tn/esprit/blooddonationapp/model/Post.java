@@ -1,30 +1,57 @@
 package tn.esprit.blooddonationapp.model;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Post {
-    String postImage;
-    String postText;
-    String username;
-    String timePost;
-    int numberLikes;
-    int NumberComments;
+    public static final int TEXT_TYPE=0;
+    public static final int IMAGE_TYPE=1;
+    public static final int AUDIO_TYPE=2;
 
-    public String getUsername() {
-        return username;
+    public int type;
+    private int id;
+    private String postImage;
+    private String postText;
+    private User user;
+    private String timePost;
+    private int numberLikes;
+    private int NumberComments;
+    private ArrayList<Comment> comments = new ArrayList<>();
+
+    public int getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Post(String postImage, String postText,String username, String timePost, int numberLikes, int numberComments) {
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
+
+
+
+    public User getUsername() {
+        return user;
+    }
+
+    public void setUsername(User user) {
+        this.user = user;
+    }
+
+    public Post(int type, String postImage, String postText,User user, String timePost, int numberLikes, int numberComments) {
         this.postImage = postImage;
         this.postText = postText;
         this.timePost = timePost;
         this.numberLikes = numberLikes;
         this.NumberComments = numberComments;
-        this.username=username;
+        this.user=user;
+        this.type=1;
+
 
     }
 

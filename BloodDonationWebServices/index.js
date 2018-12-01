@@ -6,10 +6,17 @@ const dbDebugger = require('debug')('app:db');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
+const multer = require('multer');
+
 //routes
 const home = require('./routes/home');
 const post = require('./routes/post');
 const donor = require('./routes/donor');
+
+global.__basedir = __dirname;
+
+require('./app/uploadfile/upload.multipartfile.js')(app);
+
 
 
 if(app.get('env') === 'development')
@@ -28,7 +35,7 @@ app.use('/',home);
 app.use('/api', post);
 app.use('/api', donor);
 
-
+app.use('/static/', express.static(__dirname + '/public'));
 
 //mongoose.connect('mongodb://localhost/blooddonation')
 

@@ -2,10 +2,11 @@ package tn.esprit.blooddonationapp.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.darsh.multipleimageselect.helpers.Constants;
 import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.AccessToken;
@@ -32,17 +33,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.jaiselrahman.filepicker.activity.FilePickerActivity;
+import com.jaiselrahman.filepicker.config.Configurations;
+import com.jaiselrahman.filepicker.model.MediaFile;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
-import tn.esprit.blooddonationapp.BecomeDonorActivity;
 import tn.esprit.blooddonationapp.MapActivity;
+import tn.esprit.blooddonationapp.post.NewPost;
 import tn.esprit.blooddonationapp.ProfileActivity;
 import tn.esprit.blooddonationapp.R;
-import tn.esprit.blooddonationapp.RequestBlood;
-import tn.esprit.blooddonationapp.UserPostsActivity;
-import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.model.Donor;
+import tn.esprit.blooddonationapp.post.FileListeAdapter;
+import tn.esprit.blooddonationapp.post.GalleryActivity;
+import tn.esprit.blooddonationapp.post.ListPostFragment;
 import tn.esprit.blooddonationapp.util.DataHolder;
 import tn.esprit.blooddonationapp.util.ProfileImage;
 import tn.esprit.blooddonationapp.util.UserUtils;
@@ -55,7 +59,10 @@ public class WelcomeActivity extends AppCompatActivity
     private TextView email, username;
     private ImageView image;
 
-
+// IMAGE GALLERY
+private final static int FILE_REQUEST_CODE = 1;
+    private FileListeAdapter fileListAdapter;
+    private ArrayList<MediaFile> mediaFiles = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,21 +70,16 @@ public class WelcomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
 
-
         email = header.findViewById(R.id.email);
         username = header.findViewById(R.id.username);
         image = header.findViewById(R.id.image);
-
-         donor = UserUtils.getUser(getApplicationContext());
+        donor = UserUtils.getUser(getApplicationContext());
 
         Log.e("GETUSER", "onCreate: " + donor.toString() );
-
         if (donor != null) {
             email.setText(donor.getEmail());
             username.setText(donor.getFirstName() + " " + donor.getLastName());
@@ -91,17 +93,31 @@ public class WelcomeActivity extends AppCompatActivity
 
         }
 
-
-
-
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+
+                Intent intent = new Intent(WelcomeActivity.this, FilePickerActivity.class);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+// Adds the back stack
+                stackBuilder.addParentStack(FilePickerActivity.class);
+                stackBuilder.addNextIntent(intent);
+
+                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
+                        .setCheckPermission(true)
+                        .setSelectedMediaFiles(mediaFiles)
+                        .enableImageCapture(true)
+                        .setShowVideos(false)
+                        .setSkipZeroSizeFiles(true)
+                        .setMaxSelection(3)
+                        .build());
+                startActivityForResult(intent, FILE_REQUEST_CODE);
+
             }
         });
 
@@ -165,11 +181,20 @@ public class WelcomeActivity extends AppCompatActivity
             finish();
 
         } else if (id == R.id.nav_home) {
-            Intent intent = new Intent(WelcomeActivity.this, UserPostsActivity.class);
-            startActivity(intent);
-            finish();
+
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.container,new ListPostFragment() ).commit();
 
         } else if (id == R.id.nav_manage) {
+
+           // Intent intent = new Intent(this, GalleryActivity.class);
+//set limit on number of images that can be selected, default is 10
+            // intent.putExtra(Constants.INTENT_EXTRA_LIMIT, 1);
+            // startActivityForResult(intent, Constants.REQUEST_CODE);
+
+
+            Intent intent = new Intent(this, GalleryActivity.class);
+            startActivityForResult(intent, Constants.REQUEST_CODE);
 
         } else if (id == R.id.nav_share) {
 
@@ -241,5 +266,24 @@ public class WelcomeActivity extends AppCompatActivity
         super.onStart();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FILE_REQUEST_CODE) {
+            ArrayList<MediaFile> files = data.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES);
 
+            MediaFile f = files.get(0);
+            f.getName();
+            String path = f.getPath();
+            Intent intent = new Intent( WelcomeActivity.this, NewPost.class);
+
+
+            intent.putExtra("path",path);
+            startActivity(intent);
+
+            mediaFiles.clear();
+            //mediaFiles.addAll(data.<MediaFile>getParcelableArrayListExtra(GalleryActivity.MEDIA_FILES));
+            //fileListAdapter.notifyDataSetChanged();
+        }
+    }
 }
