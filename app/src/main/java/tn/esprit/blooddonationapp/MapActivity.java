@@ -1,6 +1,7 @@
 package tn.esprit.blooddonationapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -25,6 +26,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.util.DataHolder;
 import tn.esprit.blooddonationapp.util.ProfileImage;
@@ -34,7 +36,6 @@ public class MapActivity extends AppCompatActivity {
     MapView map = null;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    ArrayList<OverlayItem> mItems = new ArrayList<OverlayItem>();
     IMapController mapController;
 
 
@@ -66,6 +67,7 @@ public class MapActivity extends AppCompatActivity {
 
 
 
+
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -79,6 +81,17 @@ public class MapActivity extends AppCompatActivity {
                 marker.setPosition(new GeoPoint(location.getLatitude(),location.getLongitude()));
                 marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 marker.setIcon(getResources().getDrawable(R.drawable.ic_place_black_24dp));
+                marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker, MapView mapView) {
+                        DBHandler dbHandler = new DBHandler(getApplicationContext());
+                        Donor donor1 = dbHandler.getDonor("118357164398269241040");
+                        DataHolder.getInstance().setDonor(donor1);
+                        Intent intent = new Intent(MapActivity.this,ProfileActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
                 map.getOverlays().clear();
                 map.getOverlays().add(marker);
                 map.invalidate();
