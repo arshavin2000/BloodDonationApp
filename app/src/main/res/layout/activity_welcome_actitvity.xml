@@ -24,6 +24,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="#EF9A9A"
         app:headerLayout="@layout/nav_header_welcome_actitvity"
         app:menu="@menu/activity_welcome_actitvity_drawer" />
 

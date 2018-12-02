@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_blood"
             android:icon="@drawable/ic_menu_blood"
-            android:title="Find a donor" />
+            android:title="Map Finder" />
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_publish"
