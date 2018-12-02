@@ -112,7 +112,7 @@ Log.i("NEW POST","ADD POST ACTION");
 
                                     Post post = new Post(1,
                                             fileName,text_post.getText().toString(),
-                                            user,
+                                            new User("","","haffez"),
                                             "",2,2
                                             );
                                   //  Comment comment = new Comment("","","");
