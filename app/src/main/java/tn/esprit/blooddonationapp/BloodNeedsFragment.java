@@ -1,6 +1,7 @@
-package tn.esprit.blooddonationapp.post;
+package tn.esprit.blooddonationapp;
 
-
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -20,24 +20,26 @@ import com.androidnetworking.interfaces.ParsedRequestListener;
 
 import java.util.ArrayList;
 
-import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Post;
-import tn.esprit.blooddonationapp.model.User;
+import tn.esprit.blooddonationapp.model.Receiver;
+import tn.esprit.blooddonationapp.post.MultiViewTypeAdapter;
 import tn.esprit.blooddonationapp.util.Util;
 
 
-public class ListPostFragment extends Fragment {
-    private RecyclerView mRecyclerView;
-    MultiViewTypeAdapter adapter ;
+public class BloodNeedsFragment extends Fragment {
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_list_post, container, false);
+        final View view = inflater.inflate(R.layout.fragment_blood_needs, container, false);
 
-        AndroidNetworking.initialize(getContext());
-        AndroidNetworking.get("http://192.168.1.11:3000/api/posts")
-                .setTag("GET_POSTS")
+
+       /* AndroidNetworking.initialize(getContext());
+        AndroidNetworking.get(Util.BASE_URL+"/api/bloodNeeds")
+                .setTag("GET_BloodNeeds")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsObjectList(Post.class, new ParsedRequestListener<ArrayList<Post>>() {
@@ -53,18 +55,27 @@ public class ListPostFragment extends Fragment {
                     }
                     @Override
                     public void onError(ANError anError) {
-                        Log.i("TAG",anError.getCause().getMessage());
+                        Log.i("TAG",""+anError.getCause());
                     }
                 });
+*/
 
+       ArrayList<Receiver> receivers = new ArrayList<>();
 
+        Receiver receiver = new Receiver("A","Rades Tunis","53 815 975","4 m");
+        Receiver receiver2 = new Receiver("A","Rades Tunis","53 815 975","4 m");
+        receivers.add(receiver);
+        receivers.add(receiver2);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), OrientationHelper.VERTICAL, false);
+        RecyclerView mRecyclerView = view.getRootView().findViewById(R.id.recyclerView);
+        MultiViewTypeAdapter adapter = new MultiViewTypeAdapter(receivers,getContext(),0);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(adapter);
 
 
         return view;
     }
-
-
-
 
 
 }

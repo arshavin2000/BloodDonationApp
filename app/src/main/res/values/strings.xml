@@ -63,6 +63,8 @@
     <string name="gallery">gallery</string>
     <string name="btn_add">Add</string>
     <string name="home">Home</string>
+    <string name="call">Call</string>
+    <string name="postion">position</string>
 
 
 </resources>

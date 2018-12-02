@@ -19,7 +19,7 @@ public class Util {
     public static final String GENDER_DONOR = "gender";
     public static final String URL_IMAGE_DONOR = "url";
     // IP ADDRESS SERVER API
-    public static final String BASE_URL= "10.10.10.2:3000";
+    public static final String BASE_URL= "192.168.1.11:3000";
 
 
 

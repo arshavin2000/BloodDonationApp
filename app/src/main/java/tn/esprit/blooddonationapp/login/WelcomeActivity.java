@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.darsh.multipleimageselect.helpers.Constants;
 import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.AccessToken;
@@ -39,13 +38,13 @@ import com.jaiselrahman.filepicker.model.MediaFile;
 
 import java.util.ArrayList;
 
+import tn.esprit.blooddonationapp.BloodNeedsFragment;
 import tn.esprit.blooddonationapp.MapActivity;
 import tn.esprit.blooddonationapp.post.NewPost;
 import tn.esprit.blooddonationapp.ProfileActivity;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.post.FileListeAdapter;
-import tn.esprit.blooddonationapp.post.GalleryActivity;
 import tn.esprit.blooddonationapp.post.ListPostFragment;
 import tn.esprit.blooddonationapp.util.DataHolder;
 import tn.esprit.blooddonationapp.util.ProfileImage;
@@ -114,7 +113,7 @@ private final static int FILE_REQUEST_CODE = 1;
                         .enableImageCapture(true)
                         .setShowVideos(false)
                         .setSkipZeroSizeFiles(true)
-                        .setMaxSelection(3)
+                        .setMaxSelection(1)
                         .build());
                 startActivityForResult(intent, FILE_REQUEST_CODE);
 
@@ -187,14 +186,11 @@ private final static int FILE_REQUEST_CODE = 1;
 
         } else if (id == R.id.nav_manage) {
 
-           // Intent intent = new Intent(this, GalleryActivity.class);
-//set limit on number of images that can be selected, default is 10
-            // intent.putExtra(Constants.INTENT_EXTRA_LIMIT, 1);
-            // startActivityForResult(intent, Constants.REQUEST_CODE);
+
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().add(R.id.container,new BloodNeedsFragment()).commit();
 
 
-            Intent intent = new Intent(this, GalleryActivity.class);
-            startActivityForResult(intent, Constants.REQUEST_CODE);
 
         } else if (id == R.id.nav_share) {
 
@@ -282,8 +278,7 @@ private final static int FILE_REQUEST_CODE = 1;
             startActivity(intent);
 
             mediaFiles.clear();
-            //mediaFiles.addAll(data.<MediaFile>getParcelableArrayListExtra(GalleryActivity.MEDIA_FILES));
-            //fileListAdapter.notifyDataSetChanged();
+
         }
     }
 }
