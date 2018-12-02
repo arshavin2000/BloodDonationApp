@@ -1,50 +1,29 @@
 package tn.esprit.blooddonationapp;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.OverlayItem;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import tn.esprit.blooddonationapp.Service.CenterService;
-import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.model.Center;
-import tn.esprit.blooddonationapp.model.Donor;
-import tn.esprit.blooddonationapp.util.DataHolder;
-import tn.esprit.blooddonationapp.util.ProfileImage;
 
 public class MapActivity extends AppCompatActivity {
 
     MapView map = null;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
     IMapController mapController;
-    private Activity activity;
+    Activity activity;
 
 
 
@@ -66,7 +45,7 @@ public class MapActivity extends AppCompatActivity {
         //inflate and create the map
         setContentView(R.layout.activity_map);
 
-        map = (MapView) findViewById(R.id.map);
+        map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         map.setBuiltInZoomControls(true);
@@ -86,7 +65,7 @@ public class MapActivity extends AppCompatActivity {
 
         for(int i =0 ; i <centers.size() ; i++) {
             Marker marker = new Marker(map);
-            GeoPoint ok = getLocationFromAddress(getApplicationContext(), "13, rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006");
+            GeoPoint ok = getLocationFromAddress(getApplicationContext(), centers.get(i).getAddress());
             marker.setPosition(ok);
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setIcon(getResources().getDrawable(R.drawable.ic_place_black_24dp));

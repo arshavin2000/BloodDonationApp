@@ -84,13 +84,6 @@
 
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MapActivity" />
-        <activity
-            android:name=".post.NewPost"
-            android:name=".post.GalleryActivity"
-            android:label="@string/title_activity_gallery"
-            android:theme="@style/MultipleImageSelectTheme">
-
-        </activity>
         <activity android:name=".post.NewPost"></activity>
     </application>
 
