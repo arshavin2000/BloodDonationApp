@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import tn.esprit.blooddonationapp.Service.CenterService;
 import tn.esprit.blooddonationapp.model.Center;
+import tn.esprit.blooddonationapp.util.DataHolder;
 
 public class MapActivity extends AppCompatActivity {
 
@@ -57,41 +58,13 @@ public class MapActivity extends AppCompatActivity {
         mapController.setZoom(9);
 
 
-        //Log.d("Location", "onLocationChanged: " + location.toString());
-        //GeoPoint startPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-        mapController.setCenter(getLocationFromAddress(getApplicationContext(), "13, rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006"));
+
+        mapController.setCenter(CenterService.getLocationFromAddress(getApplicationContext(), "13, rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006"));
         CenterService centerService = new CenterService(getApplicationContext(), activity);
-        List<Center> centers = centerService.getCenters();
-        Log.d("AASBA WSE9 W STAL BZE9", "onCreate: "+ centers.toString());
-
-        List<Marker> markers = new ArrayList<>();
+        centerService.getCenters(map);
 
 
-      //  for(int i =0 ; i <centers.size() ; i++) {
-            Marker marker = new Marker(map);
-            GeoPoint ok = getLocationFromAddress(getApplicationContext(), "rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006");
-            marker.setPosition(ok);
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            marker.setIcon(getResources().getDrawable(R.drawable.ic_place_black_24dp));
-            marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker, MapView mapView) {
-                    return true;
-                }
-            });
 
-            markers.add(marker);
-      //  }
-
-
-        map.getOverlays().clear();
-       /* for(int i = 0 ; i<markers.size();i++)
-        {
-            map.getOverlays().add(markers.get(i));
-
-        }*/
-       map.getOverlays().add(marker);
-        map.invalidate();
 
 
     }
@@ -124,27 +97,5 @@ public class MapActivity extends AppCompatActivity {
 
 
 
-    public GeoPoint getLocationFromAddress(Context context, String strAddress) {
 
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        GeoPoint geoPoint=null;
-
-        try {
-            // May throw an IOException
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                return null;
-            }
-
-            Address location = address.get(0);
-            geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude() );
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-        }
-
-        return geoPoint;
-    }
 }

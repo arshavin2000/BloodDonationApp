@@ -2,6 +2,8 @@ package tn.esprit.blooddonationapp.Service;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,16 +19,24 @@ import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Center;
+import tn.esprit.blooddonationapp.util.DataHolder;
 
 public class CenterService {
 
     private Context context;
     private Activity activity;
+    private List<Center> centers = new ArrayList<>();
+
 
 
     public CenterService(Context context , Activity activity)
@@ -35,12 +45,12 @@ public class CenterService {
         this.activity = activity;
     }
 
-    public List<Center> getCenters() {
+    public void getCenters(final MapView map) {
 
-         final List<Center> centers = new ArrayList<>();
+  final List<Marker> markers = new ArrayList<>();
 
 
-        final String URL ="http://192.168.1.12:3000/api/centers";
+        final String URL ="http://192.168.1.11:3000/api/centers";
 
         StringRequest stringrequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
@@ -63,14 +73,42 @@ public class CenterService {
                                 center.setFax(object.getString("fax"));
                                 center.setSite(object.getString("site"));
 
-                                centers.add(center);
+
+
+                                    Marker marker = new Marker(map);
+                                    GeoPoint ok = getLocationFromAddress(context,object.getString("address") );
+                                    marker.setPosition(ok);
+                                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                                    marker.setIcon(context.getResources().getDrawable(R.drawable.ic_place_black_24dp));
+                                    marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                                        @Override
+                                        public boolean onMarkerClick(Marker marker, MapView mapView) {
+                                            return true;
+                                        }
+                                    });
+
+                                    markers.add(marker);
+
+
 
 
                             }
+                            map.getOverlays().clear();
+                            for(int i = 0 ; i<markers.size();i++)
+                            {
+                                map.getOverlays().add(markers.get(i));
+
+                            }
+                            map.invalidate();
+
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        DataHolder.getInstance().setCenters(centers);
 
                     }
                 },
@@ -84,6 +122,29 @@ public class CenterService {
 
         requestQueue.add(stringrequest);
 
-        return centers;
+    }
+
+    public static GeoPoint getLocationFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        GeoPoint geoPoint=null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return geoPoint;
     }
 }
