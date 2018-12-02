@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "558418489375-26jhljjf0b7obb85eb29nkvq4m6mjvfu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tn.esprit.blooddonationapp",
+            "certificate_hash": "1a2f2022c4bbd6c1ee32642e28273d642310d1f0"
+          }
+        },
+        {
           "client_id": "558418489375-61oklmvpkmvn7iidnkdkhjtq663ifkpo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

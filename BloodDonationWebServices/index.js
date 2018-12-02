@@ -12,6 +12,7 @@ const multer = require('multer');
 const home = require('./routes/home');
 const post = require('./routes/post');
 const donor = require('./routes/donor');
+const center = require('./routes/center')
 
 global.__basedir = __dirname;
 
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/',home);
 app.use('/api', post);
 app.use('/api', donor);
+app.use('/api', center);
 
 app.use('/static/', express.static(__dirname + '/public'));
 
