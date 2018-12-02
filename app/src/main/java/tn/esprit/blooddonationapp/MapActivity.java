@@ -7,6 +7,8 @@ import android.location.Geocoder;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -60,12 +62,14 @@ public class MapActivity extends AppCompatActivity {
         mapController.setCenter(getLocationFromAddress(getApplicationContext(), "13, rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006"));
         CenterService centerService = new CenterService(getApplicationContext(), activity);
         List<Center> centers = centerService.getCenters();
+        Log.d("AASBA WSE9 W STAL BZE9", "onCreate: "+ centers.toString());
+
         List<Marker> markers = new ArrayList<>();
 
 
-        for(int i =0 ; i <centers.size() ; i++) {
+      //  for(int i =0 ; i <centers.size() ; i++) {
             Marker marker = new Marker(map);
-            GeoPoint ok = getLocationFromAddress(getApplicationContext(), centers.get(i).getAddress());
+            GeoPoint ok = getLocationFromAddress(getApplicationContext(), "rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006");
             marker.setPosition(ok);
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setIcon(getResources().getDrawable(R.drawable.ic_place_black_24dp));
@@ -77,15 +81,16 @@ public class MapActivity extends AppCompatActivity {
             });
 
             markers.add(marker);
-        }
+      //  }
 
 
         map.getOverlays().clear();
-        for(int i = 0 ; i<markers.size();i++)
+       /* for(int i = 0 ; i<markers.size();i++)
         {
             map.getOverlays().add(markers.get(i));
 
-        }
+        }*/
+       map.getOverlays().add(marker);
         map.invalidate();
 
 
