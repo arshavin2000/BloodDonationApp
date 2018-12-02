@@ -91,7 +91,6 @@
 
         </activity>
         <activity android:name=".post.NewPost"></activity>
-        <activity android:name=".MessengerActivity"/>
     </application>
 
 </manifest>
