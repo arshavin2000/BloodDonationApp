@@ -8,7 +8,6 @@ public class Post {
     public static final int AUDIO_TYPE=2;
 
     public int type;
-    private int id;
     private String postImage;
     private String postText;
     private User user;
@@ -17,13 +16,7 @@ public class Post {
     private int NumberComments;
     private ArrayList<Comment> comments = new ArrayList<>();
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public ArrayList<Comment> getComments() {
         return comments;

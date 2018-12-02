@@ -1,6 +1,7 @@
 package tn.esprit.blooddonationapp.post;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.icu.util.DateInterval;
 import android.media.MediaPlayer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
@@ -13,34 +14,49 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Post;
+import tn.esprit.blooddonationapp.model.Receiver;
+import tn.esprit.blooddonationapp.util.Util;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.BitmapRequestListener;
+import com.jaiselrahman.filepicker.utils.TimeUtils;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.xml.datatype.Duration;
 
 public class MultiViewTypeAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<Post>dataSet;
+    private ArrayList dataSet;
     Context mContext;
     int total_types;
     MediaPlayer mPlayer;
     private boolean fabStateVolume = false;
+    private int type;
 
     public static class TextTypeViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtType;
-        CardView cardView;
+        TextView txt_position;
+        TextView txt_number;
+        TextView txt_time;
+
+
+       // CardView cardView;
 
         public TextTypeViewHolder(View itemView) {
             super(itemView);
 
-            this.txtType = (TextView) itemView.findViewById(R.id.card_post_text_post);
-            this.cardView = (CardView) itemView.findViewById(R.id.card_view);
+            this.txt_position = (TextView) itemView.findViewById(R.id.txt_postion);
+            this.txt_number = (TextView) itemView.findViewById(R.id.txt_number);
+            this.txt_time = (TextView) itemView.findViewById(R.id.txt_time);
+          //  this.cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
     }
 
@@ -80,7 +96,16 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
         this.dataSet = data;
         this.mContext = context;
         total_types = dataSet.size();
+        this.type=1;
     }
+    public MultiViewTypeAdapter(ArrayList<Receiver>data, Context context,int type) {
+        this.dataSet = data;
+        this.mContext = context;
+        total_types = dataSet.size();
+        this.type=type;
+    }
+
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -103,7 +128,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
 
-        switch (dataSet.get(position).type) {
+        switch (type) {
             case 0:
                 return Post.TEXT_TYPE;
             case 1:
@@ -118,17 +143,21 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int listPosition) {
 
-        Post object = dataSet.get(listPosition);
-        if (object != null) {
-            switch (object.type) {
-                case Post.TEXT_TYPE:
-                    ((TextTypeViewHolder) holder).txtType.setText(object.getPostText());
 
+
+            switch (type) {
+                case Post.TEXT_TYPE:
+                    Receiver receiver = (Receiver) dataSet.get(listPosition);
+
+                    ((TextTypeViewHolder) holder).txt_position.setText(receiver.getPosition());
+                    ((TextTypeViewHolder) holder).txt_number.setText(receiver.getNumber());
+                    ((TextTypeViewHolder) holder).txt_time.setText(receiver.getTime());
                     break;
                 case Post.IMAGE_TYPE:
+                    Post object = (Post) dataSet.get(listPosition);
 
 
-                   AndroidNetworking.get("http://192.168.1.31:3000/static/images/1223.png")
+                   AndroidNetworking.get("http://192.168.1.11:3000/static/images/"+object.getPostImage())
                             .setTag("imageRequestTag")
                             .setPriority(Priority.IMMEDIATE)
                             .setBitmapConfig(Bitmap.Config.ARGB_8888)
@@ -141,7 +170,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onError(ANError error) {
                                     // handle error
-                                    Log.e("BITMAP",error.getCause().toString());
+                                    Log.e("BITMAP",error.getErrorBody());
                                 }
                             });
 
@@ -158,7 +187,50 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                     break;
                 case Post.AUDIO_TYPE:
 
-                    ((AudioTypeViewHolder) holder).txtType.setText(object.getPostText());
+
+            }
+        }
+
+    public static String compareTwoTimeStamps(Timestamp currentTime, Timestamp oldTime)
+    {
+        long milliseconds1 = oldTime.getTime();
+        long milliseconds2 = currentTime.getTime();
+        long duration = milliseconds2 - milliseconds1;
+
+
+        long hours = TimeUnit.MILLISECONDS.toHours(duration);
+        duration -= TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+        duration -= TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+        StringBuilder durationBuilder = new StringBuilder();
+
+        if (hours > 0L) {
+            durationBuilder.append(hours).append(" h ");
+        }
+
+        if (minutes < 10L) {
+            durationBuilder.append('0');
+        }
+
+        durationBuilder.append(minutes).append(" m ");
+        if (seconds < 10L) {
+            durationBuilder.append('0');
+        }
+
+        durationBuilder.append(seconds);
+        return durationBuilder.toString();
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return dataSet.size();
+    }
+
+
+/*
+   / ((AudioTypeViewHolder) holder).txtType.setText(object.getPostText());
 
                     ((AudioTypeViewHolder) holder).fab.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -182,31 +254,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                         }
                     });
                     break;
-            }
-        }
-    }
-    public static String compareTwoTimeStamps(Timestamp currentTime, Timestamp oldTime)
-    {
-        long milliseconds1 = oldTime.getTime();
-        long milliseconds2 = currentTime.getTime();
+* */
 
-        long diff = milliseconds2 - milliseconds1;
-        long diffSeconds = diff / 1000;
-        long diffMinutes = diff / (60 * 1000);
-        long diffHours = diff / (60 * 60 * 1000);
-        long diffDays = diff / (24 * 60 * 60 * 1000);
 
-        if (diffDays>0)
-            return diffDays+" d";
-        if ((diffDays==0)&& (diffHours>0) && diffMinutes>0)
-            return diffHours+" H "+diffMinutes+" m";
-        if (diffMinutes>0)
-            return diffMinutes+" m";
-
-        return diffSeconds+" s";
-    }
-    @Override
-    public int getItemCount() {
-        return dataSet.size();
-    }
 }

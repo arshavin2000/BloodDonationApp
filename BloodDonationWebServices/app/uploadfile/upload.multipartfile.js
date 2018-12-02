@@ -14,6 +14,6 @@ module.exports = function(app){
 	
 	app.post('/api/uploadfile', upload.single("uploadfile"), (req, res) => {
 	  console.log(req.file);
-	  res.json({'msg': 'File uploaded successfully!', 'file': req.file});
+	  res.json({'msg': 'File uploaded successfully!', 'file': req.file.filename});
 	});
 }
