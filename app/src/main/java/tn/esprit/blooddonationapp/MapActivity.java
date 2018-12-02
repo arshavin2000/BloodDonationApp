@@ -67,9 +67,9 @@ public class MapActivity extends AppCompatActivity {
         List<Marker> markers = new ArrayList<>();
 
 
-      //  for(int i =0 ; i <centers.size() ; i++) {
+        for(int i =0 ; i <centers.size() ; i++) {
             Marker marker = new Marker(map);
-            GeoPoint ok = getLocationFromAddress(getApplicationContext(), "rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006");
+            GeoPoint ok = getLocationFromAddress(getApplicationContext(), centers.get(i).getAddress());
             marker.setPosition(ok);
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setIcon(getResources().getDrawable(R.drawable.ic_place_black_24dp));
@@ -81,16 +81,15 @@ public class MapActivity extends AppCompatActivity {
             });
 
             markers.add(marker);
-      //  }
+        }
 
 
         map.getOverlays().clear();
-       /* for(int i = 0 ; i<markers.size();i++)
+        for(int i = 0 ; i<markers.size();i++)
         {
             map.getOverlays().add(markers.get(i));
 
-        }*/
-       map.getOverlays().add(marker);
+        }
         map.invalidate();
 
 
