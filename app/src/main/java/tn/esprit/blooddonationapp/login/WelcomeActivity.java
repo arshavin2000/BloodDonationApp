@@ -78,6 +78,9 @@ private final static int FILE_REQUEST_CODE = 1;
         image = header.findViewById(R.id.image);
         donor = UserUtils.getUser(getApplicationContext());
 
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().add(R.id.container,new ListPostFragment() ).commit();
+
         Log.e("GETUSER", "onCreate: " + donor.toString() );
         if (donor != null) {
             email.setText(donor.getEmail());
