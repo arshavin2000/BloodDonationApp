@@ -15,6 +15,7 @@ const donor = require('./routes/donor');
 const reciever = require('./routes/reciever');
 const center = require('./routes/center');
 const request = require('./routes/request');
+const notification = require('./routes/notification');
 
 
 global.__basedir = __dirname;
@@ -41,6 +42,7 @@ app.use('/api', donor);
 app.use('/api', reciever);
 app.use('/api', center);
 app.use('/api', request);
+app.use('/api', notification);
 
 app.use('/static/', express.static(__dirname + '/public'));
 require('./controller/upload.multipartfile.js')(app);

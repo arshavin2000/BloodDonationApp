@@ -90,7 +90,7 @@ public class WelcomeActivity extends AppCompatActivity
 
 
         PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
-        PushNotifications.subscribe("hello");
+        PushNotifications.subscribe(UserUtils.getUser(getApplicationContext()).getBloodGroup());
 
         email = header.findViewById(R.id.email);
         username = header.findViewById(R.id.username);

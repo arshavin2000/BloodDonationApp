@@ -14,17 +14,17 @@ import org.json.JSONObject;
 
 public class RequestService {
 
-    private static final String HttpUrl = "http://10.0.2.2:3000/api/request";
+    private static final String HttpUrl = "http://192.168.1.11:3000/api/";
 
 
-    public void addRequest(tn.esprit.blooddonationapp.model.Request request) throws JSONException {
+    public void addRequest(final tn.esprit.blooddonationapp.model.Request request) throws JSONException {
         Gson gson = new Gson();
         String jsonString = gson.toJson(request);
-        JSONObject r = new JSONObject(jsonString);
+        final JSONObject r = new JSONObject(jsonString);
 
+Log.i("JSON R", r.toString());
 
-
-        AndroidNetworking.post(HttpUrl)
+        AndroidNetworking.post(HttpUrl+"request")
                 .addJSONObjectBody(r)
                 .setTag("addRequest")
                 .setPriority(Priority.MEDIUM)
@@ -33,6 +33,28 @@ public class RequestService {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i("add request Service REP",response.toString());
+
+
+
+                        AndroidNetworking.post(HttpUrl+"notification/"+request.getBloodgroup())
+                                .addJSONObjectBody(r)
+                                .setTag("addRequest")
+                                .setPriority(Priority.MEDIUM)
+                                .build()
+                                .getAsJSONObject(new JSONObjectRequestListener() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.i("Notification REP",response.toString());
+
+
+                                    }
+                                    @Override
+                                    public void onError(ANError error) {
+                                        Log.e("Notification Error ",error.getErrorBody());
+
+                                    }
+                                });
+
                     }
                     @Override
                     public void onError(ANError error) {
