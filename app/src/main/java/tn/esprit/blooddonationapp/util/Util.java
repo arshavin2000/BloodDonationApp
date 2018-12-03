@@ -18,6 +18,10 @@ public class Util {
     public static final String NUMBER_DONOR = "number";
     public static final String GENDER_DONOR = "gender";
     public static final String URL_IMAGE_DONOR = "url";
+    public static final String REQUEST_DONOR = "request";
+    public static final String ANSWER_DONOR = "answer";
+    public static final String RATE_DONOR = "rate";
+
     // IP ADDRESS SERVER API
 
     public static final String BASE_URL= "192.168.1.11:3000";

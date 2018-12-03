@@ -51,6 +51,10 @@ class GoogleActivity {
             donor.setLastName(account.getFamilyName());
             if(account.getPhotoUrl() != null)
                 donor.setUrlImage(account.getPhotoUrl().toString());
+            donor.setAnswer(0);
+            donor.setRequest(0);
+            donor.setRate(0);
+
 
 
 

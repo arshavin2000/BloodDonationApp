@@ -37,9 +37,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".BecomeDonorActivity" />
         <activity android:name=".UserPostsActivity" />
-        <activity android:name=".RequestList" />
         <activity android:name=".DonorsList" />
-        <activity android:name=".RequestBlood" />
         <activity android:name=".login.WelcomeActivity" />
 
         <meta-data
@@ -82,6 +80,7 @@
         <meta-data
             android:name="com.facebook.accountkit.ClientToken"
             android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_menu_publish" />

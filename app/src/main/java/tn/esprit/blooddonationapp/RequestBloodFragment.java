@@ -1,8 +1,13 @@
 package tn.esprit.blooddonationapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -15,28 +20,31 @@ import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.model.Request;
 import tn.esprit.blooddonationapp.util.UserUtils;
 
-public class RequestBlood extends AppCompatActivity {
+
+public class RequestBloodFragment extends Fragment {
+
 
     private Button save;
     private EditText name, place;
     private RadioGroup mBloodGroup;
     private RadioButton mBlood;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_request_blood);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+       final  View view = inflater.inflate(R.layout.fragment_request_blood, container, false);
 
 
-        final Donor donor = UserUtils.getUser(getApplicationContext());
+        final Donor donor = UserUtils.getUser(getContext());
         final Request request = new Request();
 
 
 
-        save = findViewById(R.id.save);
-        name = findViewById(R.id.name);
-        place = findViewById(R.id.place);
-        mBloodGroup = findViewById(R.id.blood_group);
+        save = view.findViewById(R.id.save);
+        name = view.findViewById(R.id.name);
+        place = view.findViewById(R.id.place);
+        mBloodGroup = view.findViewById(R.id.blood_group);
 
 
         name.setText(donor.getFirstName() + " "+ donor.getLastName());
@@ -45,7 +53,7 @@ public class RequestBlood extends AppCompatActivity {
         mBloodGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                mBlood = findViewById(i);
+                mBlood = view.findViewById(i);
                 switch(mBlood.getId())
                 {
                     case R.id.a_plus:{
@@ -97,8 +105,7 @@ public class RequestBlood extends AppCompatActivity {
         });
 
 
-
-
+        Log.d("DONORRRRR", "onCreate: " +donor);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +113,7 @@ public class RequestBlood extends AppCompatActivity {
 
                 request.setPlace(place.getText().toString());
                 request.setDonor(donor);
-                RequestService requestService = new RequestService();
+                RequestService requestService = new RequestService(getContext(),getActivity());
                 try {
                     requestService.addRequest(request);
                 } catch (JSONException e) {
@@ -119,5 +126,7 @@ public class RequestBlood extends AppCompatActivity {
 
 
 
+
+        return view ;
     }
 }

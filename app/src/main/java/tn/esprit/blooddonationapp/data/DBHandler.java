@@ -23,7 +23,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String CREATE_CONTACT_TABLE = "create table "+ Util.DONOR_TABLE +"(" + Util.ID + " integer primary key,"
                 +Util.FIRST_NAME_DONOR+" text, "+ Util.LAST_NAME_DONOR+" text, "+Util.EMAIL_DONOR +" text ,"+Util.NUMBER_DONOR +" text ,"+
                 Util.URL_IMAGE_DONOR +" text ,"+Util.GENDER_DONOR +" text ,"+Util.BLOOD_GROUP_DONOR +" text ,"+
-                Util.ID_DONOR +" text "+")";
+                Util.ID_DONOR +" text ,"+Util.REQUEST_DONOR +" integer ,"+Util.ANSWER_DONOR +" integer ,"+Util.RATE_DONOR +" integer "+")";
         sqLiteDatabase.execSQL(CREATE_CONTACT_TABLE);
 
     }
@@ -51,6 +51,9 @@ public class DBHandler extends SQLiteOpenHelper {
         contentValues.put(Util.URL_IMAGE_DONOR,donor.getUrlImage());
         contentValues.put(Util.GENDER_DONOR,donor.getGender());
         contentValues.put(Util.BLOOD_GROUP_DONOR,donor.getBloodGroup());
+        contentValues.put(Util.REQUEST_DONOR,donor.getRequest());
+        contentValues.put(Util.ANSWER_DONOR,donor.getAnswer());
+        contentValues.put(Util.RATE_DONOR,donor.getRate());
 
         //insert row
         db.insert(Util.DONOR_TABLE,null,contentValues);
@@ -63,7 +66,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Donor donor ;
         Cursor cursor = db.query(Util.DONOR_TABLE, new String[]{Util.ID_DONOR,Util.FIRST_NAME_DONOR , Util.LAST_NAME_DONOR, Util.EMAIL_DONOR
-                ,Util.NUMBER_DONOR,Util.URL_IMAGE_DONOR,Util.GENDER_DONOR,Util.BLOOD_GROUP_DONOR}, Util.ID_DONOR+"=?"
+                ,Util.NUMBER_DONOR,Util.URL_IMAGE_DONOR,Util.GENDER_DONOR,Util.BLOOD_GROUP_DONOR,Util.REQUEST_DONOR,Util.ANSWER_DONOR,Util.RATE_DONOR}, Util.ID_DONOR+"=?"
                 , new String[]{id},null,null,null,null);
 
         if(cursor != null)
@@ -81,6 +84,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 donor.setUrlImage(cursor.getString(5));
                 donor.setGender(cursor.getString(6));
                 donor.setBloodGroup(cursor.getString(7));
+                donor.setRequest(cursor.getInt(8));
+                donor.setAnswer(cursor.getInt(9));
+                donor.setRate(cursor.getInt(10));
+
 
 
             }
@@ -95,8 +102,10 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(Util.EMAIL_DONOR,donor.getEmail());
-        contentValues.put(Util.NUMBER_DONOR,donor.getNumber());
+       // contentValues.put(Util.EMAIL_DONOR,donor.getEmail());
+       // contentValues.put(Util.NUMBER_DONOR,donor.getNumber());
+        contentValues.put(Util.REQUEST_DONOR,donor.getRequest());
+
 
         db.update(Util.DONOR_TABLE,contentValues,Util.ID_DONOR +"=?"
                 , new String[]{String.valueOf(donor.getId())});

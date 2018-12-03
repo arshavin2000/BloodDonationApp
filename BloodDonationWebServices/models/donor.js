@@ -25,6 +25,16 @@ var donorSchema = mongoose.Schema({
     gender: {
         type: String,
     },
+    request: {
+      type: Number,
+    },
+    answer: {
+      type: Number,
+    },
+    rate: {
+      type: Number,
+    },
+
 
 });
 // Export post model

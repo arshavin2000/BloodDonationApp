@@ -56,6 +56,10 @@ public  class PhoneNumberActivity {
                         Donor donor = new Donor();
                         donor.setId(accountKitId);
                         donor.setNumber(phoneNumberString);
+                        donor.setAnswer(0);
+                        donor.setRequest(0);
+                        donor.setRate(0);
+
                         DonorService donorService = new DonorService(context,activity);
                         donorService.isUserExist(accountKitId,donor);
                         //finish();
