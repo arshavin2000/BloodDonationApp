@@ -90,7 +90,6 @@ public class PostAdapter extends ArrayAdapter<Post> implements View.OnClickListe
 
 //        viewHolder.postImage.setBackground(Resources.getSystem().getDrawable(R.drawable.img_post));
         viewHolder.postText.setText(dataModel.getPostText());
-        viewHolder.username.setText(dataModel.getUsername().getFirstname());
         viewHolder.timePost.setText(dataModel.getTimePost());
         //viewHolder.timePost.setOnClickListener(this);
         //viewHolder.numberLikes.setTag(position);

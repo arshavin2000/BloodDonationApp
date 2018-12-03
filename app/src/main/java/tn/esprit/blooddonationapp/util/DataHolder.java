@@ -1,7 +1,9 @@
 package tn.esprit.blooddonationapp.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import tn.esprit.blooddonationapp.model.Center;
 import tn.esprit.blooddonationapp.model.Donor;
 
 public class DataHolder {
@@ -19,6 +21,7 @@ public class DataHolder {
 
 
     private Donor donor;
+    private List<Center> centers;
 
 
     public Donor getDonor() {
@@ -29,5 +32,11 @@ public class DataHolder {
         this.donor = donor;
     }
 
+    public List<Center> getCenters() {
+        return centers;
+    }
 
+    public void setCenters(List<Center> centers) {
+        this.centers = centers;
+    }
 }

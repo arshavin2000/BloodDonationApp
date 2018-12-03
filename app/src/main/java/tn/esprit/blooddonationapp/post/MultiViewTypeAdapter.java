@@ -21,7 +21,10 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.BitmapRequestListener;
+import com.google.gson.Gson;
 import com.jaiselrahman.filepicker.utils.TimeUtils;
+
+import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -175,7 +178,11 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                             });
 
                     ((ImageTypeViewHolder) holder).postText.setText(object.getPostText());
-                    ((ImageTypeViewHolder) holder).username.setText(object.getUsername().getFirstname() + " " + object.getUsername().getLastname());
+                    ((ImageTypeViewHolder) holder).username.setText("Mohamed haffez ");
+
+                    Gson g = new Gson();
+                 Log.i("ERR LULTI",g.toJson(object));
+
 
 
                     String st = object.getTimePost().replace("T"," ").replace("Z"," ");

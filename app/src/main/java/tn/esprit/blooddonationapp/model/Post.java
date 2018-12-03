@@ -27,9 +27,12 @@ public class Post {
     }
 
 
-
-    public User getUsername() {
+    public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setUsername(User user) {
