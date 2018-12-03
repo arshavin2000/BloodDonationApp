@@ -95,7 +95,7 @@ public class CustomAdapter extends ArrayAdapter<Donor> implements View.OnClickLi
                 Intent intent = new Intent(mContext,ProfileActivity.class);
                 mContext.startActivity(intent);
             }
-        });$/
+        });*/
 
 
         // Return the completed view to render on screen

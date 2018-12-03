@@ -21,8 +21,6 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/back"
-            android:layout_alignBaseline="@id/back"
             android:text="@string/become_donor"
             android:textColor="@android:color/black"/>
 

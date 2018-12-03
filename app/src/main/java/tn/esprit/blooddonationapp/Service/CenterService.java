@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,7 +13,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,11 +48,7 @@ public class CenterService {
   final List<Marker> markers = new ArrayList<>();
 
 
-<<<<<<< HEAD
         final String URL ="http://10.0.2.2:3000/api/centers";
-=======
-        final String URL ="http://192.168.1.11:3000/api/centers";
->>>>>>> 7aed66ca8730bfbec28d6faca1324f063258dc72
 
         StringRequest stringrequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
@@ -81,6 +75,7 @@ public class CenterService {
 
                                     Marker marker = new Marker(map);
                                     GeoPoint ok = getLocationFromAddress(context,object.getString("address") );
+                                    assert ok != null;
                                     marker.setPosition(ok);
                                     marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                                     marker.setIcon(context.getResources().getDrawable(R.drawable.ic_place_black_24dp));
@@ -125,10 +120,7 @@ public class CenterService {
         RequestQueue requestQueue = Volley.newRequestQueue(activity);
 
         requestQueue.add(stringrequest);
-<<<<<<< HEAD
-        return centers;
 
-=======
 
     }
 
@@ -154,6 +146,5 @@ public class CenterService {
         }
 
         return geoPoint;
->>>>>>> 7aed66ca8730bfbec28d6faca1324f063258dc72
     }
 }
