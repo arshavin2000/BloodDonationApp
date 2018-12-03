@@ -2,15 +2,15 @@ let router = require('express').Router();
 // Import post controller
 var donorController = require('../controller/donor');
 // post routes
-router.route('/donors')
+router.route('/donor')
     .get(donorController.index)
     .post(donorController.new);
-router.route('/donors/:id')
+router.route('/donor/:id')
     .get(donorController.view)
     .patch(donorController.update);
-router.route('/donors/email/:email')
+router.route('/donor/email/:email')
     .get(donorController.email)
-router.route('/donors/number/:number')
+router.route('/donor/number/:number')
     .get(donorController.number)
 
 
