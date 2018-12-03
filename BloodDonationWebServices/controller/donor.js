@@ -26,13 +26,14 @@ exports.new = function (req, res) {
       number : req.body.number,
       firstname : req.body.firstname,
       lastname : req.body.lastname,
+      url : req.body.url,
       bloodgroup : req.body.bloodgroup,
       gender : req.body.gender
 
     });
 
 
-console.log(donor.firstname);
+console.log(donor.url);
 // save the post and check for errors
     donor.save(function (err) {
         // if (err)

@@ -40,6 +40,8 @@ import java.util.ArrayList;
 
 import tn.esprit.blooddonationapp.BloodNeedsFragment;
 import tn.esprit.blooddonationapp.MapActivity;
+import tn.esprit.blooddonationapp.RequestBlood;
+import tn.esprit.blooddonationapp.RequestList;
 import tn.esprit.blooddonationapp.post.NewPost;
 import tn.esprit.blooddonationapp.ProfileActivity;
 import tn.esprit.blooddonationapp.R;
@@ -196,6 +198,9 @@ private final static int FILE_REQUEST_CODE = 1;
 
 
         } else if (id == R.id.nav_share) {
+
+            Intent intent = new Intent(WelcomeActivity.this, RequestList.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
 

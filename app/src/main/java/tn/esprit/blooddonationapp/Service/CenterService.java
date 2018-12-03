@@ -40,7 +40,7 @@ public class CenterService {
          final List<Center> centers = new ArrayList<>();
 
 
-        final String URL ="http://192.168.1.12:3000/api/centers";
+        final String URL ="http://10.0.2.2:3000/api/centers";
 
         StringRequest stringrequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
@@ -83,7 +83,7 @@ public class CenterService {
         RequestQueue requestQueue = Volley.newRequestQueue(activity);
 
         requestQueue.add(stringrequest);
-
         return centers;
+
     }
 }

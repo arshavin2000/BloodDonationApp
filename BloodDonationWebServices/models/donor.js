@@ -19,9 +19,13 @@ var donorSchema = mongoose.Schema({
     bloodgroup: {
         type: String,
     },
+    url: {
+      type: String,
+    },
     gender: {
         type: String,
-    }
+    },
+
 });
 // Export post model
 const Donor = module.exports = mongoose.model('donor', donorSchema);

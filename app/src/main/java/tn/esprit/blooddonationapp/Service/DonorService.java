@@ -18,20 +18,25 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import tn.esprit.blooddonationapp.BecomeDonorActivity;
+import tn.esprit.blooddonationapp.CallBack;
 import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.login.WelcomeActivity;
 import tn.esprit.blooddonationapp.model.Donor;
-import tn.esprit.blooddonationapp.util.DataHolder;
 import tn.esprit.blooddonationapp.util.UserUtils;
 
 public class DonorService {
 
-    private static final String HttpUrl = "http://10.0.2.2:3000/api/donors";
+    private static final String HttpUrl = "http://10.0.2.2:3000/api/donor";
     private Activity activity;
     private Context context;
 
@@ -94,6 +99,7 @@ public class DonorService {
                 params.put("lastname", donor.getLastName());
                 params.put("email", donor.getEmail());
                 params.put("number", donor.getNumber());
+                params.put("url", donor.getUrlImage());
                 params.put("bloodgroup", donor.getBloodGroup());
                 params.put("gender", donor.getGender());
 
@@ -390,7 +396,68 @@ public class DonorService {
     }
 
 
+    public void  getDonors(final CallBack callback) {
+
+        final ArrayList<Donor> donors = new ArrayList<>();
+
+
+
+
+        StringRequest stringrequest = new StringRequest(Request.Method.GET, HttpUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jarray  = jsonObject.getJSONArray("data");
+
+                            Log.d("Center Response", "onResponse: "+response);
+                            for (int i = 0; i < jarray.length(); i++) {
+                                JSONObject object = jarray.getJSONObject(i);
+
+                                Donor donor = new Donor();
+                                donor.setFirstName(object.getString("firstname"));
+                                donor.setLastName(object.getString("lastname"));
+                                donor.setEmail(object.getString("email"));
+                                donor.setGender(object.getString("gender"));
+                                donor.setId(object.getString("id"));
+                                donor.setUrlImage(object.getString("url"));
+                                donor.setNumber(object.getString("number"));
+                                donor.setBloodGroup(object.getString("bloodgroup"));
+
+                                donors.add(donor);
+
+
+
+
+                            }
+                            callback.onSuccess(donors);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        callback.onFail(error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+
+        requestQueue.add(stringrequest);
+
+
+
+    }
+
+
 
 
 
 }
+
