@@ -1,9 +1,7 @@
 package tn.esprit.blooddonationapp.model;
 
-import android.os.Build;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 @SuppressWarnings("serial")
 public class Donor implements Serializable {
@@ -16,6 +14,9 @@ public class Donor implements Serializable {
     private String bloodGroup;
     private String urlImage;
     private String number;
+    private int answer;
+    private int request;
+    private int rate;
 
     public Donor() {
     }
@@ -106,6 +107,30 @@ public class Donor implements Serializable {
         this.number = number;
     }
 
+    public int getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(int answer) {
+        this.answer = answer;
+    }
+
+    public int getRequest() {
+        return request;
+    }
+
+    public void setRequest(int request) {
+        this.request = request;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,17 +140,20 @@ public class Donor implements Serializable {
     }
 
 
-
     @Override
     public String toString() {
-        return "DonorService{" +
-                "id=" + id +
+        return "Donor{" +
+                "id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
                 ", bloodGroup='" + bloodGroup + '\'' +
                 ", urlImage='" + urlImage + '\'' +
+                ", number='" + number + '\'' +
+                ", answer=" + answer +
+                ", request=" + request +
+                ", rate=" + rate +
                 '}';
     }
 }

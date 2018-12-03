@@ -16,6 +16,9 @@ var requestSchema = mongoose.Schema({
       url : String,
       bloodgroup : String,
       gender : String,
+      answer : Number,
+      request : Number,
+      rate: Number,
     },
 
 

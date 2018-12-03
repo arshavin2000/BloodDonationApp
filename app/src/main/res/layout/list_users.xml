@@ -16,6 +16,7 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:id="@+id/image"
             android:background="@drawable/profile"/>
 
@@ -69,12 +70,11 @@
                     android:id="@+id/blood"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginHorizontal="60dp"
+                    android:layout_marginHorizontal="40dp"
                     android:layout_marginRight="3dp"
                     android:text="A+"
-                    android:textColor="@color/colorAccent"
-
-                    android:background="@drawable/white_btn" />
+                    android:textColor="@color/colorWhite"
+                    android:background="@drawable/bg" />
             </LinearLayout>
 
         </LinearLayout>

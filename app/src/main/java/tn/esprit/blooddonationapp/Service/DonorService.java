@@ -102,6 +102,10 @@ public class DonorService {
                 params.put("url", donor.getUrlImage());
                 params.put("bloodgroup", donor.getBloodGroup());
                 params.put("gender", donor.getGender());
+                params.put("answer", "0");
+                params.put("request", "0");
+                params.put("rate", "0");
+
 
 
 
@@ -352,9 +356,10 @@ public class DonorService {
 
                         // Hiding the progress dialog after all task complete.
                         DBHandler dbHandler = new DBHandler(context);
+                        donor.setRequest(donor.getRequest()+1);
                         dbHandler.updateDonor(donor);
                         activity.finish();
-                        context.startActivity(activity.getIntent());
+                       // context.startActivity(activity.getIntent());
                         // Showing response message coming from server.
                         Toast.makeText(context,"Informations updated successfully ! ",Toast.LENGTH_LONG).show();
                         Log.d("VOLLEY", "onResponse: "+ServerResponse);
@@ -379,6 +384,11 @@ public class DonorService {
 
                 params.put("email", donor.getEmail());
                 params.put("number", donor.getNumber());
+                Log.d("manaaresh", "getParams: " + donor.getRequest());
+                params.put("request", String.valueOf(  donor.getRequest()+1));
+
+
+
 
 
                 return params;
@@ -425,6 +435,7 @@ public class DonorService {
                                 donor.setUrlImage(object.getString("url"));
                                 donor.setNumber(object.getString("number"));
                                 donor.setBloodGroup(object.getString("bloodgroup"));
+
 
                                 donors.add(donor);
 

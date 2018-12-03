@@ -1,22 +1,28 @@
 package tn.esprit.blooddonationapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import tn.esprit.blooddonationapp.Service.DonorService;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.util.CustomAdapter;
 
-public class RequestList extends AppCompatActivity {
+
+public class RequestFragment extends Fragment {
 
     private Button request ;
 
@@ -24,30 +30,32 @@ public class RequestList extends AppCompatActivity {
     private ListAdapter adapter;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_request_list);
 
-        listView = findViewById(R.id.list);
-        request = findViewById(R.id.request);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_request, container, false);
+        listView = view.findViewById(R.id.list);
+        request = view.findViewById(R.id.request);
 
 
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RequestList.this,RequestBlood.class);
-                startActivity(intent);
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction().replace(R.id.container,new RequestBloodFragment()).commit();
+
             }
         });
 
-        DonorService donorService = new DonorService(getApplicationContext(),this);
+        DonorService donorService = new DonorService(getContext(),getActivity());
         donorService.getDonors(new CallBack() {
             @Override
             public void onSuccess(ArrayList<Donor> donors) {
 
 
-                adapter = new CustomAdapter(donors,getApplicationContext());
+                adapter = new CustomAdapter(donors,getContext());
                 listView.setAdapter(adapter);
                 //remove item from favourite list
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -69,6 +77,6 @@ public class RequestList extends AppCompatActivity {
         });
 
 
-
+        return view ;
     }
 }

@@ -28,7 +28,11 @@ exports.new = function (req, res) {
       lastname : req.body.lastname,
       url : req.body.url,
       bloodgroup : req.body.bloodgroup,
-      gender : req.body.gender
+      gender : req.body.gender,
+      answer : req.body.answer,
+      request : req.body.request,
+      rate : req.body.rate,
+
 
     });
 
@@ -131,13 +135,14 @@ exports.update = function (req, res) {
                 res.send(err);
             donor.email = req.body.email;
             donor.number = req.body.number;
+            donor.request = req.body.request;
             // save the post and check for errors
                 donor.save(function (err) {
                     //if (err)
                       //  res.json(err);
                     res.json({
                         message: 'donor Info updated',
-                        data: donor
+                        data: donor.request
                     });
                 });
             });

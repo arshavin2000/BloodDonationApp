@@ -39,11 +39,10 @@ import com.jaiselrahman.filepicker.model.MediaFile;
 import java.util.ArrayList;
 
 import tn.esprit.blooddonationapp.BloodNeedsFragment;
-import tn.esprit.blooddonationapp.MapActivity;
-import tn.esprit.blooddonationapp.RequestBlood;
-import tn.esprit.blooddonationapp.RequestList;
+import tn.esprit.blooddonationapp.MapFragment;
+import tn.esprit.blooddonationapp.ProfileFragment;
+import tn.esprit.blooddonationapp.RequestFragment;
 import tn.esprit.blooddonationapp.post.NewPost;
-import tn.esprit.blooddonationapp.ProfileActivity;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.post.FileListeAdapter;
@@ -174,15 +173,14 @@ private final static int FILE_REQUEST_CODE = 1;
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent intent = new Intent(WelcomeActivity.this, ProfileActivity.class);
             DataHolder.getInstance().setDonor(donor);
-            startActivity(intent);
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.container,new ProfileFragment()).commit();
             // Handle the camera action
         } else if (id == R.id.nav_blood) {
-            Intent intent = new Intent(WelcomeActivity.this, MapActivity.class);
             DataHolder.getInstance().setDonor(donor);
-            startActivity(intent);
-            finish();
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.container,new MapFragment()).commit();
 
         } else if (id == R.id.nav_home) {
 
@@ -199,8 +197,11 @@ private final static int FILE_REQUEST_CODE = 1;
 
         } else if (id == R.id.nav_share) {
 
-            Intent intent = new Intent(WelcomeActivity.this, RequestList.class);
-            startActivity(intent);
+
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.container,new RequestFragment()).commit();
+
+
 
         } else if (id == R.id.nav_logout) {
 

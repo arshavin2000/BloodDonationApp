@@ -68,6 +68,9 @@ class FacebookActivity {
                                 d.setEmail(email);
                             else
                                 d.setEmail("");
+                            d.setAnswer(0);
+                            d.setRequest(0);
+                            d.setRate(0);
 
                             DonorService donorService = new DonorService(context,activity);
                             donorService.isUserExist(id,d);
