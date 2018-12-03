@@ -1,12 +1,15 @@
 package tn.esprit.blooddonationapp.login;
 
+
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.TaskStackBuilder;
+
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -32,6 +35,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+
 import com.jaiselrahman.filepicker.activity.FilePickerActivity;
 import com.jaiselrahman.filepicker.config.Configurations;
 import com.jaiselrahman.filepicker.model.MediaFile;
@@ -48,8 +52,11 @@ import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.post.FileListeAdapter;
 import tn.esprit.blooddonationapp.post.ListPostFragment;
 import tn.esprit.blooddonationapp.util.DataHolder;
+
 import tn.esprit.blooddonationapp.util.ProfileImage;
 import tn.esprit.blooddonationapp.util.UserUtils;
+
+import com.pusher.pushnotifications.PushNotifications;
 
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,10 +66,16 @@ public class WelcomeActivity extends AppCompatActivity
     private TextView email, username;
     private ImageView image;
 
-// IMAGE GALLERY
-private final static int FILE_REQUEST_CODE = 1;
+
+    public static final String REGISTRATION_PROCESS = "registration";
+    public static final String MESSAGE_RECEIVED = "message_received";
+
+
+    // IMAGE GALLERY
+    private final static int FILE_REQUEST_CODE = 1;
     private FileListeAdapter fileListAdapter;
     private ArrayList<MediaFile> mediaFiles = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,15 +87,19 @@ private final static int FILE_REQUEST_CODE = 1;
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
 
+
+        PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
+        PushNotifications.subscribe("hello");
+
         email = header.findViewById(R.id.email);
         username = header.findViewById(R.id.username);
         image = header.findViewById(R.id.image);
         donor = UserUtils.getUser(getApplicationContext());
 
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.container,new ListPostFragment() ).commit();
+        fm.beginTransaction().add(R.id.container, new ListPostFragment()).commit();
 
-        Log.e("GETUSER", "onCreate: " + donor.toString() );
+        Log.e("GETUSER", "onCreate: " + donor.toString());
         if (donor != null) {
             email.setText(donor.getEmail());
             username.setText(donor.getFirstName() + " " + donor.getLastName());
@@ -185,14 +202,13 @@ private final static int FILE_REQUEST_CODE = 1;
         } else if (id == R.id.nav_home) {
 
             FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.container,new ListPostFragment() ).commit();
+            fm.beginTransaction().replace(R.id.container, new ListPostFragment()).commit();
 
         } else if (id == R.id.nav_manage) {
 
 
             FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().add(R.id.container,new BloodNeedsFragment()).commit();
-
+            fm.beginTransaction().add(R.id.container, new BloodNeedsFragment()).commit();
 
 
         } else if (id == R.id.nav_share) {
@@ -280,14 +296,16 @@ private final static int FILE_REQUEST_CODE = 1;
             MediaFile f = files.get(0);
             f.getName();
             String path = f.getPath();
-            Intent intent = new Intent( WelcomeActivity.this, NewPost.class);
+            Intent intent = new Intent(WelcomeActivity.this, NewPost.class);
 
 
-            intent.putExtra("path",path);
+            intent.putExtra("path", path);
             startActivity(intent);
 
             mediaFiles.clear();
 
         }
     }
+
+
 }

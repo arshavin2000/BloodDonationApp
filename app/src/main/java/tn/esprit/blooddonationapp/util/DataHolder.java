@@ -1,5 +1,7 @@
 package tn.esprit.blooddonationapp.util;
 
+import android.bluetooth.BluetoothClass;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,10 @@ public class DataHolder {
     private List<Center> centers;
 
 
+
+
+
+ 
     public Donor getDonor() {
         return donor;
     }
