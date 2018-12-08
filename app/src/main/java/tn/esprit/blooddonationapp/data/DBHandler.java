@@ -129,11 +129,16 @@ public class DBHandler extends SQLiteOpenHelper {
         return exists;
     }
 
-    public void deleteAll()
+   */
+
+    public void deleteDonor()
     {
         SQLiteDatabase db = this.getWritableDatabase();
         // db.delete(TABLE_NAME,null,null);
-        db.execSQL("delete   from "+ Util.TABLE_NAME);
+        db.execSQL("delete   from "+ Util.DONOR_TABLE);
         db.close();
-    }*/
+    }
 }
+
+
+

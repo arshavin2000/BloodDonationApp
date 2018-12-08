@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity  {
         ListView listView = (ListView) findViewById(R.id.list);
 
 
-            new JsonTask(listView).execute("http://192.168.1.17:3000/api/posts");
+            new JsonTask(listView).execute("http://196.203.252.226:9090/api/posts");
 
         //Add PostService
 

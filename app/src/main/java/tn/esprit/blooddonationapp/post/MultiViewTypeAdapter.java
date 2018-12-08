@@ -160,7 +160,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                     Post object = (Post) dataSet.get(listPosition);
 
 
-                   AndroidNetworking.get("http://192.168.1.11:3000/static/images/"+object.getPostImage())
+                   AndroidNetworking.get("http://196.203.252.226:9090/static/images/"+object.getPostImage())
                             .setTag("imageRequestTag")
                             .setPriority(Priority.IMMEDIATE)
                             .setBitmapConfig(Bitmap.Config.ARGB_8888)
