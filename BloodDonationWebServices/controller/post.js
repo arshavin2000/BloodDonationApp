@@ -1,4 +1,6 @@
 Post = require('../models/post');
+var arraySort = require('array-sort');
+
 // Handle index actions
 exports.index = function (req, res) {
     Post.get(function (err, posts) {
@@ -9,8 +11,13 @@ exports.index = function (req, res) {
             });
         }
         res.json(
-           posts
-        );
+
+            posts.reverse()
+
+
+
+
+            );
     });
 };
 // Handle create post actions

@@ -36,7 +36,7 @@ public class ListPostFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_list_post, container, false);
 
         AndroidNetworking.initialize(getContext());
-        AndroidNetworking.get("http://192.168.1.11:3000/api/posts")
+        AndroidNetworking.get("http://192.168.43.80:3000/api/posts")
                 .setTag("GET_POSTS")
                 .setPriority(Priority.MEDIUM)
                 .build()

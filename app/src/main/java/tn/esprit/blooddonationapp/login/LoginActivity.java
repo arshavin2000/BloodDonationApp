@@ -237,6 +237,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(intent, RC_PHONE);
     }
 
+    public void call(){
+
+        System.out.println("hbdhbhdghvdhvhdvhd");
+    }
+
 
 
 }

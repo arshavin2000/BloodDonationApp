@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_home);
         ListView listView = (ListView) findViewById(R.id.list);
 
-
+//TODO CLASS TO DELETE
             new JsonTask(listView).execute("http://192.168.1.17:3000/api/posts");
 
         //Add PostService

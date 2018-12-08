@@ -1,4 +1,4 @@
-Request = require('../models/request');
+Donor = require('../models/donor');
 
 const PushNotifications = require('@pusher/push-notifications-server');
  
@@ -8,11 +8,7 @@ let pushNotifications = new PushNotifications({
 });
 exports.new = function (req, res) {
   console.log(req.body);
-  var request = new Request();
-  request.bloodgroup = req.body.bloodgroup;
-  request.place = req.body.place;
-  request.donor = req.body.donor;
-  
+ 
 pushNotifications.publish([req.params.req_id], {
     apns: {
       aps: {
@@ -21,8 +17,9 @@ pushNotifications.publish([req.params.req_id], {
     },
     fcm: {
       notification: {
-        title: request.donor.firstname+" "+ request.donor.firstname,
-        body: 'Ask for help'
+        title: req.params.req_firstname + " "+ req.params.req_lastname,
+        body: "For Who would like to support us. " +req.params.req_blood+" blood type is needed. Please Contact us"
+
       }
     }
   }).then((publishResponse) => {

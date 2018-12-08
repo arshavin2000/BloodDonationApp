@@ -24,7 +24,7 @@ public class Util {
 
     // IP ADDRESS SERVER API
 
-    public static final String BASE_URL= "192.168.1.11:3000";
+    public static final String BASE_URL= "192.168.43.80:3000";
 
 
 
