@@ -78,6 +78,11 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
             this.txt_time = itemView.findViewById(R.id.txt_time);
             this.call = itemView.findViewById(R.id.phone);
             this.img = itemView.findViewById(R.id.img);
+            this.txt_position = (TextView) itemView.findViewById(R.id.txt_postion);
+            this.txt_number = (TextView) itemView.findViewById(R.id.txt_number);
+            this.txt_time = (TextView) itemView.findViewById(R.id.txt_time);
+            this.call = (Button) itemView.findViewById(R.id.phone);
+            this.img = (ImageView) itemView.findViewById(R.id.img);
 
             //  this.cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
