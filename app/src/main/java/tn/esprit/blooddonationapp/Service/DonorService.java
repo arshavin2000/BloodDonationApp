@@ -36,7 +36,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 
 public class DonorService {
 
-    private static final String HttpUrl = "http://192.168.43.80:3000/api/donor";
+    private static final String HttpUrl = "http://196.203.252.226:9090/api//donor";
     private Activity activity;
     private Context context;
 
@@ -53,7 +53,7 @@ public class DonorService {
     }
 
 
-    public void addUser(final Donor donor, final ProgressBar progressBar)
+     private void addUser(final Donor donor, final ProgressBar progressBar)
     {
 
 

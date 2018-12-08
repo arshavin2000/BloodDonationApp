@@ -4,7 +4,9 @@ package tn.esprit.blooddonationapp.login;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +48,7 @@ import tn.esprit.blooddonationapp.BloodNeedsFragment;
 import tn.esprit.blooddonationapp.MapFragment;
 import tn.esprit.blooddonationapp.ProfileFragment;
 import tn.esprit.blooddonationapp.RequestFragment;
+import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.post.NewPost;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Donor;
@@ -55,6 +58,7 @@ import tn.esprit.blooddonationapp.util.DataHolder;
 
 import tn.esprit.blooddonationapp.util.ProfileImage;
 import tn.esprit.blooddonationapp.util.UserUtils;
+import tn.esprit.blooddonationapp.util.Util;
 
 import com.pusher.pushnotifications.PushNotifications;
 
@@ -184,7 +188,7 @@ public class WelcomeActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -227,7 +231,7 @@ public class WelcomeActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -247,7 +251,7 @@ public class WelcomeActivity extends AppCompatActivity
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     new ResultCallback<Status>() {
                         @Override
-                        public void onResult(Status status) {
+                        public void onResult(@NonNull Status status) {
                             // ...
                             Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext(), SplashScreenActivity.class);
@@ -263,6 +267,8 @@ public class WelcomeActivity extends AppCompatActivity
             Intent intent = new Intent(WelcomeActivity.this, SplashScreenActivity.class);
             startActivity(intent);
         }
+        DBHandler dbHandler = new DBHandler( getApplicationContext());
+        dbHandler.deleteDonor();
         finish();
 
 

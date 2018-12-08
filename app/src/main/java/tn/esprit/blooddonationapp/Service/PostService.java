@@ -24,7 +24,7 @@ public class PostService {
 
 
 
-        AndroidNetworking.post("http://192.168.43.80:3000/api/posts")
+        AndroidNetworking.post("http://196.203.252.226:9090/api//posts")
                 .addJSONObjectBody(request)
                 .setTag("addPost")
                 .setPriority(Priority.MEDIUM)

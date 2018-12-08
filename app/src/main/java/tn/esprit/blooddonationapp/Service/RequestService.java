@@ -13,8 +13,6 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.login.WelcomeActivity;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.util.UserUtils;
@@ -23,7 +21,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 public class RequestService {
 
 
-    private static final String HttpUrl = "http://192.168.43.80:3000/api/";
+    private static final String HttpUrl = "http://196.203.252.226:9090/api/";
 
 
     private Context context;
