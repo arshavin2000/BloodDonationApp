@@ -36,7 +36,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 
 public class DonorService {
 
-    private static final String HttpUrl = "http://196.203.252.226:9090/api//donor";
+    private static final String HttpUrl = "http://196.203.252.226:9090/api/donor";
     private Activity activity;
     private Context context;
 
@@ -204,14 +204,14 @@ public class DonorService {
                         if(account.getPhotoUrl() != null)
                             donor.setUrlImage(account.getPhotoUrl().toString());
                         intent.putExtra("donor",donor);
-                        context.startActivity(intent);
+                        activity.startActivity(intent);
                         activity.finish();
 
                     }
                     else
                     {
                         Intent intent = new Intent(context, WelcomeActivity.class);
-                        context.startActivity(intent);
+                        activity.startActivity(intent);
                         activity.finish();
                     }
                 } catch (JSONException e) {

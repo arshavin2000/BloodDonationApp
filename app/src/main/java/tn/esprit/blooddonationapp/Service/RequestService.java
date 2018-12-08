@@ -63,8 +63,8 @@ Log.i("JSON R", r.toString());
 
 
 
-                        AndroidNetworking.post(HttpUrl+"notification/"+request.getBloodgroup())
-                                .addJSONObjectBody(r)
+                        AndroidNetworking.post(HttpUrl+"notification/"+request.getBloodgroup()+"/"+donor.getFirstName()+"/"+donor.getLastName()+"/"+donor.getBloodGroup())
+                                .addBodyParameter(donor)
                                 .setTag("addRequest")
                                 .setPriority(Priority.MEDIUM)
                                 .build()

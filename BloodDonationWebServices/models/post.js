@@ -10,9 +10,19 @@ var postSchema = mongoose.Schema({
         default : 1
     },
     user: {
-        firstname:String,
-        lastname:String,
-        id_user:String
+       
+        
+        firstname: {
+            type: String,
+        },
+        lastname: {
+            type: String,
+        },
+       
+        url: {
+          type: String,
+        }
+        
     }
     ,
     postText: {

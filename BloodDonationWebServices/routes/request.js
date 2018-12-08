@@ -4,6 +4,7 @@ var requestController = require('../controller/request');
 // post routes
 router.route('/request')
     .post(requestController.new)
+    .get(requestController.index)
 
 
 // Export API routes

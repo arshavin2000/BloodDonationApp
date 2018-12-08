@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     //private static final int RC_FACEBOOK = 1;
     private static final int RC_GOOGLE = 2;
     public static int RC_PHONE = 3;
-    private  static final String MY_PREFS_NAME ="LOGIN";
     private GoogleActivity googleActivity;
     private PhoneNumberActivity phoneNumberActivity;
     private Activity activity;
@@ -87,9 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Build a GoogleSignInClient with the options specified by gso.
                     mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
                     signIn();
-                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                    editor.putBoolean("login", true);
-                    editor.apply();
+
                 }
 
 
@@ -138,9 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                             // final DonorService donorService=new DonorService();
                             FacebookActivity facebookActivity = new FacebookActivity(getApplicationContext(), activity);
                             facebookActivity.getFbInfo();
-                            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                            editor.putBoolean("login", true);
-                            editor.apply();
+
 
                         }
 
@@ -235,6 +230,11 @@ public class LoginActivity extends AppCompatActivity {
         configurationBuilder.setUIManager(uiManager);
         intent.putExtra(AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,configurationBuilder.build());
         startActivityForResult(intent, RC_PHONE);
+    }
+
+    public void call(){
+
+        System.out.println("hbdhbhdghvdhvhdvhd");
     }
 
 

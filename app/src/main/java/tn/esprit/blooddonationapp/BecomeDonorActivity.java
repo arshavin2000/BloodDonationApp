@@ -2,6 +2,7 @@ package tn.esprit.blooddonationapp;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,6 +27,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
     private RadioGroup mBloodGroup , mGenderGroup;
     private RadioButton mBlood , mGender;
     private ProgressBar progressBar;
+    private  static final String MY_PREFS_NAME ="LOGIN";
     private Activity activity;
 
 
@@ -303,6 +305,10 @@ public class BecomeDonorActivity extends AppCompatActivity {
                 donor.setFirstName(firstname);
                 donor.setLastName(lastname);
                 donor.setNumber("+216"+mNumber.getText().toString().trim());
+
+                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putBoolean("login", true);
+                editor.apply();
 
 
                 DonorService donorService = new DonorService(getApplicationContext(),activity);

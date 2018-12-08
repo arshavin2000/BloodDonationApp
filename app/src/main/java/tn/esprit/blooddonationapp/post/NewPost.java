@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,14 +30,17 @@ import java.net.URL;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.BitmapRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.Service.PostService;
 import tn.esprit.blooddonationapp.model.Comment;
+import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.model.Post;
 import tn.esprit.blooddonationapp.model.User;
+import tn.esprit.blooddonationapp.util.ProfileImage;
 import tn.esprit.blooddonationapp.util.UserUtils;
 import tn.esprit.blooddonationapp.util.Util;
 
@@ -46,7 +50,7 @@ public class NewPost extends AppCompatActivity {
     Button add,gallery;
     EditText text_post;
     TextView txt_username;
-    ImageView imageView;
+    ImageView imageView,img_profile;
     User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +60,16 @@ public class NewPost extends AppCompatActivity {
         txt_username = findViewById(R.id.txt_username);
         text_post = findViewById(R.id.text_post);
         imageView = findViewById(R.id.img_post);
+        img_profile = findViewById(R.id.img_profile);
         add = findViewById(R.id.btn_add);
         gallery = findViewById(R.id.btn_galerry);
 
          user = new User(
                 UserUtils.getUser(getApplicationContext()).getId(),
                 UserUtils.getUser(getApplicationContext()).getFirstName(),
-                UserUtils.getUser(getApplicationContext()).getLastName()
+                 UserUtils.getUser(getApplicationContext()).getLastName(),
+                 UserUtils.getUser(getApplicationContext()).getUrlImage()
+
 
         );
 
@@ -77,10 +84,15 @@ public class NewPost extends AppCompatActivity {
 
         }
 
+
+        ProfileImage.getFacebookOrGoogleProfilePicture(UserUtils.getUser(getApplicationContext()).getUrlImage(),getApplicationContext(),img_profile);
+
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+
+                FragmentManager fm = getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.container, new ListPostFragment()).commit();
 
             }
         });
@@ -107,12 +119,15 @@ Log.i("NEW POST","ADD POST ACTION");
                             public void onResponse(JSONObject response) {
 
                                 try {
-                                    String fileName = response.getString("file").toString();
+                                    String fileName = response.getString("file");
                                     Log.i("REP",fileName);
 
+                                    Donor donor =  UserUtils.getUser(getApplicationContext());
+
+                                    User user = new User(donor.getId(),donor.getFirstName(),donor.getLastName(),donor.getUrlImage());
                                     Post post = new Post(1,
                                             fileName,text_post.getText().toString(),
-                                            new User("","","haffez"),
+                                            user,
                                             "",2,2
                                             );
                                   //  Comment comment = new Comment("","","");
@@ -121,7 +136,8 @@ Log.i("NEW POST","ADD POST ACTION");
                                     PostService ps = new PostService();
 
                                     ps.addPost(post);
-                                    onBackPressed();
+
+                                    Toast.makeText(getApplicationContext(),"New post created! ",Toast.LENGTH_SHORT).show();
 
 
                                 } catch (JSONException e) {

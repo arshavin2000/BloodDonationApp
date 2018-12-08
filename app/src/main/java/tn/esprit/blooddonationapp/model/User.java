@@ -5,11 +5,22 @@ public class User {
     private String id_user;
     private String firstname;
     private String lastname;
+    private String url;
 
-    public User(String id_user, String firstname, String lastname) {
+
+    public User(String id_user, String firstname, String lastname,String url) {
         this.id_user = id_user;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public User(String firstname, String lastname) {

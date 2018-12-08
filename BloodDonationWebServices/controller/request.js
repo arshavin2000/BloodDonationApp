@@ -23,3 +23,16 @@ request.save(function (err) {
     });
 });
 };
+exports.index = function (req, res) {
+    Request.get(function (err, posts) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+            });
+        }
+        res.json(
+posts
+            );
+    });
+};

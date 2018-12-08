@@ -70,10 +70,10 @@ public class PostAdapter extends ArrayAdapter<Post> implements View.OnClickListe
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.card_post, parent, false);
-            viewHolder.postImage = (ImageView) convertView.findViewById(R.id.card_post_img_profile);
-            viewHolder.username = (TextView) convertView.findViewById(R.id.card_post_user_name);
-            viewHolder.postText = (TextView) convertView.findViewById(R.id.card_post_text_post);
-            viewHolder.timePost = (TextView) convertView.findViewById(R.id.card_post_time);
+            viewHolder.postImage = convertView.findViewById(R.id.card_post_img_profile);
+            viewHolder.username = convertView.findViewById(R.id.card_post_user_name);
+            viewHolder.postText = convertView.findViewById(R.id.card_post_text_post);
+            viewHolder.timePost = convertView.findViewById(R.id.card_post_time);
 
 
             result=convertView;

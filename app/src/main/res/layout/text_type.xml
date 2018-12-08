@@ -9,8 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="87dp"
-        android:padding="7dp"
-        >
+        android:padding="7dp">
 
         <TextView
             android:id="@+id/txt_postion"
@@ -33,6 +32,7 @@
             android:text="00 000 000" />
 
         <ImageView
+            android:id="@+id/img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -41,9 +41,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginEnd="93dp"
-            android:layout_marginRight="93dp"
 
-            card_view:srcCompat="@drawable/a_moins_selected" />
+            android:layout_marginRight="93dp" />
 
         <ImageView
             android:layout_width="54dp"
@@ -87,17 +86,19 @@
             android:text="15m"
             android:textColor="@color/com_facebook_button_background_color_disabled" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/phone"
+            android:layout_width="59dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="18dp"
+            android:layout_marginEnd="19dp"
+            android:layout_marginRight="19dp"
+            android:layout_marginBottom="7dp"
             android:text="@string/call"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+           />
     </RelativeLayout>
 
 

@@ -7,7 +7,6 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +24,7 @@ public class PostService {
 
 
 
-        AndroidNetworking.post("http://196.203.252.226:9090/api//posts")
+        AndroidNetworking.post("http://196.203.252.226:9090/api/posts")
                 .addJSONObjectBody(request)
                 .setTag("addPost")
                 .setPriority(Priority.MEDIUM)

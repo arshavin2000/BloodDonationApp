@@ -21,11 +21,11 @@
             android:orientation="horizontal"
             android:background="@color/colorWhite"
             >
+
             <ImageView
-                android:id="@+id/card_post_img_profile"
+                android:id="@+id/img_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/profile"
                 android:padding="10dp"
                 />
 

@@ -71,20 +71,17 @@ public class WelcomeActivity extends AppCompatActivity
     private ImageView image;
 
 
-    public static final String REGISTRATION_PROCESS = "registration";
-    public static final String MESSAGE_RECEIVED = "message_received";
 
 
     // IMAGE GALLERY
     private final static int FILE_REQUEST_CODE = 1;
-    private FileListeAdapter fileListAdapter;
     private ArrayList<MediaFile> mediaFiles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_actitvity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -94,6 +91,8 @@ public class WelcomeActivity extends AppCompatActivity
 
         PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
         PushNotifications.subscribe(UserUtils.getUser(getApplicationContext()).getBloodGroup());
+//PushNotifications.setOnMessageReceivedListenerForVisibleActivity();
+
 
         email = header.findViewById(R.id.email);
         username = header.findViewById(R.id.username);
@@ -117,7 +116,7 @@ public class WelcomeActivity extends AppCompatActivity
 
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
