@@ -3,6 +3,7 @@ package tn.esprit.blooddonationapp.post;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.androidnetworking.AndroidNetworking;
@@ -27,8 +30,7 @@ import tn.esprit.blooddonationapp.util.Util;
 
 
 public class ListPostFragment extends Fragment {
-    private RecyclerView mRecyclerView;
-    MultiViewTypeAdapter adapter ;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class ListPostFragment extends Fragment {
         AndroidNetworking.initialize(getContext());
         AndroidNetworking.get("http://196.203.252.226:9090/api/posts")
                 .setTag("GET_POSTS")
-                .setPriority(Priority.MEDIUM)
+                .setPriority(Priority.HIGH)
                 .build()
                 .getAsObjectList(Post.class, new ParsedRequestListener<ArrayList<Post>>() {
                     @Override

@@ -20,7 +20,12 @@ android:fitsSystemWindows="true"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 </android.support.design.widget.AppBarLayout>
+<FrameLayout
+    android:id="@+id/container_dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
+</FrameLayout>
 <android.support.v7.widget.RecyclerView
     android:id="@+id/recyclerView"
     android:layout_width="match_parent"

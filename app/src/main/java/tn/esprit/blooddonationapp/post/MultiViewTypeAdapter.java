@@ -1,53 +1,37 @@
 package tn.esprit.blooddonationapp.post;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.icu.util.DateInterval;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import tn.esprit.blooddonationapp.R;
-import tn.esprit.blooddonationapp.data.DBHandler;
-import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.model.Post;
-import tn.esprit.blooddonationapp.model.Receiver;
 import tn.esprit.blooddonationapp.model.Request;
-import tn.esprit.blooddonationapp.util.ProfileImage;
-import tn.esprit.blooddonationapp.util.UserUtils;
-import tn.esprit.blooddonationapp.util.Util;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.BitmapRequestListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.Gson;
-import com.jaiselrahman.filepicker.utils.TimeUtils;
-
-import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import javax.xml.datatype.Duration;
 
 public class MultiViewTypeAdapter extends RecyclerView.Adapter {
 
@@ -68,6 +52,8 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
 
 
 
+
+
         // CardView cardView;
 
         public TextTypeViewHolder(View itemView) {
@@ -78,11 +64,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
             this.txt_time = itemView.findViewById(R.id.txt_time);
             this.call = itemView.findViewById(R.id.phone);
             this.img = itemView.findViewById(R.id.img);
-            this.txt_position = (TextView) itemView.findViewById(R.id.txt_postion);
-            this.txt_number = (TextView) itemView.findViewById(R.id.txt_number);
-            this.txt_time = (TextView) itemView.findViewById(R.id.txt_time);
-            this.call = (Button) itemView.findViewById(R.id.phone);
-            this.img = (ImageView) itemView.findViewById(R.id.img);
+
 
             //  this.cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
@@ -103,7 +85,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
         TextView postText;
         TextView username;
         TextView timePost;
-
+        ImageButton comment ;
 
 
         public ImageTypeViewHolder(View itemView) {
@@ -258,19 +240,14 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                             });
 
 
+
                     Glide.with(mContext)
                             .load(object.getUser().getUrl())
                             .apply(RequestOptions.circleCropTransform())
                             .into(((ImageTypeViewHolder) holder).img_profile);
 
-
-
                     ((ImageTypeViewHolder) holder).postText.setText(object.getPostText());
                     ((ImageTypeViewHolder) holder).username.setText(object.getUser().getFirstname()+" "+object.getUser().getLastname());
-
-                    Gson g = new Gson();
-                 Log.i("ERR LULTI",g.toJson(object));
-
 
 
                     String st = object.getTimePost().replace("T"," ").replace("Z"," ");
@@ -279,19 +256,36 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                     ((ImageTypeViewHolder) holder).timePost.setText(compareTwoTimeStamps(Timestamp.valueOf(currentTime),oldTime));
 
 
+
+
                     break;
                 case Post.AUDIO_TYPE:
 
 
             }
+
+
         }
+
+    public void addfragment(Fragment newFragment, Context context){
+
+        FragmentTransaction transaction = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
+        transaction.add( newFragment ,"comments");
+        transaction.setTransitionStyle(android.R.style.Theme_DeviceDefault_Dialog);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.addToBackStack("back_posts");
+        transaction.commit();
+
+    }
+
+
+
 
     public static String compareTwoTimeStamps(Timestamp currentTime, Timestamp oldTime)
     {
         long milliseconds1 = oldTime.getTime();
         long milliseconds2 = currentTime.getTime();
         long duration = milliseconds2 - milliseconds1;
-
 
         long hours = TimeUnit.MILLISECONDS.toMinutes(duration);
         duration -= TimeUnit.HOURS.toMillis(hours);

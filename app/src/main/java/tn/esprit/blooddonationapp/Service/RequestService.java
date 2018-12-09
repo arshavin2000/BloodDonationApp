@@ -11,6 +11,8 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
+import com.pusher.pushnotifications.PushNotifications;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import tn.esprit.blooddonationapp.login.WelcomeActivity;
@@ -21,7 +23,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 public class RequestService {
 
 
-    private static final String HttpUrl = "http://196.203.252.226:9090/api/";
+    private static final String HttpUrl = "http://192.168.1.12:3000/api/";
 
 
     private Context context;
@@ -61,9 +63,10 @@ Log.i("JSON R", r.toString());
                         activity.finish();
                         Log.i("add request Service REP",response.toString());
 
+                        String bloodGroup = getBloodGroup(request.getBloodgroup());
 
 
-                        AndroidNetworking.post(HttpUrl+"notification/"+request.getBloodgroup()+"/"+donor.getFirstName()+"/"+donor.getLastName()+"/"+donor.getBloodGroup())
+                        AndroidNetworking.post(HttpUrl+"notification/"+bloodGroup+"/"+donor.getFirstName()+"/"+donor.getLastName()+"/"+request.getBloodgroup())
                                 .addBodyParameter(donor)
                                 .setTag("addRequest")
                                 .setPriority(Priority.MEDIUM)
@@ -89,6 +92,30 @@ Log.i("JSON R", r.toString());
 
                     }
                 });
+
+    }
+    public String getBloodGroup(String bloodGroup){
+
+        switch (bloodGroup){
+            case "B+" :
+                return "BP";
+            case "B-" :
+                return "BM";
+            case "A+" :
+                return "AP";
+            case "A-" :
+                return "AM";
+            case "O+" :
+                return "OP";
+            case "O-" :
+                return "OM";
+
+            default:
+                return bloodGroup;
+
+
+        }
+
 
     }
 
