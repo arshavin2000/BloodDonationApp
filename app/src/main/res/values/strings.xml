@@ -45,5 +45,8 @@
     <string name="call">Call</string>
     <string name="postion">position</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

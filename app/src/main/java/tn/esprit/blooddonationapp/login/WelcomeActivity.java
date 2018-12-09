@@ -3,15 +3,12 @@ package tn.esprit.blooddonationapp.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.TaskStackBuilder;
-
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -50,6 +47,7 @@ import tn.esprit.blooddonationapp.BloodNeedsFragment;
 import tn.esprit.blooddonationapp.MapFragment;
 import tn.esprit.blooddonationapp.ProfileFragment;
 import tn.esprit.blooddonationapp.RequestFragment;
+import tn.esprit.blooddonationapp.Service.RequestService;
 import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.post.NewPost;
 import tn.esprit.blooddonationapp.R;
@@ -98,6 +96,12 @@ public class WelcomeActivity extends AppCompatActivity
 
 //        PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
       //  PushNotifications.subscribe(UserUtils.getUser(getApplicationContext()).getBloodGroup());
+        PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
+        RequestService requestService = new RequestService(getApplicationContext(),WelcomeActivity.this);
+
+        String bloodGroup = UserUtils.getUser(getApplicationContext()).getBloodGroup();
+        PushNotifications.subscribe(requestService.getBloodGroup(bloodGroup));
+
 //PushNotifications.setOnMessageReceivedListenerForVisibleActivity();
 
 
