@@ -24,9 +24,9 @@ import tn.esprit.blooddonationapp.util.Validator;
 public class ProfileFragment extends Fragment {
 
     private ImageView profile;
-    private EditText email , number , blood ,place;
+    private EditText email , number ;
     private Button save;
-    private TextView username , request;
+    private TextView username , request, blood;
     private Activity activity;
 
     @Nullable
@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
         blood = view.findViewById(R.id.blood);
         username =view.findViewById(R.id.username);
         save = view.findViewById(R.id.save);
-        place = view.findViewById(R.id.location);
         request = view.findViewById(R.id.req);
 
         final Donor donor = UserUtils.getUser(getContext());
@@ -127,7 +126,6 @@ public class ProfileFragment extends Fragment {
         });
 
         blood.setFocusable(false);
-        place.setFocusable(false);
 
 
 

@@ -1,5 +1,6 @@
 package tn.esprit.blooddonationapp.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
@@ -18,7 +19,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+import tn.esprit.blooddonationapp.Service.DonorService;
 import tn.esprit.blooddonationapp.Service.PostService;
+import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.model.Post;
 import tn.esprit.blooddonationapp.model.User;
@@ -35,7 +38,7 @@ public class ProfileImage    {
                 .into(imageView);
     }
 
-    public static void uploadNumberPhoneImage(final Context context, final File imgFile, final ImageView imageView)
+    public static void uploadNumberPhoneImage(final Context context, final File imgFile, final ImageView imageView, final Activity activity)
     {
         AndroidNetworking.initialize(context);
         AndroidNetworking.upload("http://196.203.252.226:9090/api/uploadfile")
@@ -62,6 +65,12 @@ public class ProfileImage    {
                             donor.setUrlImage("http://196.203.252.226:9090/static/images/"+fileName);
                             Toast.makeText(context,"Profile picture added successfully",Toast.LENGTH_SHORT).show();
                             getFacebookOrGoogleProfilePicture("http://196.203.252.226:9090/static/images/"+fileName,context,imageView);
+                            DBHandler dbHandler = new DBHandler(context);
+                            dbHandler.updateDonor(donor);
+                            DonorService donorService = new DonorService(context,activity);
+                            donorService.updateUser(donor);
+
+
 
 
                         } catch (JSONException e) {

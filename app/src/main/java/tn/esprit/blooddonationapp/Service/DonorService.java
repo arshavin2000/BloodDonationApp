@@ -358,7 +358,7 @@ public class DonorService {
                         DBHandler dbHandler = new DBHandler(context);
                         donor.setRequest(donor.getRequest()+1);
                         dbHandler.updateDonor(donor);
-                        activity.finish();
+                       // activity.finish();
                        // context.startActivity(activity.getIntent());
                         // Showing response message coming from server.
                         Toast.makeText(context,"Informations updated successfully ! ",Toast.LENGTH_LONG).show();

@@ -74,6 +74,11 @@ public class RequestFragment extends Fragment {
                 Log.d("OnFAIL", "onFail: "+ msg);
 
             }
+            @Override
+            public void onSuccess(int i) {
+
+
+            }
         });
 
 

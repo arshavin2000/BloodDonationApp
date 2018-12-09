@@ -1,6 +1,7 @@
 package tn.esprit.blooddonationapp.login;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -68,6 +69,7 @@ public class WelcomeActivity extends AppCompatActivity
     private TextView email, username;
     private ImageView image;
     private AdView mAdView;
+    private Activity activity;
 
 
 
@@ -83,6 +85,7 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome_actitvity);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        activity = this;
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -352,7 +355,8 @@ public class WelcomeActivity extends AppCompatActivity
             f.getName();
             String path = f.getPath();
             File file = new File(path);
-            ProfileImage.uploadNumberPhoneImage(getApplicationContext(),file,image);
+            ProfileImage.uploadNumberPhoneImage(getApplicationContext(),file,image,activity);
+            mediaFiles.clear();
 
 
 

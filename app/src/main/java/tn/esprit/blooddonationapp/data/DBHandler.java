@@ -111,6 +111,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.update(Util.DONOR_TABLE,contentValues,Util.ID_DONOR +"=?"
                 , new String[]{String.valueOf(donor.getId())});
         //insert row
+        db.close();
 
 
     }
