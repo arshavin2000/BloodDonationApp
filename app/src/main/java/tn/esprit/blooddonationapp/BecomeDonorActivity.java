@@ -96,7 +96,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
                         mSave.setEnabled(false);
                         mNumber.setError("The phone number field is required");
 
-                    } else if(!Validator.isValidPhoneNumber(s.toString()))
+                    } else if(Validator.isValidPhoneNumber(s.toString()))
                     {
                         mSave.setEnabled(false);
                         mNumber.setError("A valid phone number is required");
@@ -150,7 +150,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
                         mSave.setEnabled(false);
                         mEmail.setError("The email field is required");
 
-                    }else if(!Validator.isValidEmail(s))
+                    }else if(Validator.isValidEmail(s))
                     {
                         mSave.setEnabled(false);
                         mEmail.setError("A valid email is required");

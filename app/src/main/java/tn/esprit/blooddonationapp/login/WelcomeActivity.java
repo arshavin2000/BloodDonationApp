@@ -30,6 +30,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -41,7 +44,6 @@ import com.google.android.gms.common.api.Status;
 import com.jaiselrahman.filepicker.activity.FilePickerActivity;
 import com.jaiselrahman.filepicker.config.Configurations;
 import com.jaiselrahman.filepicker.model.MediaFile;
-
 import java.util.ArrayList;
 
 import tn.esprit.blooddonationapp.BloodNeedsFragment;
@@ -52,14 +54,11 @@ import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.post.NewPost;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Donor;
-import tn.esprit.blooddonationapp.post.FileListeAdapter;
 import tn.esprit.blooddonationapp.post.ListPostFragment;
 import tn.esprit.blooddonationapp.util.DataHolder;
 
 import tn.esprit.blooddonationapp.util.ProfileImage;
 import tn.esprit.blooddonationapp.util.UserUtils;
-import tn.esprit.blooddonationapp.util.Util;
-
 import com.pusher.pushnotifications.PushNotifications;
 
 public class WelcomeActivity extends AppCompatActivity
@@ -69,6 +68,7 @@ public class WelcomeActivity extends AppCompatActivity
     private Donor donor;
     private TextView email, username;
     private ImageView image;
+    private AdView mAdView;
 
 
 
@@ -88,9 +88,16 @@ public class WelcomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
 
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-8668334983362122~1894534434");
 
-        PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
-        PushNotifications.subscribe(UserUtils.getUser(getApplicationContext()).getBloodGroup());
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
+//        PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
+      //  PushNotifications.subscribe(UserUtils.getUser(getApplicationContext()).getBloodGroup());
 //PushNotifications.setOnMessageReceivedListenerForVisibleActivity();
 
 
