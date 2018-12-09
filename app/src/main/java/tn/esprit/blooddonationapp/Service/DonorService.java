@@ -384,6 +384,7 @@ public class DonorService {
 
                 params.put("email", donor.getEmail());
                 params.put("number", donor.getNumber());
+                params.put("url",donor.getUrlImage());
                 Log.d("manaaresh", "getParams: " + donor.getRequest());
                 params.put("request", String.valueOf(  donor.getRequest()+1));
 

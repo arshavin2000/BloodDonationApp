@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -41,6 +40,8 @@ import com.google.android.gms.common.api.Status;
 import com.jaiselrahman.filepicker.activity.FilePickerActivity;
 import com.jaiselrahman.filepicker.config.Configurations;
 import com.jaiselrahman.filepicker.model.MediaFile;
+
+import java.io.File;
 import java.util.ArrayList;
 
 import tn.esprit.blooddonationapp.BloodNeedsFragment;
@@ -73,6 +74,7 @@ public class WelcomeActivity extends AppCompatActivity
 
     // IMAGE GALLERY
     private final static int FILE_REQUEST_CODE = 1;
+    private final static int FILE_REQUEST_PROFILE_IMAGE = 2;
     private ArrayList<MediaFile> mediaFiles = new ArrayList<>();
 
     @Override
@@ -126,13 +128,35 @@ public class WelcomeActivity extends AppCompatActivity
             });
 
         }
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(WelcomeActivity.this, FilePickerActivity.class);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+// Adds the back stack
+                stackBuilder.addParentStack(FilePickerActivity.class);
+                stackBuilder.addNextIntent(intent);
+
+                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
+                        .setCheckPermission(true)
+                        .setSelectedMediaFiles(mediaFiles)
+                        .enableImageCapture(true)
+                        .setShowVideos(false)
+                        .setSkipZeroSizeFiles(true)
+                        .setMaxSelection(1)
+                        .build());
+                startActivityForResult(intent, FILE_REQUEST_PROFILE_IMAGE);
+
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
 
                 Intent intent = new Intent(WelcomeActivity.this, FilePickerActivity.class);
@@ -319,6 +343,18 @@ public class WelcomeActivity extends AppCompatActivity
             startActivity(intent);
 
             mediaFiles.clear();
+
+        }else if(requestCode == FILE_REQUEST_PROFILE_IMAGE){
+
+            ArrayList<MediaFile> files = data.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES);
+
+            MediaFile f = files.get(0);
+            f.getName();
+            String path = f.getPath();
+            File file = new File(path);
+            ProfileImage.uploadNumberPhoneImage(getApplicationContext(),file,image);
+
+
 
         }
     }

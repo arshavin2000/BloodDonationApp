@@ -35,7 +35,7 @@ public class ProfileImage    {
                 .into(imageView);
     }
 
-    public static void uploadNumberPhoneImage(final Context context, final File imgFile)
+    public static void uploadNumberPhoneImage(final Context context, final File imgFile, final ImageView imageView)
     {
         AndroidNetworking.initialize(context);
         AndroidNetworking.upload("http://196.203.252.226:9090/api/uploadfile")
@@ -59,11 +59,9 @@ public class ProfileImage    {
                             Log.i("REP",fileName);
 
                             Donor donor =  UserUtils.getUser(context);
-
-
-
-
+                            donor.setUrlImage("http://196.203.252.226:9090/static/images/"+fileName);
                             Toast.makeText(context,"Profile picture added successfully",Toast.LENGTH_SHORT).show();
+                            getFacebookOrGoogleProfilePicture("http://196.203.252.226:9090/static/images/"+fileName,context,imageView);
 
 
                         } catch (JSONException e) {
