@@ -70,10 +70,9 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
             //  this.cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
 
+
         @Override
         public void onClick(View v) {
-            Log.d("ok", "onClick: ");
-            Toast.makeText(v.getContext(),"qy bqshlq",Toast.LENGTH_LONG).show();
 
         }
     }
@@ -217,7 +216,14 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
 
                     }
 
-                    ((TextTypeViewHolder) holder).txt_time.setText("33m");
+                    ((TextTypeViewHolder) holder).txt_time.setText("");
+
+                    ((TextTypeViewHolder) holder).call.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.i("TEST","TEST");
+                        }
+                    });
                     break;
                 case Post.IMAGE_TYPE:
                     Post object = (Post) dataSet.get(listPosition);
@@ -255,6 +261,8 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                     Timestamp oldTime = Timestamp.valueOf(st);
                     String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
                     ((ImageTypeViewHolder) holder).timePost.setText(compareTwoTimeStamps(Timestamp.valueOf(currentTime),oldTime));
+
+
 
 
 
