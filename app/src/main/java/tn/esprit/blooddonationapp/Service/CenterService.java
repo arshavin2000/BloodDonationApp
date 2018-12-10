@@ -19,7 +19,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.OverlayItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class CenterService {
     private Context context;
     private Activity activity;
     private List<Center> centers = new ArrayList<>();
+    ItemizedOverlayWithFocus<OverlayItem> mOverlay;
 
 
 
@@ -61,7 +65,7 @@ public class CenterService {
 
                             Log.d("Center Response", "onResponse: "+response);
                             for (int i = 0; i < jarray.length(); i++) {
-                                JSONObject object = jarray.getJSONObject(i);
+                                final JSONObject object = jarray.getJSONObject(i);
 
 
                                 Center center =new Center();
@@ -73,32 +77,39 @@ public class CenterService {
 
 
 
-                                    Marker marker = new Marker(map);
                                     GeoPoint ok = getLocationFromAddress(context,object.getString("address") );
-                                    assert ok != null;
-                                    marker.setPosition(ok);
-                                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                                    marker.setIcon(context.getResources().getDrawable(R.drawable.ic_place_black_24dp));
-                                    marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-                                        @Override
-                                        public boolean onMarkerClick(Marker marker, MapView mapView) {
-                                            return true;
-                                        }
-                                    });
 
-                                    markers.add(marker);
+
+                                ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+                                items.add(new OverlayItem(object.getString("name"), "Tel : "+ object.getString("tel"), ok)); // Lat/Lon decimal degrees
+
+//the overlay
+                                //the overlay
+                                 mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
+                                        new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                                            @Override
+                                            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                                                //do something
+                                               // mOverlay.unSetFocusedItem();
+
+                                                return true;
+                                            }
+                                            @Override
+                                            public boolean onItemLongPress(final int index, final OverlayItem item) {
+                                                return false;
+                                            }
+                                        },context);
+
+
+                                mOverlay.setFocusItemsOnTap(true);
+                               // mOverlay.setMarkerBackgroundColor(R.color.colorAccent);
+
+                                map.getOverlays().add(mOverlay);
 
 
 
 
                             }
-                            map.getOverlays().clear();
-                            for(int i = 0 ; i<markers.size();i++)
-                            {
-                                map.getOverlays().add(markers.get(i));
-
-                            }
-                            map.invalidate();
 
 
 

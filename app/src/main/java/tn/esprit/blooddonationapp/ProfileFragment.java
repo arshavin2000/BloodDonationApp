@@ -1,38 +1,19 @@
 package tn.esprit.blooddonationapp;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import tn.esprit.blooddonationapp.Service.DonorService;
 import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.model.Donor;
@@ -43,21 +24,17 @@ import tn.esprit.blooddonationapp.util.Validator;
 public class ProfileFragment extends Fragment {
 
     private ImageView profile;
-    private EditText email , number , blood ,place;
+    private EditText email , number ;
     private Button save;
-    private TextView username , request;
+    private TextView username , request, blood;
     private Activity activity;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-    private Double longitude,latitude;
-    Geocoder geocoder;
-    List<Address> addresses;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        activity =getActivity();
 
         profile = view.findViewById(R.id.profile_image);
         email = view.findViewById(R.id.email);
@@ -65,12 +42,10 @@ public class ProfileFragment extends Fragment {
         blood = view.findViewById(R.id.blood);
         username =view.findViewById(R.id.username);
         save = view.findViewById(R.id.save);
-        place = view.findViewById(R.id.location);
         request = view.findViewById(R.id.req);
 
         final Donor donor = UserUtils.getUser(getContext());
 
-        geocoder = new Geocoder(getContext(), Locale.getDefault());
 
 
 
@@ -90,63 +65,10 @@ public class ProfileFragment extends Fragment {
 
         save.setEnabled(false);
 
-        locationManager = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-
-                latitude =location.getLatitude();
-                longitude = location.getLongitude();
-
-                try {
-                    addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                    String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                    String city = addresses.get(0).getLocality();
-                    String state = addresses.get(0).getAdminArea();
-                    String country = addresses.get(0).getCountryName();
-                    String postalCode = addresses.get(0).getPostalCode();
-                    place.setText(address+" "+" "+ country );
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
 
 
-                Log.d("Location", "onLocationChanged: " + location.toString());
-            }
 
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        } else {
-
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-        }
 
         number.addTextChangedListener(new TextWatcher() {
             @Override
@@ -161,7 +83,7 @@ public class ProfileFragment extends Fragment {
                     save.setEnabled(false);
                     number.setError("The phone number field is required");
 
-                } else if (!Validator.isValidPhoneNumber(s.toString())) {
+                } else if (Validator.isValidPhoneNumber(s.toString())) {
                     save.setEnabled(false);
                     number.setError("A valid phone number is required");
                 } else {
@@ -187,7 +109,7 @@ public class ProfileFragment extends Fragment {
                     save.setEnabled(false);
                     email.setError("The email field is required");
 
-                }else if(!Validator.isValidEmail(s))
+                }else if(Validator.isValidEmail(s))
                 {
                     save.setEnabled(false);
                     email.setError("A valid email is required");
@@ -204,7 +126,6 @@ public class ProfileFragment extends Fragment {
         });
 
         blood.setFocusable(false);
-        place.setFocusable(false);
 
 
 
@@ -232,18 +153,5 @@ public class ProfileFragment extends Fragment {
         return view ;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-        {
-            if(ContextCompat.checkSelfPermission(getContext(),Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED)
-            {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-            }
-        }
-    }
 }

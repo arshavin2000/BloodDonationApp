@@ -2,7 +2,6 @@ package tn.esprit.blooddonationapp.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -73,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animation);
-                if(!UserUtils.isNetworkAvailable(getApplicationContext()))
+                if(UserUtils.isNetworkAvailable(getApplicationContext()))
                 {
                     UserUtils.alertDialog(activity,"Please check  your connection !");
                 }
@@ -98,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(animation);
 
-                if(!UserUtils.isNetworkAvailable(getApplicationContext()))
+                if(UserUtils.isNetworkAvailable(getApplicationContext()))
                 {
                     UserUtils.alertDialog(activity,"Please check  your connection !");
                 }
@@ -116,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                 view.startAnimation(animation);
 
 
-                if (!UserUtils.isNetworkAvailable(getApplicationContext())) {
+                if (UserUtils.isNetworkAvailable(getApplicationContext())) {
                     UserUtils.alertDialog(activity, "Please check your connection !");
                 } else {
 

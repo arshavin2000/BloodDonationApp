@@ -136,6 +136,7 @@ exports.update = function (req, res) {
             donor.email = req.body.email;
             donor.number = req.body.number;
             donor.request = req.body.request;
+            donor.url = req.body.url;
             // save the post and check for errors
                 donor.save(function (err) {
                     //if (err)

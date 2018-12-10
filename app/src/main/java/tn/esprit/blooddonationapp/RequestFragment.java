@@ -15,9 +15,12 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import tn.esprit.blooddonationapp.Service.DonorService;
+import tn.esprit.blooddonationapp.Service.RequestService;
 import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.util.CustomAdapter;
 
@@ -28,6 +31,7 @@ public class RequestFragment extends Fragment {
 
     private ListView listView;
     private ListAdapter adapter;
+    private TextView newRequest;
 
 
 
@@ -38,6 +42,30 @@ public class RequestFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_request, container, false);
         listView = view.findViewById(R.id.list);
         request = view.findViewById(R.id.request);
+        newRequest  =  view.findViewById(R.id.r);
+
+
+        RequestService requestService = new RequestService(getContext(),getActivity());
+        requestService.getRequests(new CallBack() {
+            @Override
+            public void onSuccess(ArrayList<Donor> donors) {
+
+            }
+
+            @Override
+            public void onSuccess(int k) {
+                Log.d("REQUEST raj3et", "onSuccess: " + k);
+                newRequest.setText(k+"");
+
+            }
+
+            @Override
+            public void onFail(String msg) {
+
+                Toast.makeText(getContext(),"Requests failed",Toast.LENGTH_LONG).show();
+
+            }
+        });
 
 
         request.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +100,11 @@ public class RequestFragment extends Fragment {
             public void onFail(String msg) {
 
                 Log.d("OnFAIL", "onFail: "+ msg);
+
+            }
+            @Override
+            public void onSuccess(int i) {
+
 
             }
         });

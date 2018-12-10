@@ -1,12 +1,12 @@
 package tn.esprit.blooddonationapp.login;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -26,6 +26,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -36,6 +39,8 @@ import com.google.android.gms.common.api.Status;
 import com.jaiselrahman.filepicker.activity.FilePickerActivity;
 import com.jaiselrahman.filepicker.config.Configurations;
 import com.jaiselrahman.filepicker.model.MediaFile;
+
+import java.io.File;
 import java.util.ArrayList;
 import tn.esprit.blooddonationapp.BloodNeedsFragment;
 import tn.esprit.blooddonationapp.MapFragment;
@@ -58,12 +63,15 @@ public class WelcomeActivity extends AppCompatActivity
     private Donor donor;
     private TextView email, username;
     private ImageView image;
+    private AdView mAdView;
+    private Activity activity;
 
 
 
 
     // IMAGE GALLERY
     private final static int FILE_REQUEST_CODE = 1;
+    private final static int FILE_REQUEST_PROFILE_IMAGE = 2;
     private ArrayList<MediaFile> mediaFiles = new ArrayList<>();
 
     @Override
@@ -72,12 +80,22 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome_actitvity);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        activity = this;
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
 
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-8668334983362122~1894534434");
 
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
+//        PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
+      //  PushNotifications.subscribe(UserUtils.getUser(getApplicationContext()).getBloodGroup());
         PushNotifications.start(getApplicationContext(), "ab4bd9cb-feeb-44e0-bc22-aca7f7bcce78");
         RequestService requestService = new RequestService(getApplicationContext(),WelcomeActivity.this);
 
@@ -108,13 +126,35 @@ public class WelcomeActivity extends AppCompatActivity
             });
 
         }
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(WelcomeActivity.this, FilePickerActivity.class);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+// Adds the back stack
+                stackBuilder.addParentStack(FilePickerActivity.class);
+                stackBuilder.addNextIntent(intent);
+
+                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
+                        .setCheckPermission(true)
+                        .setSelectedMediaFiles(mediaFiles)
+                        .enableImageCapture(true)
+                        .setShowVideos(false)
+                        .setSkipZeroSizeFiles(true)
+                        .setMaxSelection(1)
+                        .build());
+                startActivityForResult(intent, FILE_REQUEST_PROFILE_IMAGE);
+
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
 
                 Intent intent = new Intent(WelcomeActivity.this, FilePickerActivity.class);
@@ -301,6 +341,19 @@ public class WelcomeActivity extends AppCompatActivity
             startActivity(intent);
 
             mediaFiles.clear();
+
+        }else if(requestCode == FILE_REQUEST_PROFILE_IMAGE){
+
+            ArrayList<MediaFile> files = data.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES);
+
+            MediaFile f = files.get(0);
+            f.getName();
+            String path = f.getPath();
+            File file = new File(path);
+            ProfileImage.uploadNumberPhoneImage(getApplicationContext(),file,image,activity);
+            mediaFiles.clear();
+
+
 
         }
     }

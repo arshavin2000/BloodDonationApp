@@ -104,12 +104,14 @@ public class DBHandler extends SQLiteOpenHelper {
 
        // contentValues.put(Util.EMAIL_DONOR,donor.getEmail());
        // contentValues.put(Util.NUMBER_DONOR,donor.getNumber());
-        contentValues.put(Util.REQUEST_DONOR,donor.getRequest());
+       // contentValues.put(Util.REQUEST_DONOR,donor.getRequest());
+        contentValues.put(Util.URL_IMAGE_DONOR,donor.getUrlImage());
 
 
         db.update(Util.DONOR_TABLE,contentValues,Util.ID_DONOR +"=?"
                 , new String[]{String.valueOf(donor.getId())});
         //insert row
+        db.close();
 
 
     }
