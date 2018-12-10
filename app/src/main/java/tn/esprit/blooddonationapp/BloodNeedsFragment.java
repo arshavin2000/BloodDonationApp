@@ -39,6 +39,7 @@ import tn.esprit.blooddonationapp.util.Util;
 
 public class BloodNeedsFragment extends Fragment {
 
+    private static final String HttpUrl = "http://196.203.252.226:9090/api/";
 
 
 
@@ -48,13 +49,8 @@ public class BloodNeedsFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_blood_needs, container, false);
 
-
-
-
-
-
        AndroidNetworking.initialize(getContext());
-        AndroidNetworking.get("http://192.168.43.80:3000/api/request")
+        AndroidNetworking.get(HttpUrl+"/requests")
                 .setTag("GET_BloodNeeds")
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -74,14 +70,6 @@ public class BloodNeedsFragment extends Fragment {
                         Log.i("TAG",""+anError.getCause());
                     }
                 });
-
-//TODO TO DELETE
-       ArrayList<Receiver> receivers = new ArrayList<>();
-
-        Receiver receiver = new Receiver("A","Rades Tunis","53 815 975","4 m");
-        Receiver receiver2 = new Receiver("A","Rades Tunis","53 815 975","4 m");
-        receivers.add(receiver);
-        receivers.add(receiver2);
 
 
 

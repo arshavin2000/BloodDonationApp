@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -287,25 +288,38 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
         long milliseconds2 = currentTime.getTime();
         long duration = milliseconds2 - milliseconds1;
 
-        long hours = TimeUnit.MILLISECONDS.toMinutes(duration);
+        long days = TimeUnit.MILLISECONDS.toDays(duration);
+        duration -= TimeUnit.DAYS.toMillis(days);
+        long hours = TimeUnit.MILLISECONDS.toHours(duration);
         duration -= TimeUnit.HOURS.toMillis(hours);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(duration);
         duration -= TimeUnit.MINUTES.toMillis(minutes);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(duration);
         StringBuilder durationBuilder = new StringBuilder();
 
-        if (hours > 0L) {
-            durationBuilder.append(hours).append(" h ");
+
+        System.out.println("DAYS"+days+"hours"+hours+"Minutes"+minutes);
+
+
+
+        if (days > 0L) {
+
+            return days +" d ";
+
+        }
+        if (hours > 10L ) {
+            return hours +" h ";
+
+
         }
 
-        if (minutes < 10L) {
-            durationBuilder.append('0');
+        if (minutes > 0L) {
+            return minutes +" m ";
+
+
         }
 
-        durationBuilder.append(minutes).append(" m ");
-        if (seconds < 10L) {
-            durationBuilder.append('0');
-        }
+
 
         return durationBuilder.toString();
     }

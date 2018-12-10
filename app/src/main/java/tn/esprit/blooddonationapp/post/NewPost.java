@@ -100,7 +100,7 @@ public class NewPost extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Post post = new Post(1,);
-Log.i("NEW POST","ADD POST ACTION");
+                Log.i("NEW POST","ADD POST ACTION");
                 AndroidNetworking.initialize(getApplicationContext());
                 AndroidNetworking.upload("http://196.203.252.226:9090/api/uploadfile")
                         .addMultipartFile("uploadfile",imgFile)

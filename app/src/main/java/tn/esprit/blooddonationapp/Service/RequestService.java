@@ -23,7 +23,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 public class RequestService {
 
 
-    private static final String HttpUrl = "http://192.168.1.12:3000/api/";
+    private static final String HttpUrl = "http://196.203.252.226:9090/api/";
 
 
     private Context context;
@@ -39,8 +39,6 @@ public class RequestService {
         Gson gson = new Gson();
         String jsonString = gson.toJson(request);
         final JSONObject r = new JSONObject(jsonString);
-
-Log.i("JSON R", r.toString());
 
         AndroidNetworking.post(HttpUrl+"request")
                 .addJSONObjectBody(r)
@@ -80,7 +78,7 @@ Log.i("JSON R", r.toString());
                                     }
                                     @Override
                                     public void onError(ANError error) {
-                                        Log.e("Notification Error ",error.getErrorBody());
+                                        Log.e("Notification Error ",error.getMessage());
 
                                     }
                                 });
@@ -88,7 +86,7 @@ Log.i("JSON R", r.toString());
                     }
                     @Override
                     public void onError(ANError error) {
-                        Log.e("add request service ",error.getCause().toString());
+                        Log.e("add request service ","Error");
 
                     }
                 });
@@ -109,11 +107,12 @@ Log.i("JSON R", r.toString());
                 return "OP";
             case "O-" :
                 return "OM";
-
+            case "AB+" :
+                return "ABP";
+            case "AB-" :
+                return "ABM";
             default:
                 return bloodGroup;
-
-
         }
 
 

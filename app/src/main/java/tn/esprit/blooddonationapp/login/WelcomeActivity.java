@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.AccessToken;
@@ -34,13 +33,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-
 import com.jaiselrahman.filepicker.activity.FilePickerActivity;
 import com.jaiselrahman.filepicker.config.Configurations;
 import com.jaiselrahman.filepicker.model.MediaFile;
-
 import java.util.ArrayList;
-
 import tn.esprit.blooddonationapp.BloodNeedsFragment;
 import tn.esprit.blooddonationapp.MapFragment;
 import tn.esprit.blooddonationapp.ProfileFragment;
@@ -50,16 +46,11 @@ import tn.esprit.blooddonationapp.data.DBHandler;
 import tn.esprit.blooddonationapp.post.NewPost;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Donor;
-import tn.esprit.blooddonationapp.post.FileListeAdapter;
 import tn.esprit.blooddonationapp.post.ListPostFragment;
 import tn.esprit.blooddonationapp.util.DataHolder;
-
 import tn.esprit.blooddonationapp.util.ProfileImage;
 import tn.esprit.blooddonationapp.util.UserUtils;
-import tn.esprit.blooddonationapp.util.Util;
-
 import com.pusher.pushnotifications.PushNotifications;
-
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -213,7 +204,7 @@ public class WelcomeActivity extends AppCompatActivity
 
 
             FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().add(R.id.container, new BloodNeedsFragment()).commit();
+            fm.beginTransaction().replace(R.id.container, new BloodNeedsFragment()).commit();
 
 
         } else if (id == R.id.nav_share) {
