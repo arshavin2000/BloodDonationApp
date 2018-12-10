@@ -50,7 +50,7 @@ public class BloodNeedsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_blood_needs, container, false);
 
        AndroidNetworking.initialize(getContext());
-        AndroidNetworking.get(HttpUrl+"/requests")
+        AndroidNetworking.get(HttpUrl+"requests")
                 .setTag("GET_BloodNeeds")
                 .setPriority(Priority.MEDIUM)
                 .build()
