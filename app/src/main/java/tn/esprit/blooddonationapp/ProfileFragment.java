@@ -26,7 +26,7 @@ public class ProfileFragment extends Fragment {
     private ImageView profile;
     private EditText email , number ;
     private Button save;
-    private TextView username , request, blood;
+    private TextView username , request, blood, answer;
     private Activity activity;
 
     @Nullable
@@ -43,6 +43,8 @@ public class ProfileFragment extends Fragment {
         username =view.findViewById(R.id.username);
         save = view.findViewById(R.id.save);
         request = view.findViewById(R.id.req);
+        answer = view.findViewById(R.id.answer);
+
 
         final Donor donor = UserUtils.getUser(getContext());
 
@@ -54,6 +56,7 @@ public class ProfileFragment extends Fragment {
         number.setText(donor.getNumber());
         blood.setText(donor.getBloodGroup());
         request.setText(donor.getRequest()+"");
+        answer.setText(donor.getAnswer()+"");
 
         getActivity().runOnUiThread(new Runnable() {
             @Override

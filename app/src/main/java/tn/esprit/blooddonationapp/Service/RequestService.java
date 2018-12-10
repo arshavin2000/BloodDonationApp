@@ -62,7 +62,7 @@ public class RequestService {
                         DBHandler dbHandler = new DBHandler(context);
                         dbHandler.updateDonor(donor);*/
                         Donor donor = UserUtils.getUser(context);
-
+                        donor.setRequest(donor.getRequest()+1);
                         donorService.updateUser(donor);
                         Intent intent = new Intent(context,WelcomeActivity.class);
                         context.startActivity(intent);

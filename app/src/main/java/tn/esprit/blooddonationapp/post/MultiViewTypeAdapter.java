@@ -18,8 +18,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import tn.esprit.blooddonationapp.R;
+import tn.esprit.blooddonationapp.Service.DonorService;
+import tn.esprit.blooddonationapp.Service.RequestService;
+import tn.esprit.blooddonationapp.model.Donor;
 import tn.esprit.blooddonationapp.model.Post;
 import tn.esprit.blooddonationapp.model.Request;
+import tn.esprit.blooddonationapp.util.UserUtils;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -222,6 +227,10 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             Log.i("TEST","TEST");
+                            Donor donor = UserUtils.getUser(mContext);
+                            donor.setAnswer(donor.getAnswer()+1);
+                            DonorService donorService = new DonorService(mContext);
+                            donorService.updateUser(donor);
                         }
                     });
                     break;

@@ -58,7 +58,16 @@ public class DonorService {
     }
 
 
-     private void addUser(final Donor donor, final ProgressBar progressBar)
+    public DonorService(Context context){
+
+        this.context=context;
+
+
+    }
+
+
+
+    private void addUser(final Donor donor, final ProgressBar progressBar)
     {
 
 
@@ -361,7 +370,7 @@ public class DonorService {
 
                         // Hiding the progress dialog after all task complete.
                         DBHandler dbHandler = new DBHandler(context);
-                        donor.setRequest(donor.getRequest()+1);
+                        donor.setRequest(donor.getRequest());
                         dbHandler.updateDonor(donor);
                        // activity.finish();
                        // context.startActivity(activity.getIntent());
@@ -391,7 +400,7 @@ public class DonorService {
                 params.put("number", donor.getNumber());
                 params.put("url",donor.getUrlImage());
                 Log.d("manaaresh", "getParams: " + donor.getRequest());
-                params.put("request", String.valueOf(  donor.getRequest()+1));
+                params.put("request", String.valueOf(  donor.getRequest()));
                 params.put("answer", String.valueOf(  donor.getAnswer()));
 
 
@@ -405,7 +414,7 @@ public class DonorService {
         };
 
         // Creating RequestQueue.
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         // Adding the StringRequest object into requestQueue.
         requestQueue.add(stringRequest);
