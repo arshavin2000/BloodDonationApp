@@ -1,9 +1,11 @@
 package tn.esprit.blooddonationapp;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +52,9 @@ public class MapFragment extends Fragment {
         mapController.setCenter(CenterService.getLocationFromAddress(getContext(), "13, rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006"));
         CenterService centerService = new CenterService(getContext(), getActivity());
         centerService.getCenters(map);
+
+        requestPermissions(new String[]{ android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
 
 
 

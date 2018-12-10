@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -25,7 +27,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import tn.esprit.blooddonationapp.BecomeDonorActivity;
 import tn.esprit.blooddonationapp.CallBack;
@@ -387,6 +392,8 @@ public class DonorService {
                 params.put("url",donor.getUrlImage());
                 Log.d("manaaresh", "getParams: " + donor.getRequest());
                 params.put("request", String.valueOf(  donor.getRequest()+1));
+                params.put("answer", String.valueOf(  donor.getAnswer()));
+
 
 
 
@@ -466,6 +473,67 @@ public class DonorService {
 
 
     }
+
+    public void  getRate(final CallBack callback) {
+
+        final Map<Donor,Integer> donors = new HashMap<>();
+
+
+
+
+        StringRequest stringrequest = new StringRequest(Request.Method.GET, HttpUrl,
+                new Response.Listener<String>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jarray  = jsonObject.getJSONArray("data");
+
+                            Log.d("Center Response", "onResponse: "+response);
+                            for (int i = 0; i < jarray.length(); i++) {
+                                JSONObject object = jarray.getJSONObject(i);
+                                Donor donor =new Donor();
+
+
+                                donor.setFirstName(object.getString("answer"));
+                                donor.setLastName(object.getString("request"));
+                                donor.setFirstName(object.getString("firstname"));
+                                donor.setLastName(object.getString("lastname"));
+                                donor.setEmail(object.getString("email"));
+                                donor.setGender(object.getString("gender"));
+                                donor.setId(object.getString("id"));
+                                donor.setUrlImage(object.getString("url"));
+                                donor.setNumber(object.getString("number"));
+                                donor.setBloodGroup(object.getString("bloodgroup"));
+
+                                donors.put(donor,donor.getRequest()*2 +donor.getAnswer() *3);
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        callback.onFail(error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+
+        requestQueue.add(stringrequest);
+
+
+
+    }
+
+
 
 
 
