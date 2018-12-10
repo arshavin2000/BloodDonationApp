@@ -19,14 +19,9 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
-import com.pusher.pushnotifications.PushNotifications;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 import tn.esprit.blooddonationapp.CallBack;
 import tn.esprit.blooddonationapp.login.WelcomeActivity;
 import tn.esprit.blooddonationapp.model.Donor;
@@ -36,7 +31,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 public class RequestService {
 
 
-    private static final String HttpUrl = "http://196.203.252.226:9090/api/";
+    private static final String HttpUrl = "http://196.203.252.226:9090/api/request";
 
 
     private Context context;
@@ -55,7 +50,7 @@ public class RequestService {
 
 Log.i("JSON R", r.toString());
 
-        AndroidNetworking.post(HttpUrl+"request")
+        AndroidNetworking.post(HttpUrl)
                 .addJSONObjectBody(r)
                 .setTag("addRequest")
                 .setPriority(Priority.MEDIUM)
@@ -134,10 +129,7 @@ Log.i("JSON R", r.toString());
 
 
 
-        public void  getDonors(final CallBack callback) {
-
-
-
+        public void  getRequests(final CallBack callback) {
 
 
 
@@ -153,6 +145,8 @@ Log.i("JSON R", r.toString());
 
                                 Log.d("Center Response", "onResponse: "+response);
                                 for (int i = 0; i < jarray.length(); i++) {
+
+
 
                                     k++;
 
