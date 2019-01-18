@@ -43,7 +43,8 @@
         <activity android:name=".BecomeDonorActivity" />
         <activity android:name=".UserPostsActivity" />
         <activity android:name=".DonorsList" />
-        <activity android:name=".login.WelcomeActivity" />
+        <activity android:name=".login.WelcomeActivity" >
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

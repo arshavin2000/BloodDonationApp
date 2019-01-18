@@ -1,9 +1,12 @@
 package tn.esprit.blooddonationapp.post;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -20,22 +23,33 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.jaiselrahman.filepicker.activity.FilePickerActivity;
+import com.jaiselrahman.filepicker.config.Configurations;
+import com.jaiselrahman.filepicker.model.MediaFile;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import tn.esprit.blooddonationapp.R;
+import tn.esprit.blooddonationapp.login.WelcomeActivity;
 import tn.esprit.blooddonationapp.model.Post;
 import tn.esprit.blooddonationapp.model.User;
+import tn.esprit.blooddonationapp.util.ProfileImage;
 import tn.esprit.blooddonationapp.util.Util;
 
 
 public class ListPostFragment extends Fragment {
+
+    private final static int FILE_REQUEST_CODE = 1;
+    private ArrayList<MediaFile> mediaFiles = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_list_post, container, false);
+
+
 
         AndroidNetworking.initialize(getContext());
         AndroidNetworking.get("http://196.203.252.226:9090/api/posts")
@@ -64,8 +78,6 @@ public class ListPostFragment extends Fragment {
 
         return view;
     }
-
-
 
 
 

@@ -304,7 +304,7 @@ public class BecomeDonorActivity extends AppCompatActivity {
 
                 donor.setFirstName(firstname);
                 donor.setLastName(lastname);
-                donor.setNumber("+216"+mNumber.getText().toString().trim());
+                donor.setNumber(mNumber.getText().toString().trim());
 
                 SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                 editor.putBoolean("login", true);

@@ -31,7 +31,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 public class RequestService {
 
 
-    private static final String HttpUrl = "http://196.203.252.226:9090/api/";
+    private static final String HttpUrl = "http://196.203.252.226:9090/api/request";
 
 
     private Context context;
@@ -48,7 +48,7 @@ public class RequestService {
         String jsonString = gson.toJson(request);
         final JSONObject r = new JSONObject(jsonString);
 
-        AndroidNetworking.post(HttpUrl+"request")
+        AndroidNetworking.post(HttpUrl)
                 .addJSONObjectBody(r)
                 .setTag("addRequest")
                 .setPriority(Priority.MEDIUM)

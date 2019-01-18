@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.WorkerThread;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +14,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +32,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tn.esprit.blooddonationapp.CallBack;
+import tn.esprit.blooddonationapp.CenterCallback;
 import tn.esprit.blooddonationapp.R;
 import tn.esprit.blooddonationapp.model.Center;
 import tn.esprit.blooddonationapp.util.DataHolder;
@@ -47,9 +53,9 @@ public class CenterService {
         this.activity = activity;
     }
 
-    public void getCenters(final MapView map) {
+    public void getCenters(final MapboxMap mapboxMap , CenterCallback callBack) {
 
-  final List<Marker> markers = new ArrayList<>();
+  final List<Center> centers = new ArrayList<>();
 
 
         final String URL ="http://196.203.252.226:9090/api/centers";
@@ -62,9 +68,11 @@ public class CenterService {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jarray  = jsonObject.getJSONArray("data");
+                            List<Marker> alMarkerGT = new ArrayList<Marker>();
+
 
                             Log.d("Center Response", "onResponse: "+response);
-                            for (int i = 0; i < jarray.length(); i++) {
+                            for (int i = 1; i < jarray.length(); i++) {
                                 final JSONObject object = jarray.getJSONObject(i);
 
 
@@ -74,42 +82,13 @@ public class CenterService {
                                 center.setTel(object.getString("tel"));
                                 center.setFax(object.getString("fax"));
                                 center.setSite(object.getString("site"));
-
-
-
-                                    GeoPoint ok = getLocationFromAddress(context,object.getString("address") );
-
-
-                                ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-                                items.add(new OverlayItem(object.getString("name"), "Tel : "+ object.getString("tel"), ok)); // Lat/Lon decimal degrees
-
-//the overlay
-                                //the overlay
-                                 mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
-                                        new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                                            @Override
-                                            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                                                //do something
-                                               // mOverlay.unSetFocusedItem();
-
-                                                return true;
-                                            }
-                                            @Override
-                                            public boolean onItemLongPress(final int index, final OverlayItem item) {
-                                                return false;
-                                            }
-                                        },context);
-
-
-                                mOverlay.setFocusItemsOnTap(true);
-                               // mOverlay.setMarkerBackgroundColor(R.color.colorAccent);
-
-                                map.getOverlays().add(mOverlay);
+                                centers.add(center);
 
 
 
 
                             }
+                            callBack.onSuccess(centers);
 
 
 
@@ -126,6 +105,7 @@ public class CenterService {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        callBack.onFail(error.toString());
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(activity);
@@ -135,27 +115,6 @@ public class CenterService {
 
     }
 
-    public static GeoPoint getLocationFromAddress(Context context, String strAddress) {
 
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        GeoPoint geoPoint=null;
 
-        try {
-            // May throw an IOException
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                return null;
-            }
-
-            Address location = address.get(0);
-            geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude() );
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-        }
-
-        return geoPoint;
-    }
 }

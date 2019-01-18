@@ -44,6 +44,7 @@ import java.io.File;
 import java.util.ArrayList;
 import tn.esprit.blooddonationapp.BloodNeedsFragment;
 import tn.esprit.blooddonationapp.MapFragment;
+import tn.esprit.blooddonationapp.MapV2Fragment;
 import tn.esprit.blooddonationapp.ProfileFragment;
 import tn.esprit.blooddonationapp.RequestFragment;
 import tn.esprit.blooddonationapp.Service.RequestService;
@@ -65,6 +66,7 @@ public class WelcomeActivity extends AppCompatActivity
     private ImageView image;
     private AdView mAdView;
     private Activity activity;
+    FloatingActionButton fab;
 
 
 
@@ -100,7 +102,11 @@ public class WelcomeActivity extends AppCompatActivity
         RequestService requestService = new RequestService(getApplicationContext(),WelcomeActivity.this);
 
         String bloodGroup = UserUtils.getUser(getApplicationContext()).getBloodGroup();
-        PushNotifications.subscribe(requestService.getBloodGroup(bloodGroup));
+      //  PushNotifications.subscribe(requestService.getBloodGroup(bloodGroup));
+
+
+
+
 
 //PushNotifications.setOnMessageReceivedListenerForVisibleActivity();
 
@@ -112,6 +118,31 @@ public class WelcomeActivity extends AppCompatActivity
 
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.container, new ListPostFragment()).commit();
+
+         fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent intent = new Intent(getApplicationContext(), FilePickerActivity.class);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+// Adds the back stack
+                stackBuilder.addParentStack(FilePickerActivity.class);
+                stackBuilder.addNextIntent(intent);
+
+                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
+                        .setCheckPermission(true)
+                        .setSelectedMediaFiles(mediaFiles)
+                        .enableImageCapture(true)
+                        .setShowVideos(false)
+                        .setSkipZeroSizeFiles(true)
+                        .setMaxSelection(1)
+                        .build());
+                startActivityForResult(intent, FILE_REQUEST_CODE);
+
+            }
+        });
 
         Log.e("GETUSER", "onCreate: " + donor.toString());
         if (donor != null) {
@@ -151,31 +182,7 @@ public class WelcomeActivity extends AppCompatActivity
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-
-                Intent intent = new Intent(WelcomeActivity.this, FilePickerActivity.class);
-
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-// Adds the back stack
-                stackBuilder.addParentStack(FilePickerActivity.class);
-                stackBuilder.addNextIntent(intent);
-
-                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
-                        .setCheckPermission(true)
-                        .setSelectedMediaFiles(mediaFiles)
-                        .enableImageCapture(true)
-                        .setShowVideos(false)
-                        .setSkipZeroSizeFiles(true)
-                        .setMaxSelection(1)
-                        .build());
-                startActivityForResult(intent, FILE_REQUEST_CODE);
-
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -229,11 +236,12 @@ public class WelcomeActivity extends AppCompatActivity
             DataHolder.getInstance().setDonor(donor);
             FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction().replace(R.id.container,new ProfileFragment()).commit();
+
             // Handle the camera action
         } else if (id == R.id.nav_blood) {
             DataHolder.getInstance().setDonor(donor);
             FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.container,new MapFragment()).commit();
+            fm.beginTransaction().replace(R.id.container,new MapV2Fragment()).commit();
 
         } else if (id == R.id.nav_home) {
 
@@ -334,15 +342,16 @@ public class WelcomeActivity extends AppCompatActivity
             MediaFile f = files.get(0);
             f.getName();
             String path = f.getPath();
-            Intent intent = new Intent(WelcomeActivity.this, NewPost.class);
-
+            Intent intent = new Intent(getApplicationContext(), NewPost.class);
 
             intent.putExtra("path", path);
             startActivity(intent);
 
             mediaFiles.clear();
 
-        }else if(requestCode == FILE_REQUEST_PROFILE_IMAGE){
+        }
+        else
+         if(requestCode == FILE_REQUEST_PROFILE_IMAGE){
 
             ArrayList<MediaFile> files = data.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES);
 

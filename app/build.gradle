@@ -57,5 +57,11 @@ dependencies {
     implementation 'com.pusher:push-notifications-android:1.0.1'
     implementation 'com.google.firebase:firebase-ads:15.0.1'
     implementation'com.google.firebase:firebase-analytics:15.0.1'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.8.1'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.11.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation:0.26.0'
+    implementation('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.26.0') {
+        transitive = true
+    }
 }
 apply plugin: 'com.google.gms.google-services'

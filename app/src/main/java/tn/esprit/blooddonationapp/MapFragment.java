@@ -54,9 +54,9 @@ public class MapFragment extends Fragment {
 
 
 
-        mapController.setCenter(CenterService.getLocationFromAddress(getContext(), "13, rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006"));
+       // mapController.setCenter(CenterService.getLocationFromAddress(getContext(), "13, rue Djebel Lakhdhar Bab Sabdoun - TUNIS- 1006"));
         CenterService centerService = new CenterService(getContext(), getActivity());
-        centerService.getCenters(map);
+      //  centerService.getCenters(map);
 
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION},1);
 
