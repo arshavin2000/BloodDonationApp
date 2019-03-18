@@ -39,7 +39,7 @@ import tn.esprit.blooddonationapp.util.Util;
 
 public class BloodNeedsFragment extends Fragment {
 
-    private static final String HttpUrl = "http://41.226.11.252:11808/api";
+    private static final String HttpUrl = "http://41.226.11.252:11808/api/";
 
 
 
@@ -50,7 +50,7 @@ public class BloodNeedsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_blood_needs, container, false);
 
        AndroidNetworking.initialize(getContext());
-        AndroidNetworking.get(HttpUrl+"requests")
+        AndroidNetworking.get(HttpUrl+"request")
                 .setTag("GET_BloodNeeds")
                 .setPriority(Priority.MEDIUM)
                 .build()
