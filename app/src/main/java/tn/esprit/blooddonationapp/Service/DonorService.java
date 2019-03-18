@@ -41,7 +41,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 
 public class DonorService {
 
-    private static final String HttpUrl = "http://196.203.252.226:9090/api/donor";
+    private static final String HttpUrl = "http://41.226.11.252:11808/api/donor";
     private Activity activity;
     private Context context;
 

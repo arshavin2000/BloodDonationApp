@@ -39,7 +39,7 @@ import tn.esprit.blooddonationapp.util.Util;
 
 public class BloodNeedsFragment extends Fragment {
 
-    private static final String HttpUrl = "http://196.203.252.226:9090/api/";
+    private static final String HttpUrl = "http://41.226.11.252:11808/api";
 
 
 

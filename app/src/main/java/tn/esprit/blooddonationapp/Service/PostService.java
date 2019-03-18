@@ -21,10 +21,10 @@ public class PostService {
         Gson gson = new Gson();
         String jsonString = gson.toJson(post);
             JSONObject request = new JSONObject(jsonString);
+   
 
 
-
-        AndroidNetworking.post("http://196.203.252.226:9090/api/posts")
+        AndroidNetworking.post("http://41.226.11.252:11808/api/posts")
                 .addJSONObjectBody(request)
                 .setTag("addPost")
                 .setPriority(Priority.MEDIUM)

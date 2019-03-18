@@ -41,7 +41,7 @@ public class ProfileImage    {
     public static void uploadNumberPhoneImage(final Context context, final File imgFile, final ImageView imageView, final Activity activity)
     {
         AndroidNetworking.initialize(context);
-        AndroidNetworking.upload("http://196.203.252.226:9090/api/uploadfile")
+        AndroidNetworking.upload("http://41.226.11.252:11808/api/uploadfile")
                 .addMultipartFile("uploadfile",imgFile)
                 .addMultipartParameter("key","value")
                 .setTag("uploadFile")
@@ -62,9 +62,9 @@ public class ProfileImage    {
                             Log.i("REP",fileName);
 
                             Donor donor =  UserUtils.getUser(context);
-                            donor.setUrlImage("http://196.203.252.226:9090/static/images/"+fileName);
+                            donor.setUrlImage("http://41.226.11.252:11808/static/images/"+fileName);
                             Toast.makeText(context,"Profile picture added successfully",Toast.LENGTH_SHORT).show();
-                            getFacebookOrGoogleProfilePicture("http://196.203.252.226:9090/static/images/"+fileName,context,imageView);
+                            getFacebookOrGoogleProfilePicture("http://41.226.11.252:11808/static/images/"+fileName,context,imageView);
                             DBHandler dbHandler = new DBHandler(context);
                             dbHandler.updateDonor(donor);
                             DonorService donorService = new DonorService(context,activity);

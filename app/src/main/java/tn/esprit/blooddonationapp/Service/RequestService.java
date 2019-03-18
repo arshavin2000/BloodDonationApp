@@ -31,7 +31,7 @@ import tn.esprit.blooddonationapp.util.UserUtils;
 public class RequestService {
 
 
-    private static final String HttpUrl = "http://196.203.252.226:9090/api/request";
+    private static final String HttpUrl = "http://41.226.11.252:11808/api/request";
 
 
     private Context context;

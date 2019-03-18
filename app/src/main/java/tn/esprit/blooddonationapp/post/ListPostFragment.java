@@ -52,7 +52,7 @@ public class ListPostFragment extends Fragment {
 
 
         AndroidNetworking.initialize(getContext());
-        AndroidNetworking.get("http://196.203.252.226:9090/api/posts")
+        AndroidNetworking.get("http://41.226.11.252:11808/api/posts")
                 .setTag("GET_POSTS")
                 .setPriority(Priority.HIGH)
                 .build()

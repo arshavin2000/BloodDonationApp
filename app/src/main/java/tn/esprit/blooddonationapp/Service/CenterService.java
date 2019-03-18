@@ -58,7 +58,7 @@ public class CenterService {
   final List<Center> centers = new ArrayList<>();
 
 
-        final String URL ="http://196.203.252.226:9090/api/centers";
+        final String URL ="http://41.226.11.252:11808/api/centers";
 
         StringRequest stringrequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
